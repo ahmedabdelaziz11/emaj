@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Livewire;
+
+use App\Models\invoices;
+use App\Models\Stock;
+use Livewire\Component;
+use Illuminate\Pagination\Paginator;
+use Livewire\WithPagination;
+
+class Sales extends Component
+{
+    use WithPagination;
+
+    public $search = '' ;
+    public $offer_id = '' ;
+    public $selectedStock = null;
+    public $currentPage = 1;
+
+    public function render()
+    {
+        return view('livewire.sales', [
+            'invoices' => invoices::where(function($query){
+                $query->where('id', $this->search)
+                ->orWhere('id', $this->search)
+                ->orWhereHas('client',function($q){
+                    $q->where('name','like','%'.$this->search.'%');
+                });
+            })->when($this->selectedStock,function($q,$stock_id){
+                $q->whereHas('stock' , function($q){
+                    $q->where('stock_id', '=', $this->selectedStock);
+                });
+            })->when($this->offer_id,function($q){
+                $q->where('offer_id',$this->offer_id);
+            })->orderBy('id', 'desc')->paginate(15),
+            'stocks' => Stock::all(),
+        ]);
+    }
+
+    public function setPage($url)
+    {
+        $this->currentPage = explode('page=', $url)[1];
+        Paginator::currentPageResolver(function(){
+            return $this->currentPage;
+        });
+    }
+}
