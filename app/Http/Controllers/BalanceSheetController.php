@@ -148,7 +148,7 @@ class BalanceSheetController extends Controller
             }
         }elseif($request->level == 2)
         {
-            $accounts_id = AllAccount::where('parent_id',null)->pluck('id');
+            $accounts_id = AllAccount::where('parent_id',null)->pluck('id'); // level one
             $accounts = AllAccount::whereIn('parent_id',$accounts_id)->get();
             foreach($accounts as $acc1)
             {
@@ -247,7 +247,121 @@ class BalanceSheetController extends Controller
                 $d = $c = 0;
             }
         }
-        elseif($request->level == 3){
+        elseif($request->level == 3)
+        {
+            $accounts_id = AllAccount::where('parent_id',null)->pluck('id'); //level one
+            $accounts_level_two = AllAccount::whereIn('parent_id',$accounts_id)->get(); // level two
+            $accounts_level_three_ids = [] ; //level three
+            foreach($accounts_level_two as $two)
+            {
+                $transactions_count = DayDetails::where('account_id',$two->id)->count();
+                if($two->accounts->count() > 0 && $transactions_count == 0)
+                {
+                    $accounts_level_three_ids = array_merge($accounts_level_three_ids, $two->accounts->pluck('id')->toArray());
+                }else{
+                    $accounts_level_three_ids[] = $two->id; 
+                }
+            }
+            $accounts_level_three_ids = array_unique($accounts_level_three_ids);
+            $accounts = AllAccount::whereIn('id',$accounts_level_three_ids)->get();
+            foreach($accounts as $acc1)
+            {
+                $acc_ids = [];
+                $d = $sd = $sc = $c = 0;
+                $acc_ids[] = $acc1->id;
+                if($acc1->accounts->count() > 0)
+                {
+                    foreach($acc1->accounts as $acc2)
+                    {
+                        $acc_ids[] = $acc2->id;
+                        if($acc2->accounts->count() > 0)
+                        {
+                            foreach($acc2->accounts as $acc3)
+                            {
+                                $acc_ids[] = $acc3->id;
+                                if($acc3->accounts->count() > 0)
+                                {
+                                    foreach($acc3->accounts as $acc4)
+                                    {
+                                        $acc_ids[] = $acc4->id;
+                                        if($acc4->accounts->count() > 0)
+                                        {
+                                            foreach($acc4->accounts as $acc5)
+                                            {
+                                                $acc_ids[] = $acc5->id;
+                                                if($acc5->accounts->count() > 0)
+                                                {
+                                                    foreach($acc5->accounts as $acc6)
+                                                    {
+                                                        $acc_ids[] = $acc6->id;
+                                                        if($acc6->accounts->count() > 0)
+                                                        {
+                                                            foreach($acc6->accounts as $acc7)
+                                                            {
+                                                                $acc_ids[] = $acc7->id;
+                                                                if($acc7->accounts->count() > 0)
+                                                                {
+                                                                    foreach($acc7->accounts as $acc8)
+                                                                    {
+                                                                        $acc_ids[] = $acc8->id;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if($request->cost_id != 0)
+                {
+                    $sd += DayDetails::where('date','<',$request->start_at)->select(DB::raw('sum(debit) as total'))
+                    ->whereIn('account_id',(array) $acc_ids)->whereIn('cost_id',(array)$cost_ids)->value('total');
+    
+                    $sc += DayDetails::where('date','<',$request->start_at)->select(DB::raw('sum(credit) as total'))
+                    ->whereIn('account_id',(array)$acc_ids)->whereIn('cost_id',(array)$cost_ids)->value('total');
+    
+                    $d += DayDetails::whereBetween('date',[$request->start_at,$request->end_at])->select(DB::raw('sum(debit) as total'))
+                    ->whereIn('account_id',(array) $acc_ids)->whereIn('cost_id',(array)$cost_ids)->value('total');
+    
+                    $c += DayDetails::whereBetween('date',[$request->start_at,$request->end_at])->select(DB::raw('sum(credit) as total'))
+                    ->whereIn('account_id',(array)$acc_ids)->whereIn('cost_id',(array)$cost_ids)->value('total');
+                }else
+                {
+                    $sd += DayDetails::where('date','<',$request->start_at)->select(DB::raw('sum(debit) as total'))
+                    ->whereIn('account_id',(array)$acc_ids)->value('total');
+    
+                    $sc += DayDetails::where('date','<',$request->start_at)->select(DB::raw('sum(credit) as total'))
+                    ->whereIn('account_id',(array) $acc_ids)->value('total');
+
+                    $sd += AllAccount::whereIn('id',(array)$acc_ids)->select(DB::raw('sum(start_debit) as total'))->value('total');
+                    $sc += AllAccount::whereIn('id',(array)$acc_ids)->select(DB::raw('sum(start_credit) as total'))->value('total');
+    
+                    $d += DayDetails::whereBetween('date',[$request->start_at,$request->end_at])->select(DB::raw('sum(debit) as total'))
+                    ->whereIn('account_id',(array)$acc_ids)->value('total');
+    
+                    $c += DayDetails::whereBetween('date',[$request->start_at,$request->end_at])->select(DB::raw('sum(credit) as total'))
+                    ->whereIn('account_id',(array) $acc_ids)->value('total');
+                } 
+    
+                $data[] = [
+                    'code' => $acc1->code,
+                    'name' => $acc1->name,
+                    'prv_debit'  => $sd,
+                    'debit' => $d,
+                    'prv_cerdit' =>$sc,
+                    'credit' => $c,
+                ];
+                $acc_ids = [];
+                $d = $c = 0;
+            }
+        }
+        elseif($request->level == 4){
             $ids =  DayDetails::groupBy('account_id')->pluck('account_id');
             
             foreach($ids as $id)
