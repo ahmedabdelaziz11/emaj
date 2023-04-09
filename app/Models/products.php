@@ -16,4 +16,9 @@ class products extends Model
     public function stock(){
         return $this->hasOneThrough(Stock::class, sections::class,'id','id','section_id','stock_id');
     }
+
+    public function spares()
+    {
+        return $this->belongsToMany(products::class,'product_spares','product_id','spare_id');
+    }
 }

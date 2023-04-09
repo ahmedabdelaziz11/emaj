@@ -79,7 +79,6 @@ Route::post('loan-payment-delete', 'App\Http\Controllers\LoanController@loanPaym
 Route::resource('sections', 'App\Http\Controllers\SectionsController');
 Route::resource('revenues', 'App\Http\Controllers\MaintenanceRevenueController');
 
-Route::resource('spare_sections', 'App\Http\Controllers\SpareSectionsController');
 
 Route::resource('clients', 'App\Http\Controllers\ClientsController');
 Route::get('/ClientDetails/{id?}{start_at?}{end_at?}', 'App\Http\Controllers\ClientsController@edit')->name('ClientDetails');
@@ -267,6 +266,19 @@ Route::resource('asset-management', 'App\Http\Controllers\AssetManagementControl
 Route::get('mokhss-elahlak', 'App\Http\Controllers\AssetManagementController@mokhss_elahlak');
 Route::get('show-mokhss-elahlak', 'App\Http\Controllers\AssetManagementController@show_mokhss_elahlak');
 Route::post('create-mokhss-elahlak', 'App\Http\Controllers\AssetManagementController@create_mokhss_elahlak');
+
+
+Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
+Route::get('get-all-products/{search}','App\Http\Controllers\ProductSpareController@getAllProducts');
+
+
+
+
+
+
+
+
+
 
 Route::group(['middleware' => ['auth']], function() {
 Route::resource('roles','App\Http\Controllers\RoleController'); 

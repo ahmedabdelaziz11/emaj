@@ -47,7 +47,7 @@ class InvoicesController extends Controller
      */
     public function create()
     {
-        $clients  = AllAccount::clients()->get();
+        $clients  = AllAccount::whereIn('parent_id',[18,5])->get();
         $accounts = AllAccount::banking()->get();
         $costs = Cost::all();
         $stocks = Stock::all();
@@ -727,7 +727,7 @@ class InvoicesController extends Controller
      */
     public function edit($id)
     {
-        $clients  = AllAccount::clients()->get();
+        $clients  = AllAccount::whereIn('parent_id',[18,5])->get();
         $accounts = AllAccount::banking()->get();
         $costs    = Cost::all();
         $stocks   = Stock::all();

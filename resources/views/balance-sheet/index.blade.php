@@ -64,6 +64,7 @@
                                 <option value="1" @if(isset($level) && $level == 1) selected @endif> المستوى الاول</option>
                                 <option value="2" @if(isset($level) && $level == 2) selected @endif>المستوى ثانى</option>
                                 <option value="3" @if(isset($level) && $level == 3) selected @endif>المستوى ثالث</option>
+                                <option value="4" @if(isset($level) && $level == 4) selected @endif>المستوى الرابع</option>
                             </select>
                         </div>
 
