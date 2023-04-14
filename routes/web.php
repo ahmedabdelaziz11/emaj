@@ -269,8 +269,10 @@ Route::post('create-mokhss-elahlak', 'App\Http\Controllers\AssetManagementContro
 
 
 Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
-Route::get('get-all-products/{search}','App\Http\Controllers\ProductSpareController@getAllProducts');
+Route::get('get-all-products/{search?}','App\Http\Controllers\ProductSpareController@getAllProducts');
 
+Route::resource('addresses', 'App\Http\Controllers\AddresseController');
+Route::get('get-addresses-select2/{search?}','App\Http\Controllers\AddresseController@getAddressesSelect2');
 
 
 
