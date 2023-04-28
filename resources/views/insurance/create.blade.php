@@ -2,14 +2,11 @@
 
 @section('css')
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/sumoselect/sumoselect-rtl.css') }}">
-    <link rel="stylesheet" href="{{ URL::asset('assets/plugins/telephoneinput/telephoneinput-rtl.css') }}">
     <link href="{{ URL::asset('assets/plugins/notify/css/notifIt.css') }}" rel="stylesheet" />
-
 @endsection
 
 @section('title')
-    اضافة عنوان
+    اضافة ضمان
 @stop
 
 @section('page-header')
@@ -17,8 +14,8 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='product-spare') }}">عملاء الضمان</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                اضافة عنوان </span>
+                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='insurances') }}">الضمانات</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
+                اضافة ضمان </span>
             </div>
         </div>
     </div>
@@ -65,30 +62,46 @@
           <div class="card mg-b-20" id="tabs-style2">
               <div class="card-body">
 
-                  <form  action="{{ route('addresses.store') }}" method="post" autocomplete="off">
+                  <form  action="{{ route('insurances.store') }}" method="post" autocomplete="off">
                       @csrf
-                      <div class="d-flex justify-content-center">
-                        <h1>اضافة عنوان</h1>
+                      <div class="d-flex justify-content-center my-2">
+                        <h1>اضافة ضمان</h1>
                       </div>
-                      <br>
                       <div class="row">
-
                         <div class="form-group col-6">
-                          <label>الاسم</label>
-                          <input class="form-control" type="text" name="name">
-                        </div>
-
-                        <div class="form-group col-6">
-                          <label>المنطقة التابعة لها</label>
-                          <select class="form-control select2 " id="parent_id" name="parent_id">
-                            <option value=" ">اختر المنطقة</option>
-
+                          <label>العميل</label>
+                          <select class="form-control select2 " id="client_id" name="client_id">
+                            <option value="" selected disabled>اختر العميل</option>
+                            @foreach($clients as $client)
+                              <option value="{{$client->id}}">{{$client->name}}</option>
+                              @foreach($client->accounts as $subClient)
+                                <option value="{{$subClient->id}}">{{$subClient->name}}</option>
+                              @endforeach
+                            @endforeach
                           </select>
                         </div>
-                  
+
+                        <div class="form-group col-6">
+                          <label>الفاتورة</label>
+                          <select class="form-control select2" id="invoice_id" name="invoice_id">
+                              <option value="">اختر الفاتورة</option>
+                          </select>
+                        </div>
                       </div>
 
-                      <button type="submit" class="btn btn-primary w-100">اضافة العنوان</button>
+                      <div class="row">
+                          <div>
+                            <button type="button" id="in_isurance" class="btn btn-sm btn-primary h4">تحديد الكل</button>
+                            <button type="button" id="out_isurance" class="btn btn-sm btn-danger h4">الغاء التحديد</button>
+                          </div>
+                        </div>
+
+                      <div class="row" id="productsTable">
+
+                      </div>
+                      <div class="row">
+                        <button type="submit" class="btn btn-primary w-100 mt-2">اضافة العنوان</button>
+                      </div>
                     </form>
               </div>
           </div>
@@ -111,21 +124,58 @@
 
   <script>
     $(document).ready(function(){
-        $('.select2').select2({
-          placeholder: 'Enter a parent addresse',
-          ajax: {
-              dataType: 'json',
-              url: function(params) {
-                  return '/get-addresses-select2/' + params.term;
-              },
-              processResults: function (data, page) {
-                return {
-                  results: data || ' '
-                };
-              },
-          }
+
+        $('#client_id').change(function(){
+          var client_id = this.value;
+
+          $.ajax({ 
+            url: '/get-client-invoicesProducts/'+client_id,
+            type: 'get'
+          }).done(function(data) {
+            $('#productsTable').html(data);
+          }).fail(function() {
+            console.log('Failed');
+          });
+
+          $.ajax({ 
+            url: '/get-client-invoices/'+client_id,
+            type: 'get'
+          }).done(function(data) {
+            $('#invoice_id').empty();
+            $('#invoice_id').append('<option disabled selected>'+ "اختر الفاتورة" + '</option>');
+            $.each(data, function(key, value) {
+              $('#invoice_id').append('<option value="' + value + '">' + value + '</option>');
+            });
+          }).fail(function() {
+            console.log('Failed');
+          });
+        });
+
+        $('#invoice_id').change(function(){
+          let invoice_id = this.value;
+          var client_id  = $("#client_id").val();
+          $.ajax({ 
+            url: '/get-client-invoicesProducts/'+client_id+'/'+invoice_id,
+            type: 'get'
+          }).done(function(data) {
+            $('#productsTable').html(data);
+          }).fail(function() {
+            console.log('Failed');
+          });
+        });
+
+        $('#in_isurance').click(function(){
+          console.log('dsds');
+
+          $('.is_in_isurance').prop( "checked", true );
+        });
+
+        $('#out_isurance').click(function(){
+          console.log('dsds');
+          $('.is_in_isurance').prop( "checked", false );
         });
     });
+
   </script>
     
   <script>$(".select2").select2({placeholder:"Choose product",theme: "classic"});</script>

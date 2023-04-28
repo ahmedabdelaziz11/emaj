@@ -13,17 +13,25 @@ class Insurance extends Component
     use WithPagination;
 
     public $currentPage = 1;
+    public $product_name = '';
+    public $client_name  = '';
+    public $invoice_id   = '';
+    public $start_date   = '';
+    public $end_date     = '';
     private $service;
     
-    public function mount(InsuranceService $service)
+
+    public function render(InsuranceService $service)
     {
         $this->service = $service;
-    }
-
-    public function render()
-    {
         return view('livewire.insurance', [
-            'insurances' => $this->service->getAllInsuranes(),
+            'insurances' => $this->service->getAllInsuranes(
+                $this->product_name,
+                $this->client_name,
+                $this->invoice_id,
+                $this->start_date,
+                $this->end_date,
+            ),
         ]);
     } 
 

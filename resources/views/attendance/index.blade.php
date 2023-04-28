@@ -6,7 +6,7 @@
 @livewireStyles
 
 @section('title')
-    الضمانات 
+    الحضور 
 @stop
 
 @section('page-header')
@@ -14,8 +14,8 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">خدمة العملاء</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-            الضمانات</span>
+            <h4 class="content-title mb-0 my-auto">الحضور</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
+            الحضور</span>
         </div>
     </div>
 </div>

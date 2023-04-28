@@ -276,7 +276,10 @@ Route::get('get-addresses-select2/{search?}','App\Http\Controllers\AddresseContr
 
 
 Route::resource('insurances', 'App\Http\Controllers\InsuranceController');
-
+Route::get('get-client-invoices/{client_id}','App\Http\Controllers\InsuranceController@getClientInvoices');
+Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}','App\Http\Controllers\InsuranceController@getClientInvoicesProducts');
+Route::post('insurances-excel','App\Http\Controllers\InsuranceController@insurancesExcel');
+Route::post('print-insurance-table','App\Http\Controllers\InsuranceController@printInsuranceTable');
 
 
 
