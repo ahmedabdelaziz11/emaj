@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductSpareRequest;
-use App\Models\spares;
 use App\Services\ProductService;
-use Illuminate\Http\Request;
 
 class ProductSpareController extends Controller
 {

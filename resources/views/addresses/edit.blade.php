@@ -9,7 +9,7 @@
 @endsection
 
 @section('title')
-    اضافة قطع غيار لمنتج
+    تعديل قطع غيار لمنتج
 @stop
 
 @section('page-header')
@@ -18,7 +18,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='product-spare') }}">قطع غيار المنتجات</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                اضافة قطع غيار لمنتج </span>
+                تعديل قطع غيار لمنتج </span>
             </div>
         </div>
     </div>
@@ -69,40 +69,39 @@
                       @csrf
                       {{ method_field('patch') }}
                       <div class="d-flex justify-content-center">
-                        <h1>اضافة قطع غيار لمنتج مركب</h1>
+                        <h1>تعديل قطع غيار لمنتج مركب</h1>
                       </div>
                       <br>
                       <div class="row">
-                        <div class="form-group col-3">
-                          <label>المنتج</label>
-                          <select class="form-control select2 " id="product_id" name="product_id">
-                            <option value=" ">اختر المنتج</option>
-
-                          </select>
-                        </div>
+                        <input type="hidden" name="product_id" value="{{$product->id}}">
                         
-                        <div class="form-group col-9">
+                        <div class="form-group col-12">
                           <label class="control-label"> اختر قطع الغيار</label>
                           <select class="form-control select2" id="item_picker">
-                            <option value=" ">اختر قطع الغيار</option>
-
+                            <option value="">اختر قطع الغيار</option>
                           </select>
                         </div>
                       </div>
 
 
                       <div class="form-group">
-                      <table class="table table-bordered mg-b-0 text-md-nowrap">
-                          <thead id="container_header" style="display:none;">
+                        <table class="table table-bordered mg-b-0 text-md-nowrap">
+                          <thead id="container_header">
                             <th style=" font-size: 15px;">اسم قطع الغيار</th>
                             <th style=" font-size: 15px;" class="text-center">حذف</th>
                           </thead>
                           <tbody id="items_container">
+                            @foreach($product->spares as $spare)
+                                <tr>
+                                    <td class="pt-3" style="font-size:17px;font-weight:bold"><input type="hidden" name="spare_ids[]" value="{{$product->id}}" min="1">{{$product->name}}</td>
+                                    <td class="pt-3"><button onclick="deleteRow(this)" style="width:100%" type="button" class="btn btn-danger btn-sm rounded-pill ml-3"><i class="las la-trash"></i></button></td>
+                                </tr>
+                            @endforeach
                           </tbody>
                         </table>
                       </div><br>
 
-                      <button type="submit" class="btn btn-primary w-100">اضافة قطع الغيار</button>
+                      <button type="submit" class="btn btn-primary w-100">تعديل قطع الغيار</button>
                     </form>
               </div>
           </div>
@@ -152,8 +151,16 @@
         });
       });
     });
+
+    function deleteRow(btn) {
+      var row = btn.parentNode.parentNode;
+      var d = row.parentNode.parentNode.rowIndex;
+      row.parentNode.removeChild(row);
+    }
+
   </script>
-  <script>
+
+<script>
     $(document).ready(function(){
         $('.select2').select2({
           placeholder: 'Enter a tag',
@@ -162,6 +169,7 @@
               url: function(params) {
                   return '/get-all-products/' + params.term;
               },
+              delay: 400,
               processResults: function (data, page) {
                 return {
                   results: data || ' '
@@ -171,7 +179,6 @@
         });
     });
   </script>
-    
   <script>$(".select2").select2({placeholder:"Choose product",theme: "classic"});</script>
   <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
   <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>

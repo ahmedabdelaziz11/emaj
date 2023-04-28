@@ -269,12 +269,17 @@ Route::post('create-mokhss-elahlak', 'App\Http\Controllers\AssetManagementContro
 
 
 Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
-Route::get('get-all-products/{search}','App\Http\Controllers\ProductSpareController@getAllProducts');
+Route::get('get-all-products/{search?}','App\Http\Controllers\ProductSpareController@getAllProducts');
+
+Route::resource('addresses', 'App\Http\Controllers\AddresseController');
+Route::get('get-addresses-select2/{search?}','App\Http\Controllers\AddresseController@getAddressesSelect2');
 
 
-
-
-
+Route::resource('insurances', 'App\Http\Controllers\InsuranceController');
+Route::get('get-client-invoices/{client_id}','App\Http\Controllers\InsuranceController@getClientInvoices');
+Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}','App\Http\Controllers\InsuranceController@getClientInvoicesProducts');
+Route::post('insurances-excel','App\Http\Controllers\InsuranceController@insurancesExcel');
+Route::post('print-insurance-table','App\Http\Controllers\InsuranceController@printInsuranceTable');
 
 
 
