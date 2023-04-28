@@ -9,7 +9,7 @@
 @endsection
 
 @section('title')
-    اضافة قطع غيار لمنتج
+    اضافة عنوان
 @stop
 
 @section('page-header')
@@ -17,8 +17,8 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='product-spare') }}">قطع غيار المنتجات</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                اضافة قطع غيار لمنتج </span>
+                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='product-spare') }}">عملاء الضمان</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
+                اضافة عنوان </span>
             </div>
         </div>
     </div>
@@ -65,44 +65,30 @@
           <div class="card mg-b-20" id="tabs-style2">
               <div class="card-body">
 
-                  <form  action="{!! route('product-spare.update',0) !!}" method="post" autocomplete="off">
+                  <form  action="{{ route('addresses.store') }}" method="post" autocomplete="off">
                       @csrf
-                      {{ method_field('patch') }}
                       <div class="d-flex justify-content-center">
-                        <h1>اضافة قطع غيار لمنتج مركب</h1>
+                        <h1>اضافة عنوان</h1>
                       </div>
                       <br>
                       <div class="row">
-                        <div class="form-group col-3">
-                          <label>المنتج</label>
-                          <select class="form-control select2 " id="product_id" name="product_id">
-                            <option value=" ">اختر المنتج</option>
+
+                        <div class="form-group col-6">
+                          <label>الاسم</label>
+                          <input class="form-control" type="text" name="name">
+                        </div>
+
+                        <div class="form-group col-6">
+                          <label>المنطقة التابعة لها</label>
+                          <select class="form-control select2 " id="parent_id" name="parent_id">
+                            <option value=" ">اختر المنطقة</option>
 
                           </select>
                         </div>
-                        
-                        <div class="form-group col-9">
-                          <label class="control-label"> اختر قطع الغيار</label>
-                          <select class="form-control select2" id="item_picker">
-                            <option value=" ">اختر قطع الغيار</option>
-
-                          </select>
-                        </div>
+                  
                       </div>
 
-
-                      <div class="form-group">
-                      <table class="table table-bordered mg-b-0 text-md-nowrap">
-                          <thead id="container_header" style="display:none;">
-                            <th style=" font-size: 15px;">اسم قطع الغيار</th>
-                            <th style=" font-size: 15px;" class="text-center">حذف</th>
-                          </thead>
-                          <tbody id="items_container">
-                          </tbody>
-                        </table>
-                      </div><br>
-
-                      <button type="submit" class="btn btn-primary w-100">اضافة قطع الغيار</button>
+                      <button type="submit" class="btn btn-primary w-100">اضافة العنوان</button>
                     </form>
               </div>
           </div>
@@ -123,44 +109,14 @@
 <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
 <script src="{{ URL::asset('assets/js/select2.js') }}"></script>
 
-<script>
-    $(document).ready(function(){
-      var items = 0;
-      $("#item_picker").change(function(){
-        items++;
-        $("#container_header").show();
-        var name = $(this).find(":selected").text();
-        var id = $(this).val();
-        if(!$("#row"+id).length){
-          $("#items_container").append(`
-              <tr id="row`+id+`">
-              <td class="pt-3"style="font-size:17px;font-weight:bold"><input type="hidden" name="spare_ids[]" value="`+id+`" min="1">`+name+`</td>
-              <td class="pt-3"><button style="width:100%" type="button" class="btn btn-danger btn-sm rounded-pill ml-3 " id="remove`+id+`"><i class="las la-trash"></i></button></td>
-              </tr>
-            `);
-        }
-            
-        $("#remove"+id).on('click',function(){
-          items--;
-          console.log(items);
-          $("#row"+id).remove();
-          document.getElementById("item_picker").selectedIndex = 0;
-          console.log(items);
-          if(items == 0){
-            $("#container_header").hide();
-          }
-        });
-      });
-    });
-  </script>
   <script>
     $(document).ready(function(){
         $('.select2').select2({
-          placeholder: 'Enter a tag',
+          placeholder: 'Enter a parent addresse',
           ajax: {
               dataType: 'json',
               url: function(params) {
-                  return '/get-all-products/' + params.term;
+                  return '/get-addresses-select2/' + params.term;
               },
               processResults: function (data, page) {
                 return {
