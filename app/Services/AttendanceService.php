@@ -9,21 +9,15 @@ use Carbon\Carbon;
 class AttendanceService
 {
 
-    public function getAttendances(Employee $employee, $date = null)
+    public function getAttendances(Employee $employee = null, $date = null)
     {
-        return Attendance::where('employee_id', $employee->id)
+        return Attendance::when('employee_id', $employee->id)
             ->when($date, function ($query, $date) {
                 return $query->whereDate('created_at', $date);
+        }, function ($query) {
+            return $query->whereDate('created_at', Carbon::today());
             })
-            ->get();
-    }
-
-    public function getAllAttendances($date = null)
-    {
-        return Attendance::when($date, function ($query, $date) {
-            return $query->whereDate('created_at', $date);
-        })
-            ->get();
+            ->paginate(30);
     }
 
     public function checkin(Employee $employee = null, $date = null)

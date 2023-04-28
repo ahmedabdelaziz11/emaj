@@ -16,10 +16,11 @@ class AttendanceController extends Controller
         $this->attendanceService = $attendanceService;
     }
 
-    public function view()
+    public function viewEmployeeAttendance(Employee $employee = null, $date = null)
     {
-        Employee::select('id', 'name')->get()->pluck('name', 'id')->toArray();
-        return view('attendance.index', compact('employees'));
+        $attendances = $this->attendanceService->getAttendances($employee, $date);
+        $employees = Employee::select('id', 'name')->get()->pluck('name', 'id')->toArray();
+        return view('attendance.employee', compact('attendances', 'employees'));
     }
 
     public function checkin(Employee $employee, $date)
