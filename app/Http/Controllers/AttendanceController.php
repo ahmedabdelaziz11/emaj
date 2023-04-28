@@ -20,7 +20,7 @@ class AttendanceController extends Controller
     {
         $attendances = $this->attendanceService->getAttendances($employee, $date);
         $employees = Employee::select('id', 'name')->get()->pluck('name', 'id')->toArray();
-        return view('attendance.employee', compact('attendances', 'employees'));
+        return view('attendance.index', compact('attendances', 'employees'));
     }
 
     public function checkin(Employee $employee, $date)
