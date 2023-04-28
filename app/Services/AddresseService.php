@@ -6,9 +6,11 @@ use App\Models\Address;
 
 class AddresseService 
 {
-    public function getAllAddresses()
+    public function getAllAddresses($name = null)
     {
-
+        return Address::when($name,function($q,$name){
+            $q->where('name', 'like', '%'.$name.'%');
+        })->paginate(15);
     }
 
     public function create($name,$parent_id)
@@ -22,11 +24,8 @@ class AddresseService
     public function getAllAddressesForSelect2($search = null)
     {
         if($search == 'undefined') $search = '';
-
-        $addresses = Address::when($search,function($q,$search){
-            $q->where('name', 'like', '%'.$search.'%');
-        })->paginate(15);
-
+        $addresses = $this->getAllAddresses($search);
+        
         $list = [];
         foreach ($addresses as $key => $value) {
             $list[$key]['id'] = $value->id;
@@ -34,10 +33,5 @@ class AddresseService
         }
 
         return json_encode($list); 
-    }
-
-    public function getProductSpareByid($id)
-    {
-        return products::with('spares')->findOrFail($id);
     }
 }

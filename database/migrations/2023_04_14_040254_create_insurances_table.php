@@ -22,8 +22,8 @@ class CreateInsurancesTable extends Migration
             $table->date('end_date');
             $table->integer('compensation');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
-            $table->foreign('invoice_product_id')->references('id')->on('invoices')->onDelete('cascade');
-            $table->foreign('addresse_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->foreign('invoice_product_id')->references('id')->on('invoice_products')->onDelete('cascade');
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->timestamps();
         });
     }
