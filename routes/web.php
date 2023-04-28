@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/testing', function () {
+    $x = \App\Models\Ticket::make([
+        'title' => 'test',
+        'description' => 'test',
+        'status' => 'test',
+        'priority' => 'test',
+        'user_id' => 1,
+    ]);
+    dd($x);
+});
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -289,7 +299,12 @@ Route::group(['middleware' => ['auth']], function() {
 Route::resource('roles','App\Http\Controllers\RoleController'); 
 Route::resource('users','App\Http\Controllers\UserController');   
 });
-
+// get all attendance for specific employee
+Route::get('attendances/', 'App\Http\Controllers\AttendanceController@view');
+Route::get('attendances/{employee}/{date?}', 'App\Http\Controllers\AttendanceController@viewEmployeeAttendance');
+Route::get('attendances/{date}', 'App\Http\Controllers\AttendanceController@viewDayAttendance');
+Route::post('attendances/checkin/{employee}/{date}', 'App\Http\Controllers\AttendanceController@checkin');
+Route::post('attendances/checkout/{employee}/{date}', 'App\Http\Controllers\AttendanceController@checkout');
 
 //Route::get('/{page}', 'App\Http\Controllers\AdminController@index');
 
