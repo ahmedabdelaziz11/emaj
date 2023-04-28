@@ -11,7 +11,7 @@ class AttendanceService
 
     public function getAttendances(Employee $employee = null, $date = null)
     {
-        return Attendance::when('employee_id', $employee->id)
+        return Attendance::when($employee, $employee->id)
             ->when($date, function ($query, $date) {
                 return $query->whereDate('created_at', $date);
         }, function ($query) {
