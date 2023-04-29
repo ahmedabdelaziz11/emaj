@@ -129,7 +129,7 @@ Route::resource('fixed_assets', 'App\Http\Controllers\FixedAssetsController');
 
 
 
-Route::resource('employees', 'App\Http\Controllers\EmployeesController');
+
 Route::get('/EmployeeDetails/{id}', 'App\Http\Controllers\EmployeesController@edit');
 
 Route::resource('products', 'App\Http\Controllers\ProductsController');
@@ -290,7 +290,7 @@ Route::get('get-client-invoices/{client_id}','App\Http\Controllers\InsuranceCont
 Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}','App\Http\Controllers\InsuranceController@getClientInvoicesProducts');
 Route::post('insurances-excel','App\Http\Controllers\InsuranceController@insurancesExcel');
 Route::post('print-insurance-table','App\Http\Controllers\InsuranceController@printInsuranceTable');
-
+Route::resource('employees', 'App\Http\Controllers\EmployeeController');
 
 
 
