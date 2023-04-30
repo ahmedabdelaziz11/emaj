@@ -10,7 +10,7 @@ class Ticket extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+    
     public function details()
     {
         return $this->hasMany(TicketDetail::class);
@@ -23,7 +23,7 @@ class Ticket extends Model
 
     public function compensationType()
     {
-        return $this->belongsToMany(CompensationType::class, 'ticket_compensation_type', 'ticket_id', 'compensation_type_id');
+        return $this->belongsToMany(CompensationType::class, 'ticket_compensation', 'ticket_id', 'compensation_type_id');
     }
 
     public function employees()
@@ -33,6 +33,6 @@ class Ticket extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(AllAccount::class, 'client_id');
     }
 }
