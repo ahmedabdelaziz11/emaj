@@ -6,7 +6,7 @@
 @livewireStyles
 
 @section('title')
-    الضمانات 
+    الشكاوى 
 @stop
 
 @section('page-header')
@@ -15,7 +15,7 @@
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">خدمة العملاء</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-            الضمانات</span>
+            الشكاوى</span>
         </div>
     </div>
 </div>
@@ -54,13 +54,13 @@
   </script>
 @endif
 <div class="row">
-    <livewire:insurance />
+    <livewire:ticket />
 </div>
 <div class="modal" tabindex="-1" id="modaldemo9">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">حذف الضمان</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                <h6 class="modal-title">حذف الشكوى</h6><button aria-label="Close" class="close" data-dismiss="modal"
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
                 <form action="insurances/destroy" method="post">

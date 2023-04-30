@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Events\TicketCreated;
 use App\Http\Requests\StoreTicket;
 use App\Http\Requests\UpdateTicket;
+use App\Models\AllAccount;
+use App\Models\Employee;
 use App\Services\TicketService;
 use App\Events\TicketUpdated;
 
@@ -24,7 +26,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        
+        return view('ticket.index');
     }
 
     /**
@@ -38,7 +40,6 @@ class TicketController extends Controller
         ->pluck('name', 'id')
             ->toArray();
         $clients = AllAccount::select('id', 'name')
-        ->parentClient()
             ->clients()
             ->pluck('name', 'id')
             ->toArray();
