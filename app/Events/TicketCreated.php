@@ -20,9 +20,11 @@ class TicketCreated
      * @return void
      */
     public $formData;
-    public function __construct($formData)
+    public $ticket;
+    public function __construct($ticket, $formData)
     {
         $this->formData = $formData;
+        $this->ticket = $ticket;
     }
 
     /**
