@@ -12,10 +12,15 @@ class TicketService
         return $ticket;
     }
 
-    public function createTicketLog(Ticket $ticket)
+    public function update(Ticket $ticket, $formData)
     {
-        return $ticket->logs()->create([
-            'state' => 'created',
+        $ticket->update($formData);
+        return $ticket;
+    }
+
+    public function createTicketLog(Ticket $ticket, $action = 'created')
+    {
+        return $ticket->logs()->create(['state' => $action,
             'actor_type' => 'user',
             'actor_id' => auth()->id(),
         ]);

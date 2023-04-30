@@ -310,6 +310,8 @@ Route::post('attendances/checkout/{employee?}/{date?}', 'App\Http\Controllers\At
 
 Route::resource('compensation-types', 'App\Http\Controllers\CompensationTypeController');
 Route::resource('tickets', 'App\Http\Controllers\TicketController');
+Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
+Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation');
 //Route::get('/{page}', 'App\Http\Controllers\AdminController@index');
 
 
