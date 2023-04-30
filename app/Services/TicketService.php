@@ -9,6 +9,7 @@ class TicketService
     public function store($formData)
     {
         $ticket = Ticket::create($formData);
+        return $ticket;
     }
 
     public function handleTicketLog(Ticket $ticket)

@@ -3,19 +3,21 @@
 namespace App\Listeners;
 
 use App\Events\TicketCreated;
+use App\Services\TicketService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 class TicketListener
 {
+    protected $ticketService;
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TicketService $ticketService)
     {
-        //
+        $this->ticketService = $ticketService;
     }
 
     /**
@@ -26,29 +28,31 @@ class TicketListener
      */
     public function handle(TicketCreated $event)
     {
-        $this->handleTicketLog($event);
-        $this->handleTicketDetails($event);
-        $this->handleTicketCompensation($event);
-        $this->handleTicketEmployee($event);
+        $ticket = $event->ticket;
+        $formData = $event->formData;
+        $this->handleTicketLog($ticket);
+        $this->handleTicketDetails($ticket, $formData);
+        $this->handleTicketCompensation($ticket, $formData);
+        $this->handleTicketEmployee($ticket, $formData);
     }
 
-    private function handleTicketLog($event)
+    private function handleTicketLog($ticket)
     {
-        dd($event);
+        $this->ticketService->handleTicketLog($ticket);
     }
 
-    private function handleTicketDetails($event)
+    private function handleTicketDetails($ticket, $formData)
     {
-        dd($event);
+        $this->ticketService->handleTicketDetails($ticket, $formData);
     }
 
-    public function handleTicketCompensation($event)
+    public function handleTicketCompensation($ticket, $formData)
     {
-        dd($event);
+        $this->ticketService->handleTicketCompensation($ticket, $formData);
     }
 
-    public function handleTicketEmployee($event)
+    public function handleTicketEmployee($ticket, $formData)
     {
-        dd($event);
+        $this->ticketService->handleTicketEmployee($ticket, $formData);
     }
 }

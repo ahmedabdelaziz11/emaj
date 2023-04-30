@@ -53,7 +53,7 @@ class TicketController extends Controller
     public function store(StoreTicket $request)
     {
         $this->ticketService->store($request->all());
-        event(new TicketCreated($request->all()));
+        event(new TicketCreated($ticket, $request->all()));
     }
 
     /**
