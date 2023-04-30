@@ -21,7 +21,7 @@ class TicketListener
     }
 
     /**
-     * Handle the event.
+     * create the event.
      *
      * @param  object  $event
      * @return void
@@ -30,29 +30,29 @@ class TicketListener
     {
         $ticket = $event->ticket;
         $formData = $event->formData;
-        $this->handleTicketLog($ticket);
-        $this->handleTicketDetails($ticket, $formData);
-        $this->handleTicketCompensation($ticket, $formData);
-        $this->handleTicketEmployee($ticket, $formData);
+        $this->createTicketLog($ticket);
+        $this->createTicketDetails($ticket, $formData);
+        $this->createTicketCompensation($ticket, $formData);
+        $this->createTicketEmployee($ticket, $formData);
     }
 
-    private function handleTicketLog($ticket)
+    private function createTicketLog($ticket)
     {
-        $this->ticketService->handleTicketLog($ticket);
+        $this->ticketService->createTicketLog($ticket);
     }
 
-    private function handleTicketDetails($ticket, $formData)
+    private function createTicketDetails($ticket, $formData)
     {
-        $this->ticketService->handleTicketDetails($ticket, $formData);
+        $this->ticketService->createTicketDetails($ticket, $formData);
     }
 
-    public function handleTicketCompensation($ticket, $formData)
+    public function createTicketCompensation($ticket, $formData)
     {
-        $this->ticketService->handleTicketCompensation($ticket, $formData);
+        $this->ticketService->createTicketCompensation($ticket, $formData);
     }
 
-    public function handleTicketEmployee($ticket, $formData)
+    public function createTicketEmployee($ticket, $formData)
     {
-        $this->ticketService->handleTicketEmployee($ticket, $formData);
+        $this->ticketService->createTicketEmployee($ticket, $formData);
     }
 }

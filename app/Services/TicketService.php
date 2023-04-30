@@ -12,7 +12,7 @@ class TicketService
         return $ticket;
     }
 
-    public function handleTicketLog(Ticket $ticket)
+    public function createTicketLog(Ticket $ticket)
     {
         return $ticket->logs()->create([
             'state' => 'created',
@@ -21,17 +21,17 @@ class TicketService
         ]);
     }
 
-    public function handleTicketDetails(Ticket $ticket, $formData)
+    public function createTicketDetails(Ticket $ticket, $formData)
     {
         $ticket->details()->createMany($formData['details']);
     }
 
-    public function handleTicketCompensation(Ticket $ticket, $formData)
+    public function createTicketCompensation(Ticket $ticket, $formData)
     {
         $ticket->compensationType()->attach($formData['compensation_type_id'], ['amount' => $formData['amount']]);
     }
 
-    public function handleTicketEmployee(Ticket $ticket, $formData)
+    public function createTicketEmployee(Ticket $ticket, $formData)
     {
         $ticket->employees()->createMany($formData['employees'], ['date' => now()]);
     }
