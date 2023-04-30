@@ -40,8 +40,7 @@ class TicketController extends Controller
             ->toArray();
         $clients = AllAccount::select('id', 'name')
             ->clients()
-            ->pluck('name', 'id')
-            ->toArray();
+            ->get();
         return view('ticket.create', compact('employees', 'clients'));
     }
 

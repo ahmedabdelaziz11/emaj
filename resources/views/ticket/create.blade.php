@@ -6,7 +6,7 @@
 @endsection
 
 @section('title')
-    اضافة ضمان
+    اضافة شكوى
 @stop
 
 @section('page-header')
@@ -14,8 +14,8 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='insurances') }}">الضمانات</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                اضافة ضمان </span>
+                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='tickets') }}">الشكاوى</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
+                اضافة شكوى </span>
             </div>
         </div>
     </div>
@@ -62,15 +62,29 @@
           <div class="card mg-b-20" id="tabs-style2">
               <div class="card-body">
 
-                  <form  action="{{ route('insurances.store') }}" method="post" autocomplete="off">
+                  <form  action="{{ route('tickets.store') }}" method="post" autocomplete="off">
                       @csrf
                       <div class="d-flex justify-content-center my-2">
-                        <h1>اضافة ضمان</h1>
+                        <h1>اضافة شكوى</h1>
                       </div>
+
                       <div class="row">
-                        <div class="form-group col-6">
+                        <div class="form-group col-4">
+                          <label>التاريخ</label>
+                          <input type="date" name="date" class="form-control">
+                        </div>
+                        <div class="form-group col-4">
+                          <label>النوع</label>
+                          <select class="form-control" name="ticket_type">
+                            <option value="" selected disabled>اختر النوع</option>
+                            <option value="invoice">اصلاح بفاتورة</option>
+                            <option value="warranty">بالضمان</option>
+                            <option value="other">اخرى</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-4">
                           <label>العميل</label>
-                          <select class="form-control select2 " id="client_id" name="client_id">
+                          <select class="form-control select2"  name="client_id">
                             <option value="" selected disabled>اختر العميل</option>
                             @foreach($clients as $client)
                               <option value="{{$client->id}}">{{$client->name}}</option>
@@ -80,27 +94,16 @@
                             @endforeach
                           </select>
                         </div>
-
-                        <div class="form-group col-6">
-                          <label>الفاتورة</label>
-                          <select class="form-control select2" id="invoice_id" name="invoice_id">
-                              <option value="">اختر الفاتورة</option>
-                          </select>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-12">
+                          <label>العنوان</label>
+                          <input type="text" name="address" class="form-control">
                         </div>
                       </div>
 
                       <div class="row">
-                          <div>
-                            <button type="button" id="in_isurance" class="btn btn-sm btn-primary h4">تحديد الكل</button>
-                            <button type="button" id="out_isurance" class="btn btn-sm btn-danger h4">الغاء التحديد</button>
-                          </div>
-                        </div>
-
-                      <div class="row" id="productsTable">
-
-                      </div>
-                      <div class="row">
-                        <button type="submit" class="btn btn-primary w-100 mt-2">اضافة الضمان</button>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">اضافة الشكوى</button>
                       </div>
                     </form>
               </div>
