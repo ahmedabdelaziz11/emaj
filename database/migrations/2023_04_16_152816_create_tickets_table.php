@@ -22,7 +22,7 @@ class CreateTicketsTable extends Migration
             $table->string('state');
             $table->date('date');
             $table->unsignedBigInteger('parent_ticket_id');
-            $table->unsignedBigInteger('ticket_type_id');
+            $table->enum('ticket_type', ['invoice', 'warranty', 'other']);
             $table->string('address');
             $table->integer('received_money');
             $table->string('recommended_path');

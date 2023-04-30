@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Events\TicketCreated;
+use App\Http\Requests\StoreTicket;
+use App\Http\Requests\UpdateTicket;
+use App\Services\TicketService;
 
 class TicketController extends Controller
 {
+    protected $ticketService;
+    public function __construct(TicketService $ticketService)
+    {
+        $this->ticketService = $ticketService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -24,7 +33,15 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employee::select('id', 'name')
+        ->pluck('name', 'id')
+            ->toArray();
+        $clients = AllAccount::select('id', 'name')
+        ->parentClient()
+            ->clients()
+            ->pluck('name', 'id')
+            ->toArray();
+        return view('ticket.create', compact('employees', 'clients'));
     }
 
     /**
@@ -33,9 +50,10 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTicket $request)
     {
-        //
+        $this->ticketService->store($request->all());
+        event(new TicketCreated($request->all()));
     }
 
     /**
@@ -46,7 +64,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('ticket.show', compact('ticket'));
     }
 
     /**
@@ -57,7 +75,7 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        return view('ticket.edit', compact('ticket'));
     }
 
     /**
@@ -67,7 +85,7 @@ class TicketController extends Controller
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(UpdateTicket $request, Ticket $ticket)
     {
         //
     }
