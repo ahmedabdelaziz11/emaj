@@ -86,10 +86,8 @@
                                 <th class="border-bottom-0">#</th>
                                 <th class="border-bottom-0">الاسم</th>
                                 <th class="border-bottom-0">المهنه</th>
-                                <th class="border-bottom-0">المرتب</th>
+                                <th class="border-bottom-0">الرقم القومى</th>
                                 <th class="border-bottom-0">الهاتف</th>
-                                <th class="border-bottom-0">رصيد الجزاءات</th>
-                                <th class="border-bottom-0">رصيد السلف</th>
                                 <th class="border-bottom-0">العمليات</th>
                             </tr>
                         </thead>
@@ -99,14 +97,10 @@
                                 <?php $i++; ?>
                                 <tr>
                                     <td>{{ $i }}</td>													
-                                    <td><a
-                                        href="{{ url('EmployeeDetails') }}/{{ $x->id }}">{{ $x->name }}</a>
-                                    </td>
+                                    <td>{{ $x->name }}</td>
                                     <td>{{ $x->role }}</td>
-                                    <td>{{ $x->Salary }}</td>penalty
-                                    <td>{{ $x->phone }}</td>                                  
-                                    <td>{{ number_format($x->penalty) }}</td>                                  
-                                    <td>{{ number_format($x->debt) }}</td>                                  
+                                    <td>{{ $x->national_id }}</td>
+                                    <td>{{ $x->phone }}</td>                                                                   
                                     <td>        
                                                                               
                                             <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
@@ -201,11 +195,6 @@
                             <input type="number" class="form-control" id="Salary" name="Salary">
                         </div>
 
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">دين البداية</label>
-                            <input type="number" class="form-control" id="start_debt" name="start_debt" required>
-                        </div>
-
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-success">تاكيد</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
@@ -288,11 +277,6 @@
                             <div class="form-group">
                                 <label>المرتب</label>
                                 <input type="number" class="form-control" id="Salary" name="Salary">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">دين البداية</label>
-                                <input type="number" class="form-control" id="start_debt" name="start_debt" required>
                             </div>
                 </div>
                 <div class="modal-footer">

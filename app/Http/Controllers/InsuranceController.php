@@ -14,7 +14,6 @@ class InsuranceController extends Controller
 
     public function __construct(InsuranceService $service)
     {
-        $this->middleware('auth');
         $this->service = $service;
     }
 

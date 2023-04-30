@@ -1,19 +1,19 @@
 <table class="table table-bordered mg-b-0 text-md-nowrap">
     <thead>
         <tr class="text-center">
-            <th style="width: 20%;">اسم المنتج</th>
+            <th>اسم المنتج</th>
             <th>الفاتورة</th>
             <th>داخل الضمان<br>(نعم / لا)</th>
             <th>تاريخ البدء</th>
             <th>تاريخ الانتهاء</th>
             <th>الحد الاقصى</th>
-            <th>العنوان</th>
+            <th style="width: 20%;">العنوان</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($invoiceProducts as $x)
             <tr class="text-center">
-                <td style="width: 20%;">{{ $x->product->name }}</td>
+                <td>{{ $x->product->name }}</td>
                 <td>{{ $x->invoice->id }} <input type="hidden" name="invoice_product_id[]" value="{{$x->id}}"> </td>                     
                 <td>
                     <input type="checkbox" class="form-control form-control-sm is_in_isurance">
@@ -22,7 +22,7 @@
                 <td><input type="date" name="start_date[]" value="{{$x->invoice->date}}" class="form-control"></td>        
                 <td><input type="date" name="end_date[]" value="{{date('Y-m-d', strtotime($x->invoice->date. ' + 1 years'))}}" class="form-control"></td>        
                 <td><input type="number" step=".01" name="compensation[]" value="{{$x->product_selling_price * .01}}" class="form-control"></td>        
-                <td>
+                <td style="width: 20%;">
                     <select class="form-control select2 address" name="address_id">
                         <option value=" ">اختر العنوان</option>
 
