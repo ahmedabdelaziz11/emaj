@@ -31,6 +31,10 @@ class Ticket extends Model
         return $this->belongsToMany(Employee::class, 'employee_ticket', 'ticket_id', 'employee_id')->withPivot('quantity', 'price_per_unit', 'estimated_time', 'approved');
     }
 
+    public function reporter()
+    {
+        return $this->belongsTo(Employee::class,'reporter_id');
+    }
     public function client()
     {
         return $this->belongsTo(AllAccount::class, 'client_id');

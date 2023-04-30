@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\AllAccount;
 use App\Services\TicketService;
 use Livewire\Component;
 use Illuminate\Pagination\Paginator;
@@ -14,7 +15,8 @@ class Ticket extends Component
 
     public $currentPage = 1;
     public $client_id = '';
-    public $date = '';
+    public $from_date = '';
+    public $to_date = '';
     private $service;
     
 
@@ -24,8 +26,10 @@ class Ticket extends Component
         return view('livewire.tickets', [
             'tickets' => $this->service->getAllTickets(
                 $this->client_id,
-                $this->date,
+                $this->from_date,
+                $this->to_date,
             ),
+            'clients' => AllAccount::clients()->get(),
         ]);
     } 
 
