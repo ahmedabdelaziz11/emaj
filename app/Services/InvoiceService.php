@@ -19,7 +19,7 @@ class InvoiceService
 
     public function getInvoicesProducts($client_id,$invoice_id = null)
     {
-        return invoice_products::wherehas('invoice',function($q)use($client_id){
+        return invoice_products::WhereDoesntHave('insurance')->wherehas('invoice',function($q)use($client_id){
             $q->where('client_id',$client_id);
         })
         ->when($invoice_id,function($q,$invoice_id){

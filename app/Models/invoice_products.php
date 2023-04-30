@@ -16,5 +16,10 @@ class invoice_products extends Model
     public function invoice()
     {
       return $this->belongsTo('App\Models\invoices');
-    } 
+    }
+
+    public function insurance()
+    {
+      return $this->hasOne(Insurance::class,'invoice_product_id','id');
+    }
 }
