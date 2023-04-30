@@ -8,6 +8,7 @@ use App\Events\TicketCreated;
 use App\Http\Requests\StoreTicket;
 use App\Http\Requests\UpdateTicket;
 use App\Services\TicketService;
+use App\Events\TicketUpdated;
 
 class TicketController extends Controller
 {
@@ -87,7 +88,9 @@ class TicketController extends Controller
      */
     public function update(UpdateTicket $request, Ticket $ticket)
     {
-        //
+        $this->ticketService->update($ticket, $request->all());
+        event(new TicketUpdated($ticket, $request->all()));
+        return redirect()->route('tickets.index');
     }
 
     /**
@@ -100,4 +103,16 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function createCompensation(Ticket $ticket)
+    {
+        return view('ticket.compensation', compact('ticket'));
+    }
+
+    public function storeCompensation(Ticket $ticket, Request $request)
+    {
+        $this->ticketService->createTicketCompensation($ticket, $request->all());
+        return redirect()->route('tickets.index');
+    }
+
 }
