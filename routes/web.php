@@ -278,6 +278,14 @@ Route::get('show-mokhss-elahlak', 'App\Http\Controllers\AssetManagementControlle
 Route::post('create-mokhss-elahlak', 'App\Http\Controllers\AssetManagementController@create_mokhss_elahlak');
 
 
+
+
+
+
+
+Route::group(['middleware' => ['auth']], function() {
+Route::resource('roles','App\Http\Controllers\RoleController'); 
+Route::resource('users','App\Http\Controllers\UserController');   
 Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
 Route::get('get-all-products/{search?}','App\Http\Controllers\ProductSpareController@getAllProducts');
 
@@ -291,13 +299,6 @@ Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}','App\Http\Con
 Route::post('insurances-excel','App\Http\Controllers\InsuranceController@insurancesExcel');
 Route::post('print-insurance-table','App\Http\Controllers\InsuranceController@printInsuranceTable');
 Route::resource('employees', 'App\Http\Controllers\EmployeeController');
-
-
-
-
-Route::group(['middleware' => ['auth']], function() {
-Route::resource('roles','App\Http\Controllers\RoleController'); 
-Route::resource('users','App\Http\Controllers\UserController');   
 });
 // get all attendance for specific employee
 Route::get(
