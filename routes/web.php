@@ -53,7 +53,6 @@ Route::post('account-statemeent-excel','App\Http\Controllers\AccountStatementCon
 Route::resource('income-list', 'App\Http\Controllers\IncomeListController');
 
 Route::resource('stock-management', 'App\Http\Controllers\StockManageMentController');
-Route::resource('spare-stock-management', 'App\Http\Controllers\SpareStockManageMentController');
 
 Route::resource('stocks', 'App\Http\Controllers\StockController');
 Route::get('stock-excel/{id}','App\Http\Controllers\StockController@exel')->name('stock-excel');
@@ -73,21 +72,7 @@ Route::get('client-report', 'App\Http\Controllers\ClientsController@clientReport
 Route::post('create-client-report', 'App\Http\Controllers\ClientsController@createClientReport')->name('create-client-report');
 
 
-
-Route::resource('cash-receipts', 'App\Http\Controllers\CashReceiptController');
-Route::get('/cash-details/{start_at?}/{end_at?}', 'App\Http\Controllers\CashReceiptController@index')->name('cash-details');
-
-Route::resource('payment-vouchers', 'App\Http\Controllers\PaymentVoucherController');
-Route::get('/payment-details/{start_at?}/{end_at?}', 'App\Http\Controllers\PaymentVoucherController@index')->name('payment-details');
-
-
-Route::post('return-insurances', 'App\Http\Controllers\InsuranceController@returnInsurance')->name('return-insurances');
-Route::post('loans-update', 'App\Http\Controllers\LoanController@update')->name('loans-update');
-Route::post('loan-payment', 'App\Http\Controllers\LoanController@loanPayment')->name('loan-payment');
-Route::post('loan-payment-update', 'App\Http\Controllers\LoanController@loanPaymentUpdate')->name('loan-payment-update');
-Route::post('loan-payment-delete', 'App\Http\Controllers\LoanController@loanPaymentDelete')->name('loan-payment-delete');
 Route::resource('sections', 'App\Http\Controllers\SectionsController');
-Route::resource('revenues', 'App\Http\Controllers\MaintenanceRevenueController');
 
 
 Route::resource('clients', 'App\Http\Controllers\ClientsController');
@@ -119,25 +104,10 @@ Route::resource('suppliers', 'App\Http\Controllers\SuppliersController');
 Route::get('/SupplierDetails/{id?}{start_at?}{end_at?}', 'App\Http\Controllers\SuppliersController@edit')->name('SupplierDetails');
 
 
-Route::resource('accounts', 'App\Http\Controllers\AccountsController');
-Route::resource('accounts-transfer', 'App\Http\Controllers\AccountsTransferController');
-Route::get('/AccountDetails/{id}/{start_at?}/{end_at?}', 'App\Http\Controllers\AccountsController@edit')->name('AccountDetails');
-Route::post('update-account-operation','App\Http\Controllers\AccountsController@updateOperation')->name('update-account-operation');
-Route::post('delete-operation','App\Http\Controllers\AccountsController@deleteOperation')->name('delete-operation');
-
-Route::resource('fixed_assets', 'App\Http\Controllers\FixedAssetsController');
-
-
-
-
-Route::get('/EmployeeDetails/{id}', 'App\Http\Controllers\EmployeesController@edit');
 
 Route::resource('products', 'App\Http\Controllers\ProductsController');
 
 Route::get('product_cat/{id}','App\Http\Controllers\ProductsController@product_cat');
-Route::get('spare_cat/{id}','App\Http\Controllers\SparesController@spare_cat');
-
-Route::resource('spares', 'App\Http\Controllers\SparesController');
 
 
 Route::resource('offers', 'App\Http\Controllers\OffersController');
@@ -148,27 +118,13 @@ Route::post('delete_product', 'App\Http\Controllers\OfferProductsController@dest
 Route::get('Print_offer/{id}','App\Http\Controllers\OffersController@Print_offer');
 Route::get('Print_offer_en/{id}','App\Http\Controllers\OffersController@Print_offer_en');
 
-Route::resource('offers_s', 'App\Http\Controllers\SpareOffersController');
-Route::resource('offer_products_s', 'App\Http\Controllers\SofferProductsController');
-Route::get('/OfferDetails_s/{id}', 'App\Http\Controllers\SofferProductsController@edit');
-Route::post('add_product_s', 'App\Http\Controllers\SofferProductsController@add_product')->name('add_product_s');
-Route::post('delete_product_s', 'App\Http\Controllers\SofferProductsController@destroy')->name('delete_product_s');
-Route::get('Print_offer_s/{id}','App\Http\Controllers\SpareOffersController@Print_offer');
-Route::get('Print_offer_en_s/{id}','App\Http\Controllers\SpareOffersController@Print_offer_en');
 
 Route::resource('invoices', 'App\Http\Controllers\InvoicesController');
-Route::resource('invoice_products', 'App\Http\Controllers\InvoiceProductsController');
+
 Route::post('payment', 'App\Http\Controllers\InvoicesController@payment')->name('payment');
 Route::get('/InvoiceDetails/{id}', 'App\Http\Controllers\InvoicesController@edit');
 Route::get('Print_invoice/{id}','App\Http\Controllers\InvoicesController@Print_invoice');
 Route::get('Print_invoice_Permission/{id}','App\Http\Controllers\InvoicesController@Print_invoice_Permission');
-
-Route::resource('invoices_s', 'App\Http\Controllers\SpareInvoicesController');
-Route::resource('invoice_products_s', 'App\Http\Controllers\SpareInvoiceProductsController');
-Route::post('payment_s', 'App\Http\Controllers\SpareInvoicesController@payment')->name('payment_s');
-Route::get('/InvoiceDetails_s/{id}', 'App\Http\Controllers\SpareInvoicesController@edit');
-Route::get('Print_invoice_s/{id}','App\Http\Controllers\SpareinvoicesController@Print_invoice');
-Route::get('Print_invoice_Permission_s/{id}','App\Http\Controllers\SpareinvoicesController@Print_invoice_Permission');
 
 
 
@@ -176,8 +132,7 @@ Route::get('Print_invoice_Permission_s/{id}','App\Http\Controllers\Spareinvoices
 Route::resource('returned_invoices', 'App\Http\Controllers\ReturnedInvoiceController');
 Route::get('Print_returned/{id}','App\Http\Controllers\ReturnedInvoiceController@Print_returned');
 
-Route::resource('returned_invoices_s', 'App\Http\Controllers\SreturnedInvoiceController');
-Route::get('Print_returned_s/{id}','App\Http\Controllers\SreturnedInvoiceController@Print_returned');
+
 
 
 
@@ -196,43 +151,15 @@ Route::post('PaymentReceipt_s', 'App\Http\Controllers\SpareReceiptsController@pa
 Route::get('Print_receipt_s/{id}','App\Http\Controllers\SpareReceiptsController@Print_receipt');
 Route::get('Print_receipt_Permission_s/{id}','App\Http\Controllers\SpareReceiptsController@Print_receipt_Permission');
 
-Route::resource('expense_sections', 'App\Http\Controllers\ExpenseSectionsController');
-Route::resource('expenses', 'App\Http\Controllers\ExpensesController');
-Route::get('Print_expenses_Permission/{id}','App\Http\Controllers\ExpensesController@Print_expenses_Permission');
 
-
-Route::resource('checks', 'App\Http\Controllers\ChecksController');
-Route::get('client_payment', 'App\Http\Controllers\ChecksController@client_payment')->name('client_payment');
-Route::get('supplier_payment', 'App\Http\Controllers\ChecksController@supplier_payment');
-Route::get('assets_payment', 'App\Http\Controllers\ChecksController@assets_payment');
-Route::post('PaymentAssets', 'App\Http\Controllers\ChecksController@PaymentAssets')->name('PaymentAssets');
-
-Route::get('invoice_submit', 'App\Http\Controllers\ChecksController@invoice_submit');
 Route::post('invoice_finish', 'App\Http\Controllers\InvoicesController@invoice_finish')->name('invoice_finish');
-Route::post('checks_finish', 'App\Http\Controllers\ChecksController@checks_finish')->name('checks_finish');
 Route::post('spare_invoice_finish', 'App\Http\Controllers\SpareinvoicesController@spare_invoice_finish')->name('spare_invoice_finish');
 Route::post('returned_finish', 'App\Http\Controllers\ReturnedInvoiceController@returned_finish')->name('returned_finish');
-Route::post('spare_returned_finish', 'App\Http\Controllers\SreturnedInvoiceController@returned_finish')->name('spare_returned_finish');
-Route::get('expenses_submit', 'App\Http\Controllers\ChecksController@expenses_submit');
-Route::post('expenses_finish', 'App\Http\Controllers\ExpensesController@expenses_finish')->name('expenses_finish');
-Route::get('receipts_submit', 'App\Http\Controllers\ChecksController@receipts_submit');
+
+
 Route::post('receipt_finish', 'App\Http\Controllers\ReceiptsController@receipt_finish')->name('receipt_finish');
 Route::post('spare_receipts_finish', 'App\Http\Controllers\SpareReceiptsController@spare_receipts_finish')->name('spare_receipts_finish');
 
-
-Route::post('addAccount','App\Http\Controllers\AccountsController@addAccount')->name('addAccount');
-Route::post('minusAccount','App\Http\Controllers\AccountsController@minusAccount')->name('minusAccount');
-
-
-//Route::get('/ExpenseDetails/{id}', 'App\Http\Controllers\ExpensesController@edit');
-
-Route::get('get_person/{type}','App\Http\Controllers\ChecksController@get_person');
-Route::get('get_person_byid/{type}/{id}','App\Http\Controllers\ChecksController@get_person_byid');
-
-Route::get('value_added_report', 'App\Http\Controllers\Offers_Report@value_added_report');
-Route::post('/Search_value_added', 'App\Http\Controllers\Offers_Report@Search_value_added');
-
-Route::post('CashTransfer','App\Http\Controllers\AccountsController@cashTrasfer')->name('CashTransfer');
 
 Route::get('offers_report', 'App\Http\Controllers\Offers_Report@index');
 Route::get('revenues_report', 'App\Http\Controllers\Offers_Report@revenues_report');
