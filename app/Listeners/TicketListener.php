@@ -32,7 +32,7 @@ class TicketListener
         $formData = $event->formData;
         $this->createTicketLog($ticket);
         $this->createTicketDetails($ticket, $formData);
-        $this->createTicketCompensation($ticket, $formData);
+        // $this->createTicketCompensation($ticket, $formData);
         $this->createTicketEmployee($ticket, $formData);
     }
 

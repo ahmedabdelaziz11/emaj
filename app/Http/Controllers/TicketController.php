@@ -26,7 +26,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return view('ticket.index');
+        $compensationTypes = $this->ticketService->getCompensationTypes();
+        return view('ticket.index', compact('compensationTypes'));
     }
 
     /**
@@ -41,7 +42,8 @@ class TicketController extends Controller
             ->toArray();
         $clients = AllAccount::select('id', 'name')
             ->clients()
-            ->get();
+            ->with('accounts')
+        ->get();    
         return view('ticket.create', compact('employees', 'clients'));
     }
 
@@ -55,6 +57,7 @@ class TicketController extends Controller
     {
         $ticket = $this->ticketService->store($request->all());
         event(new TicketCreated($ticket, $request->all()));
+        return redirect()->route('ticket.show', $ticket->id)->with('success', 'Ticket created successfully');
     }
 
     /**

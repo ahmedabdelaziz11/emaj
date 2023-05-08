@@ -9,7 +9,19 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = [
+        'client_id',
+        'reporter_id',
+        'reporter_type',
+        'state',
+        'date',
+        'ticket_type',
+        'address',
+        'received_money',
+        'recommended_path',
+        'closing_note',
+        'invoice_product_id',
+    ];
     
     public function details()
     {
@@ -33,10 +45,14 @@ class Ticket extends Model
 
     public function reporter()
     {
-        return $this->belongsTo(Employee::class,'reporter_id');
+        return $this->belongsTo(User::class, 'reporter_id');
     }
     public function client()
     {
         return $this->belongsTo(AllAccount::class, 'client_id');
+    }
+    public function invoiceProduct()
+    {
+        return $this->belongsTo(invoice_products::class, 'invoice_product_id');
     }
 }

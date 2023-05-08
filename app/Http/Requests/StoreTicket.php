@@ -26,10 +26,10 @@ class StoreTicket extends FormRequest
         return [
             'client_id' => 'bail|required|exists:clients,id',
             'employees' => 'bail|required|array',
-            'employees.*.id' => 'bail|required|exists:employees,id',
+            'employees.*' => 'bail|required|exists:employees,id',
             'date' => 'bail|required|date',
             'ticket_type' => 'bail|required|in:invoice,warranty,other',
-            'ticket_parent_id' => 'bail|nullable|exists:tickets,id',
+            'parent_id' => 'bail|nullable|exists:tickets,id',
             'address' => 'bail|required|string',
             'received_money' => 'bail|nullable|integer',
             'recommended_path' => 'bail|required|string',

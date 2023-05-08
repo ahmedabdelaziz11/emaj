@@ -66,9 +66,13 @@
                                     <a class="modal-effect btn btn-sm btn-warning" 
                                         href="/tickets/{{$x->id}}" title="مشاهدة"> <i class="las la-eye"></i> 
                                     </a>
-                                    <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                    {{-- <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                         data-id="{{ $x->id }}" data-name="{{ $x->id }}"
                                         data-toggle="modal" href="#modaldemo9" title="حذف"><i class="las la-trash"></i>
+                                    </a> --}}
+                                    <a class="modal-effect btn btn-sm btn-primary" data-effect="effect-scale"
+                                        data-id="{{ $x->id }}" data-name="{{ $x->id }}"
+                                        data-toggle="modal" href="#modaldemo9" title="إضافة تكاليف"><i class="las la-dollar-sign"></i>
                                     </a>
                                 </td>        
                             </tr>

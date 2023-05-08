@@ -3,12 +3,25 @@
 namespace App\Services;
 
 use App\Models\Ticket;
+use App\Models\CompensationType;
 
 class TicketService
 {
     public function store($formData)
     {
-        $ticket = Ticket::create($formData);
+        $ticket = Ticket::create([
+            'client_id' => $formData['client_id'],
+            'reporter_id' => auth()->id(),
+            'reporter_type' => 'user',
+            'state' => 'pending',
+            'date' => $formData['date'],
+            'ticket_type' => $formData['ticket_type'],
+            'address' => $formData['address'],
+            // 'received_money' => $formData['received_money'],
+            'recommended_path' => $formData['recommended_path'],
+            // 'closing_note' => $formData['closing_note'],
+            // 'invoice_product_id' => $formData['invoice_product_id'],
+        ]);
         return $ticket;
     }
 
@@ -53,5 +66,10 @@ class TicketService
             $q->where('date','>=',$to_date);
         })
         ->paginate(15);
+    }
+
+    public function getCompensationTypes()
+    {
+        return CompensationType::all();
     }
 }

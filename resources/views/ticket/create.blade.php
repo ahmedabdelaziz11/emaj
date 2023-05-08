@@ -69,11 +69,15 @@
                       </div>
 
                       <div class="row">
-                        <div class="form-group col-4">
+                        <div class="form-group col-3">
+                          <label>رقم شكوى مسبق ان وجد</label>
+                          <input type="number" name="parent_id" class="form-control">
+                        </div>
+                        <div class="form-group col-3">
                           <label>التاريخ</label>
                           <input type="date" name="date" class="form-control">
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-3">
                           <label>النوع</label>
                           <select class="form-control" name="ticket_type">
                             <option value="" selected disabled>اختر النوع</option>
@@ -82,7 +86,7 @@
                             <option value="other">اخرى</option>
                           </select>
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-3">
                           <label>العميل</label>
                           <select class="form-control select2"  name="client_id">
                             <option value="" selected disabled>اختر العميل</option>
@@ -97,8 +101,30 @@
                       </div>
                       <div class="row">
                         <div class="form-group col-12">
+                          <label for="employees">القائمين على الشكوي</label>
+                          <select class="form-control select2" multiple="multiple" name="employees[]" id="employees">
+                            @foreach($employees as $id => $employee)
+                              <option value="{{$id}}">{{$employee}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-12">
                           <label>العنوان</label>
-                          <input type="text" name="address" class="form-control">
+                          <textarea name="address" class="form-control"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-12">
+                          <label>ارشادات المواصلات ينصح اتباعها</label>
+                          <textarea name="recommended_path" class="form-control"></textarea>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group col-12">
+                          <label>تفاصيل إضافية</label>
+                          <textarea name="details" class="form-control"></textarea>
                         </div>
                       </div>
 

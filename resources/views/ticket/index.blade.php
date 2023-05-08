@@ -56,24 +56,43 @@
 <div class="row">
     <livewire:ticket />
 </div>
+
 <div class="modal" tabindex="-1" id="modaldemo9">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">حذف الشكوى</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                <h6 class="modal-title">إضافة تكاليف للشكوى</h6><button aria-label="Close" class="close" data-dismiss="modal"
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
-                <form action="insurances/destroy" method="post">
-                {{ method_field('delete') }}
+                <form action="" id="compensationForm" method="post">
+                {{ method_field('post') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <p>هل انت متاكد من عملية الحذف ؟</p><br>
-                    <input type="hidden" name="id" id="id" value="">
-                    <input class="form-control" name="name" id="name" type="text" readonly>
+                    <div id="compensationsContainer">
+                        <div class="row">
+                            <div  class="col-4">
+                                <label for="compensation_type">نوع التكلفة</label>
+                                <select class="form-control" name="compensation_type[]" id="compensation_type">
+                                    @foreach ($compensationTypes as $compensationType)
+                                        <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <label for="value">قيمة التكلفة</label>
+                                <input class="form-control" name="value" id="value" type="number">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                        <button type="button" class="btn btn-sm btn-primary" id="addNewComensation">اضافة تكلفة جديدة</button>
+                    </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button type="submit" class="btn btn-danger">تاكيد</button>
+                    <button type="submit" class="btn btn-primary">تاكيد</button>
                 </div>
         </div>
         </form> 
@@ -99,11 +118,33 @@
         var modal = $(this)
         modal.find('.modal-body #id').val(id);
         modal.find('.modal-body #name').val(name);
+        $('#compensationForm').attr('action', '/tickets/compensation/' + id);
     })
 
     $('#printTable').click(function(){
         document.insuranceForm.action = "/print-insurance-table"  
         document.insuranceForm.submit()
+    })
+
+    $("#addNewComensation").on('click',function(){
+        $("#compensationsContainer").append(`
+        <div class="row">
+            <div  class="col-4">
+                <label for="compensation_type">نوع التكلفة</label>
+                <select class="form-control" name="compensation_type[]" id="compensation_type">
+                    @foreach ($compensationTypes as $compensationType)
+                        <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="value">قيمة التكلفة</label>
+                <input class="form-control" name="value[" id="value" type="number">
+
+            </div>
+        
+        
+        `)
     })
 </script>
 @endsection

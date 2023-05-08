@@ -284,34 +284,35 @@ Route::post('create-mokhss-elahlak', 'App\Http\Controllers\AssetManagementContro
 
 
 Route::group(['middleware' => ['auth']], function() {
-Route::resource('roles','App\Http\Controllers\RoleController'); 
-Route::resource('users','App\Http\Controllers\UserController');   
-Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
-Route::get('get-all-products/{search?}','App\Http\Controllers\ProductSpareController@getAllProducts');
+    Route::resource('roles', 'App\Http\Controllers\RoleController');
+    Route::resource('users', 'App\Http\Controllers\UserController');
+    Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
+    Route::get('get-all-products/{search?}', 'App\Http\Controllers\ProductSpareController@getAllProducts');
 
-Route::resource('addresses', 'App\Http\Controllers\AddresseController');
-Route::get('get-addresses-select2/{search?}','App\Http\Controllers\AddresseController@getAddressesSelect2');
+    Route::resource('addresses', 'App\Http\Controllers\AddresseController');
+    Route::get('get-addresses-select2/{search?}', 'App\Http\Controllers\AddresseController@getAddressesSelect2');
 
 
-Route::resource('insurances', 'App\Http\Controllers\InsuranceController');
-Route::get('get-client-invoices/{client_id}','App\Http\Controllers\InsuranceController@getClientInvoices');
-Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}','App\Http\Controllers\InsuranceController@getClientInvoicesProducts');
-Route::post('insurances-excel','App\Http\Controllers\InsuranceController@insurancesExcel');
-Route::post('print-insurance-table','App\Http\Controllers\InsuranceController@printInsuranceTable');
-Route::resource('employees', 'App\Http\Controllers\EmployeeController');
+    Route::resource('insurances', 'App\Http\Controllers\InsuranceController');
+    Route::get('get-client-invoices/{client_id}', 'App\Http\Controllers\InsuranceController@getClientInvoices');
+    Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}', 'App\Http\Controllers\InsuranceController@getClientInvoicesProducts');
+    Route::post('insurances-excel', 'App\Http\Controllers\InsuranceController@insurancesExcel');
+    Route::post('print-insurance-table', 'App\Http\Controllers\InsuranceController@printInsuranceTable');
+    Route::resource('employees', 'App\Http\Controllers\EmployeeController');
+    Route::get(
+        'attendances/{employee?}/{date?}',
+        'App\Http\Controllers\AttendanceController@viewEmployeeAttendance'
+    );
+    Route::post('attendances/checkin/{employee?}/{date?}', 'App\Http\Controllers\AttendanceController@checkin');
+    Route::post('attendances/checkout/{employee?}/{date?}', 'App\Http\Controllers\AttendanceController@checkout');
+
+    Route::resource('compensation-types', 'App\Http\Controllers\CompensationTypeController');
+    Route::resource('tickets', 'App\Http\Controllers\TicketController');
+    Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
+    Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation')->name('tickets.compensation.store');
 });
 // get all attendance for specific employee
-Route::get(
-    'attendances/{employee?}/{date?}',
-    'App\Http\Controllers\AttendanceController@viewEmployeeAttendance'
-);
-Route::post('attendances/checkin/{employee?}/{date?}', 'App\Http\Controllers\AttendanceController@checkin');
-Route::post('attendances/checkout/{employee?}/{date?}', 'App\Http\Controllers\AttendanceController@checkout');
 
-Route::resource('compensation-types', 'App\Http\Controllers\CompensationTypeController');
-Route::resource('tickets', 'App\Http\Controllers\TicketController');
-Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
-Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation');
 //Route::get('/{page}', 'App\Http\Controllers\AdminController@index');
 
 
