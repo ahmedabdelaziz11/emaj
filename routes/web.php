@@ -237,6 +237,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tickets', 'App\Http\Controllers\TicketController');
     Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
     Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation')->name('tickets.compensation.store');
+    Route::get('get-spare-products-by-ticket/{ticket}/{stock}','App\Http\Controllers\TicketController@ticketSpareProducts');
 });
 // get all attendance for specific employee
 

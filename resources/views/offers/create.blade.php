@@ -71,7 +71,7 @@
                       </div> 
                       <br>
                       <div class="row">
-                        <div class="form-group col-3">
+                        <div class="form-group col-4">
                           <label>المخزن</label>
                           <select class="form-control select2 " id="stock_id" name="stock_id">
                             <option value="">اختر المخزن</option>
@@ -80,19 +80,28 @@
                             @endforeach
                           </select>
                         </div>
-                        <div class="form-group col-3">
-                          <label for="inputName" class="control-label"> اختر المنتجات</label>
+                        <div class="form-group col-4" id="ticketDev" style="display: none;">
+                          <label class="control-label">رقم الشكوى</label>
+                          <select class="form-control select2 " name="ticket_id" id="ticket_id">
+                            <option value="">اختر رقم الشكوى</option>
+                            @foreach($tickets as $ticket)
+                              <option value="{{$ticket->id}}">{{$ticket->id}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="form-group col-4">
+                          <label for="inputName" class="control-label">اختر المنتجات</label>
                           <select class="form-control select2 " name="products" id="item_picker" required="required">
                             <option value="">اختر المنتجات</option>
                           </select>
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-6">
                           <label for="inputName" class="control-label"> اختر المنتجات المركبة</label>
-                          <select class="form-control select2 " name="composite_products" id="item_picker2" required="required">
+                          <select class="form-control select2 " name="composite_products" id="item_picker2">
                             <option value="">اختر المنتجات</option>
                           </select>
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-6">
                           <label for="inputName" class="control-label">اضافة خدمة</label>
                           <button type="button" id="add_service" class="btn btn-primary w-100 ">اضافة خدمة</button>
                         </div>
@@ -209,11 +218,37 @@ The period of validity of the offer is a week from the date
 
 <script>
   $(document).ready(function() {   
+      $('select[name="ticket_id"]').on('change', function() {
+        var ticket_id = $(this).val();
+        var stock_id  = $("#stock_id").val();
+        $('select[name="products"]').empty();
+        $('#item_picker2').empty();
+        if(ticket_id && stock_id)
+        {
+          $.ajax({
+            url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                $("#items_container").empty();
+                $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+                $.each(data, function(key, value) {
+                  $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
+                });
+            },
+          });
+        }
+      });
+        
       $('select[name="stock_id"]').on('change', function() {
+        var stock_id = $(this).val();
+        if($("#stock_id option:selected").text() =="قطع الغيار"){
+          $("#ticketDev").css('display','block');
+        }else{
+          $("#ticketDev").css('display','none');
           $('select[name="products"]').empty();
           $('#item_picker2').empty();
 
-          var stock_id = $(this).val();
           if (stock_id) {
               $.ajax({
                   url: "{{ URL::to('sections') }}/" + stock_id,
@@ -243,6 +278,8 @@ The period of validity of the offer is a week from the date
           } else {
               console.log('AJAX load did not work');
           }
+        }
+
       });
   });
 </script>

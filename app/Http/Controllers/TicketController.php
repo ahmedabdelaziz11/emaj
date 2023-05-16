@@ -11,6 +11,7 @@ use App\Models\AllAccount;
 use App\Models\Employee;
 use App\Services\TicketService;
 use App\Events\TicketUpdated;
+use App\Models\Stock;
 
 class TicketController extends Controller
 {
@@ -116,6 +117,12 @@ class TicketController extends Controller
     {
         $this->ticketService->createTicketCompensation($ticket, $request->all());
         return redirect()->route('tickets.index');
+    }
+
+    public function ticketSpareProducts(Ticket $ticket,Stock $stock)
+    {
+        $products = $this->ticketService->getTicketSpareProduct($ticket,$stock);
+        return json_encode($products);
     }
 
 }
