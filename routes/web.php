@@ -100,6 +100,7 @@ Route::post('delete_file_c', 'App\Http\Controllers\ClientAttachmentsController@d
 Route::get('/offer_data/{id}', 'App\Http\Controllers\InvoicesController@getoffer');
 Route::get('/get-offer/{id}', 'App\Http\Controllers\OffersController@getOffer')->name('get-offer');
 
+
 Route::resource('suppliers', 'App\Http\Controllers\SuppliersController');
 Route::get('/SupplierDetails/{id?}{start_at?}{end_at?}', 'App\Http\Controllers\SuppliersController@edit')->name('SupplierDetails');
 
@@ -238,6 +239,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
     Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation')->name('tickets.compensation.store');
     Route::get('get-spare-products-by-ticket/{ticket}/{stock}','App\Http\Controllers\TicketController@ticketSpareProducts');
+    Route::get('get-ticket-offers/{ticket_id}', 'App\Http\Controllers\OffersController@getTicketOffers');
+
 });
 // get all attendance for specific employee
 

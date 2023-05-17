@@ -209,4 +209,9 @@ class OffersController extends Controller
     {
         return offers::where('stock_id',$stockId)->pluck('id');
     }
+
+    public function getTicketOffers($ticket_id)
+    {
+        return offers::where('ticket_id',$ticket_id)->pluck('id');
+    }
 }

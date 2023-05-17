@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\OfferService;
 use App\Models\InvoiceService;
 use App\Models\OfferCompositeProducts;
+use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Collection;
 
 class InvoicesController extends Controller
@@ -51,7 +52,9 @@ class InvoicesController extends Controller
         $accounts = AllAccount::banking()->get();
         $costs = Cost::all();
         $stocks = Stock::all();
-        return view('invoices.create_invoice',compact('clients','stocks','accounts','costs'));
+        $tickets = Ticket::get('id');
+
+        return view('invoices.create_invoice',compact('clients','stocks','accounts','costs','tickets'));
     }
 
     /**
@@ -733,7 +736,8 @@ class InvoicesController extends Controller
         $stocks   = Stock::all();
         $invoice  = invoices::where('id',$id)->first();
         $attachments = invoice_attachments::where('invoice_id',$id)->get();
-        return view('invoices.details_invoice',compact('stocks','attachments','clients','accounts','costs','invoice'));
+        $tickets = Ticket::get('id');
+        return view('invoices.details_invoice',compact('stocks','attachments','clients','accounts','costs','invoice','tickets'));
     }
 
     /**
