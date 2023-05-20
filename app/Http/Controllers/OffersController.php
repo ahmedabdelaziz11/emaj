@@ -10,6 +10,7 @@ use App\Models\offers;
 use App\Models\OfferService;
 use App\Models\products;
 use App\Models\Stock;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,8 +38,9 @@ class OffersController extends Controller
     public function create()
     {
         $stocks = Stock::all();
+        $tickets = Ticket::get('id');
         $clients  = clients::all();
-        return view('offers.create',compact('clients','stocks'));
+        return view('offers.create',compact('clients','stocks','tickets'));
     }
 
     /**
@@ -59,6 +61,7 @@ class OffersController extends Controller
             'value_added'=> $request->value_add,
             'client_id'  => $request->client_id,
             'stock_id'   => $request->stock_id,
+            'ticket_id'   => $request->ticket_id,
             "Created_by" => Auth::user()->name,
         ]);
 
@@ -113,7 +116,9 @@ class OffersController extends Controller
         $offer   = offers::find($id);
         $stocks = Stock::all();
         $clients  = clients::all();
-        return view('offers.show',compact('offer','stocks','clients'));
+        $tickets = Ticket::get('id');
+
+        return view('offers.show',compact('offer','stocks','clients','tickets'));
     }
 
     /**
@@ -135,6 +140,7 @@ class OffersController extends Controller
             'value_added'=> $request->value_add,
             'client_id' => $request->client_id,
             'stock_id' => $request->stock_id,
+            'ticket_id'   => $request->ticket_id,
         ]);
         offer_products::where('offer_id',$request->offer_id)->delete();
         if($request->id)
@@ -202,5 +208,10 @@ class OffersController extends Controller
     public function getOffer($stockId)
     {
         return offers::where('stock_id',$stockId)->pluck('id');
+    }
+
+    public function getTicketOffers($ticket_id)
+    {
+        return offers::where('ticket_id',$ticket_id)->pluck('id');
     }
 }

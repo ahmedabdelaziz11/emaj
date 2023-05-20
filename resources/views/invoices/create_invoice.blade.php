@@ -121,10 +121,20 @@
                         <div class="row">
                           <div class="form-group col">
                             <label>المخزن</label>
-                            <select class="form-control select2" name="stock_id" required="required">
+                            <select class="form-control select2" name="stock_id" id="stock_id" required="required">
                               <option value="0" selected disabled>اختر المخزن</option>
                               @foreach ($stocks as $stock)
-                                <option value="{{ $stock->id }}"> {{ $stock->name }} </option>
+                                <option value="{{ $stock->id }}">{{ $stock->name }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+
+                          <div class="form-group col" id="ticketDev" style="display: none;">
+                            <label class="control-label">رقم الشكوى</label>
+                            <select class="form-control select2 " name="ticket_id" id="ticket_id">
+                              <option value="">اختر رقم الشكوى</option>
+                              @foreach($tickets as $ticket)
+                                <option value="{{$ticket->id}}">{{$ticket->id}}</option>
                               @endforeach
                             </select>
                           </div>
@@ -274,6 +284,7 @@
 
 <script>
   $(document).ready(function() {
+
       $('select[name="offer_id"]').on('change', function() {
           var OfferId = $(this).val();
           if (OfferId) {
@@ -296,25 +307,43 @@
       });
 
       $('select[name="stock_id"]').on('change', function() {
+        console.log($("#stock_id option:selected").text());
+        if($("#stock_id option:selected").text() == "قطع الغيار"){
+          $("#ticketDev").css('display','block');
+        }else{
+          $("#ticketDev").css('display','none');
           var stock_id = $(this).val();
-          if (stock_id) {
-            console.log(stock_id)
-              $.ajax({
-                  url: "{{ URL::to('get-offer') }}/" + stock_id,
-                  type: "GET",
-                  dataType: "json",
-                  success: function(data) {
-                    $('select[name="offer_id"]').empty();
-                      $('select[name="offer_id"]').append('<option disabled selected>'+ "اختر العرض" + '</option>');
-                      $.each(data, function(key, value) {
-                        $('select[name="offer_id"]').append('<option value="' +value + '">' + value + '</option>');
-                      });
-                  },
-              });
-              updateTotal1();
-          } else {
-              console.log('AJAX load did not work');
-          }
+          $.ajax({
+              url: "{{ URL::to('get-offer') }}/" + stock_id,
+              type: "GET",
+              dataType: "json",
+              success: function(data) {
+                $('select[name="offer_id"]').empty();
+                  $('select[name="offer_id"]').append('<option disabled selected>'+ "اختر العرض" + '</option>');
+                  $.each(data, function(key, value) {
+                    $('select[name="offer_id"]').append('<option value="' +value + '">' + value + '</option>');
+                  });
+              },
+          });
+          updateTotal1();
+        }
+      });
+
+      $('select[name="ticket_id"]').on('change', function() {
+        var ticket_id = $(this).val();
+        $.ajax({
+          url: "{{ URL::to('get-ticket-offers') }}/"+ticket_id,
+          type: "GET",
+          dataType: "json",
+          success: function(data) {
+            $('select[name="offer_id"]').empty();
+            $('select[name="offer_id"]').append('<option disabled selected>'+ "اختر العرض" + '</option>');
+            $.each(data, function(key, value) {
+              $('select[name="offer_id"]').append('<option value="' +value + '">' + value + '</option>');
+            });
+          },
+        });
+        
       });
   });
 </script>

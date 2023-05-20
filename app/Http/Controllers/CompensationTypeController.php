@@ -19,16 +19,6 @@ class CompensationTypeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('compensation-type.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,29 +27,7 @@ class CompensationTypeController extends Controller
     public function store(Request $request)
     {
         CompensationType::create($request->validate(CompensationType::rules()));
-        return redirect()->route('compensation-type.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CompensationType  $compensationType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CompensationType $compensationType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CompensationType  $compensationType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(CompensationType $compensationType)
-    {
-        return view('compensation-type.edit', compact('compensationType'));
+        return redirect()->route('compensation-types.index');
     }
 
     /**
@@ -69,10 +37,11 @@ class CompensationTypeController extends Controller
      * @param  \App\Models\CompensationType  $compensationType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CompensationType $compensationType)
+    public function update(Request $request)
     {
-        $compensationType->update($request->validate(CompensationType::rules('updated')));
-        return redirect()->route('compensation-type.index');
+        $compensation_types = CompensationType::find($request->id);
+        $compensation_types->update($request->validate(CompensationType::rules('updated')));
+        return redirect()->route('compensation-types.index');
     }
 
     /**

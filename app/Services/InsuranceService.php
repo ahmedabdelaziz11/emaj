@@ -6,9 +6,17 @@ use App\Models\Insurance;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataExport;
 use App\Models\AllAccount;
+use App\Models\InsuranceSerial;
 
 class InsuranceService 
 {
+    public function getClientSerials($client_id)
+    {
+        InsuranceSerial::whereHas('insurance',function($q)use($client_id){
+            $q->where('client_id',$client_id);
+        })->get();
+    }
+
     public function getAllInsuranes($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
     {
         return Insurance::with('client','address','invoiceProduct.invoice','InvoiceProduct.product')
@@ -42,7 +50,7 @@ class InsuranceService
         {
             if($is_in_isurance[$key])
             {
-                Insurance::create([
+                $insurance = Insurance::create([
                     'invoice_product_id' => $value,
                     'client_id' => $client_id,
                     'address_id' => $address_id[$key] ?? null,
@@ -50,6 +58,15 @@ class InsuranceService
                     'end_date' => $end_date[$key],
                     'compensation' => $compensation[$key],
                 ]);
+                $serials = $insurance->invoiceProduct->product_quantity;
+                for($i = 0 ; $i <  $serials ; $i++ )
+                {
+                    InsuranceSerial::create([
+                        'insurance_id' => $insurance->id,
+                        'serial' => '',
+                        'model_number' => '',
+                    ]);
+                }
             }
         }
     }

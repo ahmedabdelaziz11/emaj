@@ -389,6 +389,7 @@
                                                 {{ csrf_field() }}
                                                 {{ method_field('patch') }}
                                                 <input type="hidden" name="tem_stock_id" value="{{$offer->stock_id}}" id="tem_stock_id">
+                                                <input type="hidden" name="tem_ticket_id" value="{{$offer->ticket_id}}" id="tem_ticket_id">
                                                 <input type="hidden" name="offer_id" value="{{$offer->id}}">
                                                 <div class="d-flex justify-content-center">
                                                     <h1>عرض اسعار</h1>
@@ -423,7 +424,7 @@
                                                 </div> 
                                                 <br>
                                                 <div class="row">
-                                                    <div class="form-group col-3">
+                                                    <div class="form-group col-4">
                                                     <label>المخزن</label>
                                                     <select class="form-control select2 " id="stock_id" name="stock_id">
                                                         <option value="">اختر المخزن</option>
@@ -432,19 +433,28 @@
                                                         @endforeach
                                                     </select>
                                                     </div>
-                                                    <div class="form-group col-3">
+                                                    <div class="form-group col-4" id="ticketDev" style="display: none;">
+                                                    <label class="control-label">رقم الشكوى</label>
+                                                    <select class="form-control select2 " name="ticket_id" id="ticket_id">
+                                                        <option value="">اختر رقم الشكوى</option>
+                                                        @foreach($tickets as $ticket)
+                                                        <option value="{{$ticket->id}}" @if ($ticket->id == $offer->ticket_id) selected @endif>{{$ticket->id}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    </div>
+                                                    <div class="form-group col-4">
                                                     <label for="inputName" class="control-label"> اختر المنتجات</label>
                                                     <select class="form-control select2 " name="products" id="item_picker" required="required">
                                                         <option value="">اختر المنتجات</option>
                                                     </select>
                                                     </div>
-                                                    <div class="form-group col-3">
+                                                    <div class="form-group col-6">
                                                         <label for="inputName" class="control-label"> اختر المنتجات المركبة</label>
                                                         <select class="form-control select2 " name="composite_products" id="item_picker2" required="required">
                                                             <option value="">اختر المنتجات</option>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-3">
+                                                    <div class="form-group col-6">
                                                         <label for="inputName" class="control-label">اضافة خدمة</label>
                                                         <button type="button" id="add_service" class="btn btn-primary w-100 ">اضافة خدمة</button>
                                                     </div>
@@ -581,8 +591,29 @@ function deleteRow(btn) {
 </script>
 <script>
         window.onload = function (){
-            stock_id = document.getElementById('tem_stock_id').value;
-            if (stock_id) {
+            stock_id  = document.getElementById('tem_stock_id').value;
+            ticket_id = document.getElementById('tem_ticket_id').value;
+            stock_name = $("#stock_id option:selected").text();
+
+            if(stock_name == "قطع الغيار"){
+                $("#ticketDev").css('display','block');
+            }
+
+            if(ticket_id && stock_name == "قطع الغيار")
+            {
+                $('select[name="products"]').empty();
+                $.ajax({
+                    url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+                        $.each(data, function(key, value) {
+                        $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
+                        });
+                    },
+                });
+            }else{
                 $.ajax({
                     url: "{{ URL::to('sections') }}/" + stock_id,
                     type: "GET",
@@ -596,18 +627,16 @@ function deleteRow(btn) {
                     },
                 });
                 $.ajax({
-                  url: "{{ URL::to('composite-products-all') }}/" + stock_id,
-                  type: "GET",
-                  dataType: "json",
-                  success: function(data) {
-                      $('#item_picker2').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
-                      $.each(data, function(key, value) {
-                        $('#item_picker2').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '</option>');
-                      });
-                  },
-              });
-            } else {
-                console.log('AJAX load did not work');
+                    url: "{{ URL::to('composite-products-all') }}/" + stock_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#item_picker2').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+                        $.each(data, function(key, value) {
+                            $('#item_picker2').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '</option>');
+                        });
+                    },
+                });
             }
         var del = document.getElementById("del").value;
         if(del){
@@ -636,28 +665,71 @@ function deleteRow(btn) {
 
 <script>
     $(document).ready(function() {   
+        $('select[name="ticket_id"]').on('change', function() {
+          var ticket_id = $(this).val();
+          var stock_id  = $("#stock_id").val();
+          $('select[name="products"]').empty();
+          $('#item_picker2').empty();
+          if(ticket_id && stock_id)
+          {
+            $.ajax({
+              url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
+              type: "GET",
+              dataType: "json",
+              success: function(data) {
+                  $("#items_container").empty();
+                  $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+                  $.each(data, function(key, value) {
+                    $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
+                  });
+              },
+            });
+          }
+        });
+          
         $('select[name="stock_id"]').on('change', function() {
-            var stock_id = $(this).val();
+          var stock_id = $(this).val();
+          if($("#stock_id option:selected").text() =="قطع الغيار"){
+            $("#ticketDev").css('display','block');
+          }else{
+            $("#ticketDev").css('display','none');
+            $('select[name="products"]').empty();
+            $('#item_picker2').empty();
+  
             if (stock_id) {
                 $.ajax({
                     url: "{{ URL::to('sections') }}/" + stock_id,
                     type: "GET",
                     dataType: "json",
                     success: function(data) {
-                        $('select[name="products"]').empty();
                         $("#items_container").empty();
                         $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
                         $.each(data, function(key, value) {
-                            $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '</option>');
+                          $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
+                        });
+                    },
+                });
+  
+                $.ajax({
+                    url: "{{ URL::to('composite-products-all') }}/" + stock_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $("#items_container").empty();
+                        $('#item_picker2').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+                        $.each(data, function(key, value) {
+                          $('#item_picker2').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '</option>');
                         });
                     },
                 });
             } else {
                 console.log('AJAX load did not work');
             }
+          }
+  
         });
     });
-</script>
+  </script>
 
 <script type="text/javascript">
     function printDiv() {
