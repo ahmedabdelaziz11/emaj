@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AllAccount;
 use App\Models\Insurance;
 use App\Services\ClientService;
 use App\Services\InsuranceService;
@@ -81,6 +82,11 @@ class InsuranceController extends Controller
         return view('insurance.products-table',compact('invoiceProducts'));
     }
 
+    public function retrieveClientInvoiceProducts(InvoiceService $invoiceService, $client_id)
+    {
+        return $invoiceService->getInvoicesProducts($client_id);
+    }
+
     public function insurancesExcel(Request $request)
     {        
         return $this->service->InsuranceExcel(
@@ -103,5 +109,10 @@ class InsuranceController extends Controller
         );
 
         return view('insurance.insurance-table',compact('insurances'));
+    }
+
+    public function checkClientInsuranceState(AllAccount $client)
+    {
+        return $this->service->checkClientInsuranceState($client);
     }
 }

@@ -78,17 +78,8 @@
                           <input type="date" name="date" class="form-control">
                         </div>
                         <div class="form-group col-3">
-                          <label>النوع</label>
-                          <select class="form-control" name="ticket_type">
-                            <option value="" selected disabled>اختر النوع</option>
-                            <option value="invoice">اصلاح بفاتورة</option>
-                            <option value="warranty">بالضمان</option>
-                            <option value="other">اخرى</option>
-                          </select>
-                        </div>
-                        <div class="form-group col-3">
                           <label>العميل</label>
-                          <select class="form-control select2"  name="client_id">
+                          <select class="form-control select2"  name="client_id" id="client_id">
                             <option value="" selected disabled>اختر العميل</option>
                             @foreach($clients as $client)
                               <option value="{{$client->id}}">{{$client->name}}</option>
@@ -98,16 +89,25 @@
                             @endforeach
                           </select>
                         </div>
+                        <div class="form-group col-3">
+                          <label>النوع</label>
+                          <select class="form-control" name="ticket_type" id="ticket_type" disabled>
+                            <option value="" selected disabled>اختر النوع</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row" id="products">
+
                       </div>
                       <div class="row">
-                        <div class="form-group col-12">
+                        {{-- <div class="form-group col-12">
                           <label for="employees">القائمين على الشكوي</label>
                           <select class="form-control select2" multiple="multiple" name="employees[]" id="employees">
                             @foreach($employees as $id => $employee)
                               <option value="{{$id}}">{{$employee}}</option>
                             @endforeach
                           </select>
-                        </div>
+                        </div> --}}
                       </div>
                       <div class="row">
                         <div class="form-group col-12">
@@ -154,55 +154,75 @@
   <script>
     $(document).ready(function(){
 
+        let client_id;
         $('#client_id').change(function(){
-          var client_id = this.value;
+          $('#ticket_type').empty();
+          $("#ticket_type").attr('disabled', false);
+          client_id = this.value;
 
           $.ajax({ 
-            url: '/get-client-invoicesProducts/'+client_id,
+            url: '/check-client-insurance/'+client_id,
             type: 'get'
           }).done(function(data) {
-            $('#productsTable').html(data);
+            if (data) {
+              console.log(true);
+              $("#ticket_type").append(`
+                <option value="" selected disabled>اختر النوع</option>
+                <option value="invoice">اصلاح بفاتورة</option>
+                <option value="warranty">بالضمان</option>
+              `)
+            }else{
+              $("#ticket_type").append(`
+                <option value="" selected disabled>اختر النوع</option>
+                <option value="invoice">اصلاح بفاتورة</option>
+              `)
+            }
           }).fail(function() {
             console.log('Failed');
           });
-
-          $.ajax({ 
-            url: '/get-client-invoices/'+client_id,
-            type: 'get'
-          }).done(function(data) {
-            $('#invoice_id').empty();
-            $('#invoice_id').append('<option disabled selected>'+ "اختر الفاتورة" + '</option>');
-            $.each(data, function(key, value) {
-              $('#invoice_id').append('<option value="' + value + '">' + value + '</option>');
+        });
+ 
+        $("#ticket_type").change(function(){
+          var type = this.value;
+          if (type === 'invoice') {
+            $.ajax({
+              url: '/get-client-invoice-products/'+client_id,
+              type: 'get'
+            }).done(function(data) {
+              $("#products").append(data)
+              data.each(function ())
+              console.log(data);
+            }).fail(function() {
+              console.log('fail');
             });
-          }).fail(function() {
-            console.log('Failed');
-          });
+          } else {
+            console.log('testing');
+          }
         });
 
-        $('#invoice_id').change(function(){
-          let invoice_id = this.value;
-          var client_id  = $("#client_id").val();
-          $.ajax({ 
-            url: '/get-client-invoicesProducts/'+client_id+'/'+invoice_id,
-            type: 'get'
-          }).done(function(data) {
-            $('#productsTable').html(data);
-          }).fail(function() {
-            console.log('Failed');
-          });
-        });
+        // $('#invoice_id').change(function(){
+        //   let invoice_id = this.value;
+        //   var client_id  = $("#client_id").val();
+        //   $.ajax({ 
+        //     url: '/get-client-invoicesProducts/'+client_id+'/'+invoice_id,
+        //     type: 'get'
+        //   }).done(function(data) {
+        //     $('#productsTable').html(data);
+        //   }).fail(function() {
+        //     console.log('Failed');
+        //   });
+        // });
 
-        $('#in_isurance').click(function(){
-          console.log('dsds');
+        // $('#in_isurance').click(function(){
+        //   console.log('dsds');
 
-          $('.is_in_isurance').prop( "checked", true );
-        });
+        //   $('.is_in_isurance').prop( "checked", true );
+        // });
 
-        $('#out_isurance').click(function(){
-          console.log('dsds');
-          $('.is_in_isurance').prop( "checked", false );
-        });
+        // $('#out_isurance').click(function(){
+        //   console.log('dsds');
+        //   $('.is_in_isurance').prop( "checked", false );
+        // });
     });
 
   </script>
