@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="row m-2">
-                        <button type="button" class="btn btn-sm btn-primary" id="addNewComensation">اضافة تكلفة جديدة</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="addNewCompensation">اضافة تكلفة جديدة</button>
                     </div>
                     
                 </div>
@@ -126,7 +126,7 @@
         document.insuranceForm.submit()
     })
 
-    $("#addNewComensation").on('click',function(){
+    $("#addNewCompensation").on('click',function(){
         $("#compensationsContainer").append(`
         <div class="row">
             <div  class="col-4">

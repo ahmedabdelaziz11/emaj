@@ -238,6 +238,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tickets', 'App\Http\Controllers\TicketController');
     Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
     Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation')->name('tickets.compensation.store');
+    Route::get('check-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@checkClientInsuranceState')->name('client-insurance-check');
+    Route::get('get-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@getClientInsurance')->name('client-insurance');
+    Route::get('get-client-invoice-products/{client_id}', 'App\Http\Controllers\InsuranceController@retrieveClientInvoiceProducts')->name('client-invoice-products');
     Route::get('get-spare-products-by-ticket/{ticket}/{stock}','App\Http\Controllers\TicketController@ticketSpareProducts');
     Route::get('get-ticket-offers/{ticket_id}', 'App\Http\Controllers\OffersController@getTicketOffers');
     Route::post('get-client-serials', 'App\Http\Controllers\InsuranceController@getClientSerial');

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Insurance;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataExport;
+use App\Models\AllAccount;
 use App\Models\InsuranceSerial;
 
 class InsuranceService 
@@ -193,4 +194,13 @@ class InsuranceService
         
         return Excel::download(new DataExport($data),'insurances.xlsx');
     }
+
+    public function checkClientInsuranceState(AllAccount $client)
+    {
+        return Insurance::query()
+            ->where('client_id', $client->id)
+            ->where('end_date', '>', now())
+            ->exists();
+    }
+
 }

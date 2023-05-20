@@ -64,16 +64,20 @@
                                 <td>{{ $x->state }}</td>             
                                 <td>
                                     <a class="modal-effect btn btn-sm btn-warning" 
-                                        href="/tickets/{{$x->id}}" title="مشاهدة"> <i class="las la-eye"></i> 
+                                        href="{{route('tickets.show', $x)}}" title="مشاهدة"> <i class="las la-eye"></i> 
                                     </a>
-                                    {{-- <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                        data-id="{{ $x->id }}" data-name="{{ $x->id }}"
-                                        data-toggle="modal" href="#modaldemo9" title="حذف"><i class="las la-trash"></i>
-                                    </a> --}}
                                     <a class="modal-effect btn btn-sm btn-primary" data-effect="effect-scale"
-                                        data-id="{{ $x->id }}" data-name="{{ $x->id }}"
-                                        data-toggle="modal" href="#modaldemo9" title="إضافة تكاليف"><i class="las la-dollar-sign"></i>
-                                    </a>
+                                    data-id="{{ $x->id }}" data-name="{{ $x->id }}"
+                                    data-toggle="modal" href="#modaldemo1" title="عرض أسعار"><i class="las la-dollar-sign"></i>
+                                </a>
+                                <a class="modal-effect btn btn-sm btn-secondary" data-effect="effect-scale"
+                                data-id="{{ $x->id }}" data-name="{{ $x->id }}"
+                                data-toggle="modal" href="#modaldemo3" title="أمر شغل"><i class="las la-briefcase"></i>
+                                </a>
+                                <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                    data-id="{{ $x->id }}" data-name="{{ $x->id }}"
+                                    data-toggle="modal" href="#modaldemo2" title="إنهاء الشكوى"><i class="las la-check"></i>
+                                </a>
                                 </td>        
                             </tr>
                         @endforeach

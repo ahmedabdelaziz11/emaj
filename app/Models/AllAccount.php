@@ -47,4 +47,6 @@ class AllAccount extends Model
     {
         return $query->where('parent_id',3);
     }
+
+    
 }
