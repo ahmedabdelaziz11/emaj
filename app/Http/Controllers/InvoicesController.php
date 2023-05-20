@@ -99,6 +99,7 @@ class InvoicesController extends Controller
                 'type'         => "0",
                 'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
                 'stock_id'      => $request->stock_id,     
+                'ticket_id'      => $request->ticket_id,     
                 'value_added'  => $value_added,
                 "Created_by"   => Auth::user()->name,
             ]);
@@ -459,7 +460,8 @@ class InvoicesController extends Controller
                     'Status'       =>  $request->dman ? 'داخل الضمان' : 'خارج الضمان',
                     'Value_Status' => $request->dman,
                     'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
-                    'stock_id'      => $request->stock_id,     
+                    'stock_id'      => $request->stock_id,   
+                    'ticket_id'      => $request->ticket_id,     
                     'value_added'  => $value_added,
                 ]);
 
