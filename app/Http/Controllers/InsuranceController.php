@@ -110,4 +110,14 @@ class InsuranceController extends Controller
 
         return view('insurance.insurance-table',compact('insurances'));
     }
+
+    public function checkClientInsuranceState(AllAccount $client)
+    {
+        return $this->service->checkClientInsuranceState($client);
+    }
+
+    public function getClientSerial($client_id)
+    {
+        return $this->service->getClientSerials($client_id);
+    }
 }
