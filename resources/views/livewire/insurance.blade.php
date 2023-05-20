@@ -57,18 +57,18 @@
                     <tbody>
                         @foreach ($insurances as $x)
                             <tr class="text-center">
-                                <td><a href="{{ url('insurances') }}/{{ $x->id }}">{{mb_strimwidth($x->InvoiceProduct->product->name, 0, 70, "...") }}</a></td>
-                                <td>{{ $x->client->name }}</td>                     
-                                <td><a href="{{ url('InvoiceDetails') }}/{{ $x->InvoiceProduct->invoice_id }}">{{ $x->InvoiceProduct->invoice_id }}</a></td>                     
-                                <td>{{ $x->start_date }}</td>        
-                                <td>{{ $x->end_date }}</td>        
-                                <td>{{ $x->compensation }}</td>        
+                                <td><a href="{{ url('insurances') }}/{{ $x->id }}">{{mb_strimwidth($x->insurance->InvoiceProduct->product->name, 0, 70, "...") }}</a></td>
+                                <td>{{ $x->insurance->client->name }}</td>                     
+                                <td><a href="{{ url('InvoiceDetails') }}/{{ $x->insurance->InvoiceProduct->invoice_id }}">{{ $x->insurance->InvoiceProduct->invoice_id }}</a></td>                     
+                                <td>{{ $x->insurance->start_date }}</td>        
+                                <td>{{ $x->insurance->end_date }}</td>        
+                                <td>{{ $x->insurance->compensation }}</td>        
                                 <td>
                                     <a class="modal-effect btn btn-sm btn-warning" 
                                         href="/insurances/{{$x->id}}" title="مشاهدة"> <i class="las la-eye"></i> 
                                     </a>
                                     <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                        data-id="{{ $x->id }}" data-name="{{ $x->InvoiceProduct->product->name }}"
+                                        data-id="{{ $x->id }}" data-name="{{ $x->insurance->InvoiceProduct->product->name }}"
                                         data-toggle="modal" href="#modaldemo9" title="حذف"><i class="las la-trash"></i>
                                     </a>
                                 </td>        

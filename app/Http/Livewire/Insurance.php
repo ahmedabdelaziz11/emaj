@@ -25,7 +25,7 @@ class Insurance extends Component
     {
         $this->service = $service;
         return view('livewire.insurance', [
-            'insurances' => $this->service->getAllInsuranes(
+            'insurances' => $this->service->getAllInsuranesSerials(
                 $this->product_name,
                 $this->client_name,
                 $this->invoice_id,

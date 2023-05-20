@@ -73,12 +73,12 @@
                                 @foreach ($insurances as $x)
                                     <tr class="text-center">
                                         <td>{{$loop->iteration}}</td> 
-                                        <td>{{mb_strimwidth($x->InvoiceProduct->product->name, 0, 70, "...") }}</td>
-                                        <td>{{ $x->client->name }}</td>                     
-                                        <td>{{ $x->InvoiceProduct->invoice_id }}</td>                     
-                                        <td>{{ $x->start_date }}</td>        
-                                        <td>{{ $x->end_date }}</td>        
-                                        <td>{{ $x->compensation }}</td>           
+                                        <td>{{mb_strimwidth($x->insurance->InvoiceProduct->product->name, 0, 70, "...") }}</td>
+                                        <td>{{ $x->insurance->client->name }}</td>                     
+                                        <td>{{ $x->insurance->InvoiceProduct->invoice_id }}</td>                     
+                                        <td>{{ $x->insurance->start_date }}</td>        
+                                        <td>{{ $x->insurance->end_date }}</td>        
+                                        <td>{{ $x->insurance->compensation }}</td>           
                                     </tr>
                                 @endforeach
                             </tbody>

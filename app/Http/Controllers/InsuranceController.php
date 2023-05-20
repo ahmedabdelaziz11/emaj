@@ -104,4 +104,9 @@ class InsuranceController extends Controller
 
         return view('insurance.insurance-table',compact('insurances'));
     }
+
+    public function getClientSerial($client_id)
+    {
+        return $this->service->getClientSerials($client_id);
+    }
 }

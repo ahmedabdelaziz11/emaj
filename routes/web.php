@@ -240,6 +240,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation')->name('tickets.compensation.store');
     Route::get('get-spare-products-by-ticket/{ticket}/{stock}','App\Http\Controllers\TicketController@ticketSpareProducts');
     Route::get('get-ticket-offers/{ticket_id}', 'App\Http\Controllers\OffersController@getTicketOffers');
+    Route::post('get-client-serials', 'App\Http\Controllers\InsuranceController@getClientSerial');
+
 
 });
 // get all attendance for specific employee

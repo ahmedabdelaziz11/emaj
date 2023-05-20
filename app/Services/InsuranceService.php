@@ -16,29 +16,65 @@ class InsuranceService
         })->get();
     }
 
-    public function getAllInsuranes($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
+
+    public function getAllInsuranesSerials($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
     {
-        return Insurance::with('client','address','invoiceProduct.invoice','InvoiceProduct.product')
+        return InsuranceSerial::with('insurance','insurance.client','insurance.address','insurance.invoiceProduct.invoice','insurance.InvoiceProduct.product')
         ->when($product_name,function($q,$product_name){
-            $q->whereHas('invoiceProduct.product',function($q)use($product_name){
+            $q->whereHas('insurance.invoiceProduct.product',function($q)use($product_name){
                 $q->where('name','like','%'.$product_name.'%');
             });
         })
         ->when($client_name,function($q,$client_name){
-            $q->whereHas('client',function($q)use($client_name){
+            $q->whereHas('insurance.client',function($q)use($client_name){
                 $q->where('name','like','%'.$client_name.'%');
             });
         })
         ->when($invoice_id,function($q,$invoice_id){
-            $q->whereHas('invoiceProduct',function($q)use($invoice_id){
+            $q->whereHas('insurance.invoiceProduct',function($q)use($invoice_id){
                 $q->where('invoice_id',$invoice_id);
             });
         })
         ->when($start_date,function($q,$start_date){
-            $q->where('start_date','>=',$start_date);
+            $q->whereHas('insurance.client',function($q)use($start_date){
+                $q->where('start_date','>=',$start_date);
+            });
         })
         ->when($end_date,function($q,$end_date){
-            $q->where('end_date','>=',$end_date);
+            $q->whereHas('insurance.client',function($q)use($end_date){
+                $q->where('end_date','>=',$end_date);
+            });
+        })
+        ->paginate(15);
+    }
+
+    public function getAllInsuranes($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
+    {
+        return Insurance::with('client','address','invoiceProduct.invoice','InvoiceProduct.product')
+        ->when($product_name,function($q,$product_name){
+            $q->whereHas('insurance.invoiceProduct.product',function($q)use($product_name){
+                $q->where('name','like','%'.$product_name.'%');
+            });
+        })
+        ->when($client_name,function($q,$client_name){
+            $q->whereHas('insurance.client',function($q)use($client_name){
+                $q->where('name','like','%'.$client_name.'%');
+            });
+        })
+        ->when($invoice_id,function($q,$invoice_id){
+            $q->whereHas('insurance.invoiceProduct',function($q)use($invoice_id){
+                $q->where('invoice_id',$invoice_id);
+            });
+        })
+        ->when($start_date,function($q,$start_date){
+            $q->whereHas('insurance',function($q)use($start_date){
+                $q->where('start_date','>=',$start_date);
+            });
+        })
+        ->when($end_date,function($q,$end_date){
+            $q->whereHas('insurance',function($q)use($end_date){
+                $q->where('end_date','>=',$end_date);
+            });
         })
         ->paginate(15);
     }
@@ -87,27 +123,31 @@ class InsuranceService
 
     public function getAllInsuranesWithOutPaginate($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
     {
-        return Insurance::with('client','address','invoiceProduct.invoice','InvoiceProduct.product')
+        return InsuranceSerial::with('client','address','invoiceProduct.invoice','InvoiceProduct.product')
         ->when($product_name,function($q,$product_name){
-            $q->whereHas('invoiceProduct.product',function($q)use($product_name){
+            $q->whereHas('insurance.invoiceProduct.product',function($q)use($product_name){
                 $q->where('name','like','%'.$product_name.'%');
             });
         })
         ->when($client_name,function($q,$client_name){
-            $q->whereHas('client',function($q)use($client_name){
+            $q->whereHas('insurance.client',function($q)use($client_name){
                 $q->where('name','like','%'.$client_name.'%');
             });
         })
         ->when($invoice_id,function($q,$invoice_id){
-            $q->whereHas('invoiceProduct',function($q)use($invoice_id){
+            $q->whereHas('insurance.invoiceProduct',function($q)use($invoice_id){
                 $q->where('invoice_id',$invoice_id);
             });
         })
         ->when($start_date,function($q,$start_date){
-            $q->where('start_date','>=',$start_date);
+            $q->whereHas('insurance',function($q)use($start_date){
+                $q->where('start_date','>=',$start_date);
+            });
         })
         ->when($end_date,function($q,$end_date){
-            $q->where('end_date','>=',$end_date);
+            $q->whereHas('insurance',function($q)use($end_date){
+                $q->where('end_date','>=',$end_date);
+            });
         })
         ->get();
     }
