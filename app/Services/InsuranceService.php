@@ -107,9 +107,13 @@ class InsuranceService
         }
     }
 
-    public function updateInsurance($start_date,$end_date,$compensation,$address_id,Insurance $insurance)
+    public function updateInsurance($start_date,$end_date,$compensation,$address_id,$serial,$model_number,InsuranceSerial $insurance)
     {
-        return  $insurance->update([
+        $insurance->update([
+            'serial' => $serial,
+            'model_number' => $model_number,
+        ]);
+        $insurance->insurance->update([
             'start_date' => $start_date,
             'end_date' => $end_date,
             'compensation' => $compensation,
@@ -119,12 +123,12 @@ class InsuranceService
 
     public function deleteInsurance($insurance_id)
     {
-        return Insurance::find($insurance_id)->delete();
+        return InsuranceSerial::find($insurance_id)->delete();
     }
 
     public function getAllInsuranesWithOutPaginate($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
     {
-        return InsuranceSerial::with('client','address','invoiceProduct.invoice','InvoiceProduct.product')
+        return InsuranceSerial::with('insurance','insurance.client','insurance.address','insurance.invoiceProduct.invoice','insurance.InvoiceProduct.product')
         ->when($product_name,function($q,$product_name){
             $q->whereHas('insurance.invoiceProduct.product',function($q)use($product_name){
                 $q->where('name','like','%'.$product_name.'%');
@@ -141,12 +145,12 @@ class InsuranceService
             });
         })
         ->when($start_date,function($q,$start_date){
-            $q->whereHas('insurance',function($q)use($start_date){
+            $q->whereHas('insurance.client',function($q)use($start_date){
                 $q->where('start_date','>=',$start_date);
             });
         })
         ->when($end_date,function($q,$end_date){
-            $q->whereHas('insurance',function($q)use($end_date){
+            $q->whereHas('insurance.client',function($q)use($end_date){
                 $q->where('end_date','>=',$end_date);
             });
         })
@@ -168,13 +172,14 @@ class InsuranceService
 
         $data[] = [
             'م' => 'م',
+            'السريل' => 'السريل',
+            'الموديل' => 'الموديل',
             'المنتج' => 'المنتج',
             'العميل' => 'العميل',
             'الفاتورة' => 'الفاتورة',
             'تاريخ البدء' => 'تاريخ البدء',
             'تاريخ الانتهاء' => 'تاريخ الانتهاء' ,
             'الحد الاقصى' => 'الحد الاقصى',
-            'الكمية' => 'الكمية',
         ];
         
         foreach($insurances as $insurance)
@@ -182,13 +187,14 @@ class InsuranceService
             $i++;
             $data[] = [
                 'م' => $i,
-                'المنتج' => $insurance->InvoiceProduct->product->name,
-                'العميل' => $insurance->client->name,
-                'الفاتورة' => $insurance->InvoiceProduct->invoice_id,
-                'تاريخ البدء' => $insurance->start_date,
-                'تاريخ الانتهاء' => $insurance->end_date,
-                'الحد الاقصى' => $insurance->compensation,
-                'الكمية' => $insurance->InvoiceProduct->product_quantity,
+                'السريل' => $insurance->serial ?? '',
+                'الموديل' => $insurance->model_number ?? '',
+                'المنتج' => $insurance->insurance->InvoiceProduct->product->name ?? '',
+                'العميل' => $insurance->insurance->client->name ?? '',
+                'الفاتورة' => $insurance->insurance->InvoiceProduct->invoice_id ?? '',
+                'تاريخ البدء' => $insurance->insurance->start_date ?? '',
+                'تاريخ الانتهاء' => $insurance->insurance->end_date ?? '',
+                'الحد الاقصى' => $insurance->insurance->compensation ?? '',
             ];
         }
         

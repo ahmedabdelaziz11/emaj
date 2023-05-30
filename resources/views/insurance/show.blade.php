@@ -96,12 +96,13 @@
                                                                 <h1 style="text-align: center ; font-weight: bold" class="my-3">شهادة ضمان</h1>
                                                                 <div class="row my-3">
                                                                     <div class="col-md" style="margin-left: 50px;">
-                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>رقم الضمان</span> <span></span>{{$insurance->id}}</p>
-                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>العميل</span> <span></span>{{$insurance->client->name}}</p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>السريل</span> <span></span>{{$insurance->serial ?? ''}}</p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>الموديل</span> <span></span>{{$insurance->model_number ?? ''}}</p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>العميل</span> <span></span>{{$insurance->insurance->client->name ?? ''}}</p>
                                                                     </div>
                                                                     <div class="col-md">
-                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>من تاريخ</span>{{$insurance->start_date}}</p>
-                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>الى تاريخ</span>{{$insurance->end_date}}</p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>من تاريخ</span>{{$insurance->insurance->start_date ?? ''}}</p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>الى تاريخ</span>{{$insurance->insurance->end_date ?? ''}}</p>
                                                                         <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"></p>
                                                                         <a href="#" class="btn btn-danger float-left mt-3 mr-2" id="print_Button" onclick="printDiv()">
                                                                             <i class="mdi mdi-printer ml-1"></i>Print
@@ -114,18 +115,17 @@
                                                                             <tr>
                                                                                 <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;vertical-align:middle;" class="tx-center">اسم المنتج</th>
                                                                                 <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;vertical-align:middle;" class="tx-center">الوصف</th>
-                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;vertical-align:middle;" class="tx-center">الكمية</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <td style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">{{$insurance->invoiceProduct->product->name}}</td>
-                                                                            <td style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-right">{!!$insurance->invoiceProduct->product->description!!}</td>
-                                                                            <td style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">{{$insurance->invoiceProduct->product_quantity}}</td>
+                                                                            <td style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">{{$insurance->insurance->invoiceProduct->product->name ?? ''}}</td>
+                                                                            <td style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-right">{!!$insurance->insurance->invoiceProduct->product->description ?? '' !!}</td>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                                 <div class="row mt-3 p-4">
                                                                     <h4>العنوان</h4>
+                                                                    <p style="font-size: 18px;margin-top: 40px;">{{$insurance->insurance->address->name ?? ''}}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -142,26 +142,38 @@
                                                     {{ method_field('patch') }}
                                                     <div class="row">
                                                         <input type="hidden" name="insurance_id" value="{{$insurance->id}}">
-                                                        <div class="col-3">
+                                                        <div class="col-6">
+                                                            <label>السريل</label>
+                                                            <input class="form-control" name="serial" type="text" value="{{$insurance->serial ?? ''}}" required>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label>الموديل</label>
+                                                            <input class="form-control" name="model_number" type="text" value="{{$insurance->model_number ?? ''}}" required>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-4">
                                                             <label>تاريخ البدأ</label>
-                                                            <input class="form-control" name="start_date" placeholder="YYYY-MM-DD" type="date" value="{{$insurance->start_date}}" required>
+                                                            <input class="form-control" name="start_date" placeholder="YYYY-MM-DD" type="date" value="{{$insurance->insurance->start_date ?? ''}}" required>
                                                         </div>
 
-                                                        <div class="col-3">
+                                                        <div class="col-4">
                                                             <label>تاريخ النهاية</label>
-                                                            <input class="form-control" name="end_date" placeholder="YYYY-MM-DD" type="date" value="{{$insurance->end_date}}" required>
+                                                            <input class="form-control" name="end_date" placeholder="YYYY-MM-DD" type="date" value="{{$insurance->insurance->end_date ?? ''}}" required>
                                                         </div>
 
-                                                        <div class="col-3">
+                                                        <div class="col-4">
                                                             <label>الحد الاقصى</label>
-                                                            <input class="form-control" name="compensation" type="number" step=".01" value="{{$insurance->compensation}}" required>
+                                                            <input class="form-control" name="compensation" type="number" step=".01" value="{{$insurance->insurance->compensation ?? ''}}" required>
                                                         </div>
-
-                                                        <div class="col-3">
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-12">
                                                             <label>العنوان</label>
-                                                            <select class="form-control select2 address" name="address_id">
-                                                                <option value="{{$insurance->address_id}}">اختر العنوان</option>
-
+                                                            <select class="form-control select2 addresss" name="address_id">
+                                                                <option value="{{$insurance->insurance->address_id ?? ''}}">{{$insurance->insurance->address->name ?? ''}}</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -201,7 +213,9 @@
 
     <script>
         $(document).ready(function(){
-            $('.address').select2({
+            $('.addresss').select2({
+                allowClear: true,
+                width: "100%",
                 placeholder: 'Enter a parent address',
                 ajax: {
                     dataType: 'json',

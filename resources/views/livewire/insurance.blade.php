@@ -45,6 +45,7 @@
                 <table class="table table-bordered mg-b-0 text-md-nowrap">
                     <thead>
                         <tr class="text-center">
+                            <th>السريل</th>
                             <th>المنتج</th>
                             <th>العميل</th>
                             <th>الفاتورة</th>
@@ -57,6 +58,7 @@
                     <tbody>
                         @foreach ($insurances as $x)
                             <tr class="text-center">
+                                <td><a href="{{ url('insurances') }}/{{ $x->id }}">{{$x->serial}}</a></td>
                                 <td><a href="{{ url('insurances') }}/{{ $x->id }}">{{mb_strimwidth($x->insurance->InvoiceProduct->product->name, 0, 70, "...") }}</a></td>
                                 <td>{{ $x->insurance->client->name }}</td>                     
                                 <td><a href="{{ url('InvoiceDetails') }}/{{ $x->insurance->InvoiceProduct->invoice_id }}">{{ $x->insurance->InvoiceProduct->invoice_id }}</a></td>                     
@@ -68,7 +70,7 @@
                                         href="/insurances/{{$x->id}}" title="مشاهدة"> <i class="las la-eye"></i> 
                                     </a>
                                     <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                        data-id="{{ $x->id }}" data-name="{{ $x->insurance->InvoiceProduct->product->name }}"
+                                        data-id="{{ $x->id }}" data-name="{{ $x->insurance->InvoiceProduct->product->name }}-{{$x->serial}}"
                                         data-toggle="modal" href="#modaldemo9" title="حذف"><i class="las la-trash"></i>
                                     </a>
                                 </td>        

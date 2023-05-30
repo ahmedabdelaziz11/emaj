@@ -14,7 +14,7 @@ class AddTicketToInvoicesTable extends Migration
     public function up()
     {
         Schema::table('invoices', function (Blueprint $table) {
-            $table->unsignedBigInteger('ticket_id')->nullable()->after('stock_id');
+            $table->BigInteger('ticket_id')->nullable()->after('stock_id')->unsigned();
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
     }

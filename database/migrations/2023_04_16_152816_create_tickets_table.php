@@ -15,18 +15,18 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id');
+            $table->BigInteger('client_id')->unsigned();
             $table->string('reporter_type');
-            $table->unsignedBigInteger('reporter_id');
+            $table->BigInteger('reporter_id')->unsigned();
             $table->string('state');
             $table->date('date');
-            $table->nestedSet();
+            // $table->nestedSet();
             $table->enum('ticket_type', ['invoice', 'warranty', 'other']);
             $table->string('address');
             $table->integer('received_money');
             $table->string('recommended_path');
             $table->string('closing_note');
-            $table->unsignedBigInteger('invoice_product_id')->nullable();
+            $table->BigInteger('invoice_product_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }
