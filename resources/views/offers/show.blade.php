@@ -450,7 +450,7 @@
                                                     </div>
                                                     <div class="form-group col-6">
                                                         <label for="inputName" class="control-label"> اختر المنتجات المركبة</label>
-                                                        <select class="form-control select2 " name="composite_products" id="item_picker2" required="required">
+                                                        <select class="form-control select2 " name="composite_products" id="item_picker2">
                                                             <option value="">اختر المنتجات</option>
                                                         </select>
                                                     </div>
@@ -510,7 +510,14 @@
                                                         </tbody>
                                                         </table>
                                                 </div><br>
-
+                                                <div class="row">
+                                                    <div class="form-group col-12">
+                                                        <select class="form-control select2 address" name="address_id">
+                                                            <option value=" ">اختر العنوان</option>
+                    
+                                                        </select>
+                                                    </div>
+                                                </div><br>
                                                 <div class="row">
                                                     <div class="form-group col">
                                                         <label  style="margin-right:15px" for="exampleFormControlTextarea2">قيود التعاقد</label>
@@ -590,6 +597,22 @@ function deleteRow(btn) {
 }
 </script>
 <script>
+        $(document).ready(function(){
+            $('.address').select2({
+                placeholder: 'Enter a parent address',
+                ajax: {
+                    dataType: 'json',
+                    url: function(params) {
+                        return '/get-addresses-select2/' + params.term;
+                    },
+                    processResults: function (data, page) {
+                        return {
+                        results: data || ' '
+                        };
+                    },
+                }
+            });
+        });
         window.onload = function (){
             stock_id  = document.getElementById('tem_stock_id').value;
             ticket_id = document.getElementById('tem_ticket_id').value;
@@ -663,7 +686,7 @@ function deleteRow(btn) {
     }).val();
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {   
         $('select[name="ticket_id"]').on('change', function() {
           var ticket_id = $(this).val();
@@ -729,7 +752,7 @@ function deleteRow(btn) {
   
         });
     });
-  </script>
+  </script> --}}
 
 <script type="text/javascript">
     function printDiv() {

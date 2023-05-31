@@ -7,27 +7,24 @@
             <th>تاريخ البدء</th>
             <th>تاريخ الانتهاء</th>
             <th>الحد الاقصى</th>
-            <th style="width: 20%;">العنوان</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($invoiceProducts as $x)
             <tr class="text-center">
                 <td>{{ $x->product->name }}</td>
-                <td>{{ $x->invoice->id }} <input type="hidden" name="invoice_product_id[]" value="{{$x->id}}"> </td>                     
+                <td>
+                    {{ $x->invoice->id }} 
+                    <input type="hidden" name="invoice_product_id[]" value="{{$x->id}}"> 
+                    <input type="hidden" name="address_id[]" value="{{$x->invoice->address_id}}">
+                </td>                     
                 <td>
                     <input type="checkbox" class="form-control form-control-sm is_in_isurance">
                     <input type="hidden" name="is_in_isurance[]" value="0">
                 </td>        
                 <td><input type="date" name="start_date[]" value="{{$x->invoice->date}}" class="form-control"></td>        
                 <td><input type="date" name="end_date[]" value="{{date('Y-m-d', strtotime($x->invoice->date. ' + 1 years'))}}" class="form-control"></td>        
-                <td><input type="number" step=".01" name="compensation[]" value="{{$x->product_selling_price * .01}}" class="form-control"></td>        
-                <td style="width: 20%;">
-                    <select class="form-control select2 address" name="address_id">
-                        <option value=" ">اختر العنوان</option>
-
-                    </select>
-                </td>        
+                <td><input type="number" step=".01" name="compensation[]" value="{{$x->product_selling_price * .01}}" class="form-control"></td>                
             </tr>
         @endforeach
     </tbody>
