@@ -14,6 +14,16 @@ class invoices extends Model
         return $this->belongsTo('App\Models\AllAccount','client_id','id');
     }
 
+    public function ticket()
+    {
+        return $this->belongsTo('App\Models\Ticket','ticket_id','id');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo('App\Models\Address','address_id','id');
+    }
+
     public function invoice_products()
     {
         return $this->hasMany('App\Models\invoice_products','invoice_id','id');
