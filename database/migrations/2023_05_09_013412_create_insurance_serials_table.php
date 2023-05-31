@@ -15,7 +15,7 @@ class CreateInsuranceSerialsTable extends Migration
     {
         Schema::create('insurance_serials', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('insurance_id');
+            $table->BigInteger('insurance_id')->unsigned();
             $table->string('serial');
             $table->string('model_number');
             $table->foreign('insurance_id')->references('id')->on('insurances')->onDelete('cascade');

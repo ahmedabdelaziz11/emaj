@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTicketToOffersTable extends Migration
+class AddAddressIdToOffersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddTicketToOffersTable extends Migration
     public function up()
     {
         Schema::table('offers', function (Blueprint $table) {
-            $table->BigInteger('ticket_id')->nullable()->after('stock_id')->unsigned();
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            $table->BigInteger('address_id')->nullable()->after('ticket_id')->unsigned();
+            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
         });
     }
 
@@ -27,8 +27,7 @@ class AddTicketToOffersTable extends Migration
     public function down()
     {
         Schema::table('offers', function (Blueprint $table) {
-            $table->BigInteger('ticket_id')->nullable()->after('stock_id')->unsigned();
-            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
+            //
         });
     }
 }

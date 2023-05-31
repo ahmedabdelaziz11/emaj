@@ -16,7 +16,8 @@ class CreateEmployeeTicketTable extends Migration
         Schema::create('employee_ticket', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ticket_id')->constrained('tickets');
-            $table->foreignId('employee_id')->constrained('employees');
+            $table->BigInteger('employee_id')->nullable()->unsigned();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->date('date');
             $table->timestamps();
         });

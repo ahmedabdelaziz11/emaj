@@ -247,6 +247,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('get-invoice-products-address/{invoice_product_id}', 'App\Http\Controllers\InsuranceController@getInvoiceProductAddress');
     Route::get('get-insurance-address/{serial_id}', 'App\Http\Controllers\InsuranceController@getSerialAddress');
 
+    Route::get('create-offer-for-ticket/{ticket}','App\Http\Controllers\OffersController@createOfferForTicket');
 });
 // get all attendance for specific employee
 

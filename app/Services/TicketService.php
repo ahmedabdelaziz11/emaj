@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Ticket;
 use App\Models\CompensationType;
+use App\Models\InsuranceSerial;
 use App\Models\products;
 use App\Models\Stock;
 
@@ -77,15 +78,14 @@ class TicketService
 
     public function getTicketSpareProduct(Ticket $ticket,Stock $stock)
     {
-        $products = products::query()->select('name','id','selling_price');
         if($ticket->ticket_type == 'warranty')
         {
-            
-        }else{
-            $products->whereHas('stock',function($q)use($stock){
-                $q->where('stock_id',$stock->id);
-            });
+            return InsuranceSerial::find($ticket->invoice_product_id)->insurance->invoiceProduct->product->spares;
         }
-        return $products->get();
+        return products::query()
+            ->select('name','id','selling_price')
+            ->whereHas('stock',function($q)use($stock){
+                $q->where('stock_id',$stock->id);
+        })->get();
     }
 }

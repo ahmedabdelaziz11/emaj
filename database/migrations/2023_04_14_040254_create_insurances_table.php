@@ -16,8 +16,8 @@ class CreateInsurancesTable extends Migration
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
             $table->integer('invoice_product_id')->unsigned();
-            $table->unsignedBigInteger('address_id')->nullable();
-            $table->unsignedBigInteger('client_id');
+            $table->BigInteger('address_id')->nullable()->unsigned();
+            $table->BigInteger('client_id')->unsigned();
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('compensation');

@@ -37,10 +37,21 @@ class OffersController extends Controller
      */
     public function create()
     {
-        $stocks = Stock::all();
-        $tickets = Ticket::get('id');
+        $stocks = Stock::where('name','!=','قطع الغيار')->get();
         $clients  = clients::all();
-        return view('offers.create',compact('clients','stocks','tickets'));
+        return view('offers.create',compact('clients','stocks'));
+    }
+
+    public function createOfferForTicket(Ticket $ticket)
+    {
+        $offer = offers::where('ticket_id',$ticket->id)->first();
+        if($offer)
+        {
+            return redirect('/offers/'.$offer->id);
+        }
+        $stocks = Stock::where('name','قطع الغيار')->get();
+        $clients  = clients::all();
+        return view('offers.create',compact('clients','stocks','ticket')); 
     }
 
     /**
@@ -62,6 +73,7 @@ class OffersController extends Controller
             'client_id'  => $request->client_id,
             'stock_id'   => $request->stock_id,
             'ticket_id'   => $request->ticket_id,
+            'address_id'   => $request->address_id,
             "Created_by" => Auth::user()->name,
         ]);
 
@@ -141,6 +153,7 @@ class OffersController extends Controller
             'client_id' => $request->client_id,
             'stock_id' => $request->stock_id,
             'ticket_id'   => $request->ticket_id,
+            'address_id'   => $request->address_id,
         ]);
         offer_products::where('offer_id',$request->offer_id)->delete();
         if($request->id)

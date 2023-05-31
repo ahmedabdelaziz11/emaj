@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\OfferService;
 use App\Models\InvoiceService;
 use App\Models\OfferCompositeProducts;
+use App\Models\offers;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -100,6 +101,7 @@ class InvoicesController extends Controller
                 'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
                 'stock_id'      => $request->stock_id,     
                 'ticket_id'      => $request->ticket_id,     
+                'address_id'      => $request->address_id,     
                 'value_added'  => $value_added,
                 "Created_by"   => Auth::user()->name,
             ]);
@@ -461,7 +463,8 @@ class InvoicesController extends Controller
                     'Value_Status' => $request->dman,
                     'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
                     'stock_id'      => $request->stock_id,   
-                    'ticket_id'      => $request->ticket_id,     
+                    'ticket_id'      => $request->ticket_id,  
+                    'address_id'      => $request->address_id,     
                     'value_added'  => $value_added,
                 ]);
 
@@ -786,7 +789,11 @@ class InvoicesController extends Controller
 
     public function getoffer($id)
     {
-        $discount = DB::table("offers")->where("id", $id)->value("discount");
+        $offer = offers::find($id);
+        $discount = $offer->discount;
+        $address_id = $offer->address_id;
+        $ticket_id = $offer->ticket_id;
+        $discount = $offer->discount;
         $products = offer_products::where('offer_id',$id)->get();
         $services = OfferService::where('offer_id',$id)->get();
         $c_products = OfferCompositeProducts::where('offer_id',$id)->get();
@@ -820,6 +827,8 @@ class InvoicesController extends Controller
         $offer_data['profit']   = $profit - ($profit * ($discount / 100));
         $offer_data['discount'] = $discount;
         $offer_data['c_sales']  = $c_sales;
+        $offer_data['address_id']  = $address_id;
+        $offer_data['ticket_id']  = $ticket_id;
         return json_encode($offer_data);
     }
 }

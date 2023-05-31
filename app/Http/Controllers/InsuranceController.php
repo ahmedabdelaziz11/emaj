@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AllAccount;
 use App\Models\Insurance;
+use App\Models\InsuranceSerial;
 use App\Services\ClientService;
 use App\Services\InsuranceService;
 use App\Services\InvoiceService;
@@ -45,18 +46,20 @@ class InsuranceController extends Controller
         return redirect('/insurances');
     }
 
-    public function show(Insurance $insurance)
+    public function show(InsuranceSerial $insurance)
     {
         return view('insurance.show',compact('insurance'));
     }
 
-    public function update(Request $request,Insurance $insurance)
+    public function update(Request $request,InsuranceSerial $insurance)
     {
         $this->service->updateInsurance(
             $request->start_date,
             $request->end_date,
             $request->compensation,
             $request->address_id,
+            $request->serial,
+            $request->model_number,
             $insurance
         );
         session()->flash('success','تم تعديل الضمان بنجاح');
@@ -89,7 +92,7 @@ class InsuranceController extends Controller
     }
 
     public function insurancesExcel(Request $request)
-    {        
+    {       
         return $this->service->InsuranceExcel(
             $request->product_name,
             $request->client_name,

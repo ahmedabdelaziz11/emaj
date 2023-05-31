@@ -76,18 +76,13 @@
                           <select class="form-control select2 " id="stock_id" name="stock_id">
                             <option value="">اختر المخزن</option>
                             @foreach ($stocks as $stock)
-                            <option value="{{ $stock->id }}">{{ $stock->name }}</option>
+                            <option value="{{ $stock->id }}" @if(isset($ticket)) selected @endif>{{ $stock->name }}</option>
                             @endforeach
                           </select>
                         </div>
-                        <div class="form-group col-4" id="ticketDev" style="display: none;">
+                        <div class="form-group col-4" id="ticketDev" @if(!isset($ticket)) style="display: none;" @endif>
                           <label class="control-label">رقم الشكوى</label>
-                          <select class="form-control select2 " name="ticket_id" id="ticket_id">
-                            <option value="">اختر رقم الشكوى</option>
-                            @foreach($tickets as $ticket)
-                              <option value="{{$ticket->id}}">{{$ticket->id}}</option>
-                            @endforeach
-                          </select>
+                          <input type="number" id="ticket_id" name="ticket_id" value="{{$ticket->id ?? ''}}" class="form-control" readonly>
                         </div>
                         <div class="form-group col-4">
                           <label for="inputName" class="control-label">اختر المنتجات</label>
@@ -132,7 +127,14 @@
                           </tbody>
                         </table>
                       </div><br>
-
+                      <div class="row">
+                        <div class="form-group col-12">
+                          <select class="form-control select2 address" name="address_id">
+                            <option value=" ">اختر العنوان</option>
+    
+                          </select>
+                        </div>
+                      </div><br>
                       <div class="row">
                         <div class="form-group col">
                           <label  style="margin-right:15px" for="exampleFormControlTextarea2">قيود التعاقد</label>
@@ -217,28 +219,44 @@ The period of validity of the offer is a week from the date
 </script>
 
 <script>
-  $(document).ready(function() {   
-      $('select[name="ticket_id"]').on('change', function() {
-        var ticket_id = $(this).val();
-        var stock_id  = $("#stock_id").val();
-        $('select[name="products"]').empty();
-        $('#item_picker2').empty();
-        if(ticket_id && stock_id)
-        {
-          $.ajax({
-            url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                $("#items_container").empty();
-                $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
-                $.each(data, function(key, value) {
-                  $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
-                });
-            },
+    $(document).ready(function(){
+        $('.address').select2({
+            placeholder: 'Enter a parent address',
+            ajax: {
+                dataType: 'json',
+                url: function(params) {
+                    return '/get-addresses-select2/' + params.term;
+                },
+                processResults: function (data, page) {
+                    return {
+                    results: data || ' '
+                    };
+                },
+            }
+        });
+    });
+window.onload = function (){
+  var ticket_id = $("#ticket_id").val();
+  var stock_id  = $("#stock_id").val();
+  $('select[name="products"]').empty();
+  $('#item_picker2').empty();
+  if(ticket_id && stock_id)
+  {
+    $.ajax({
+      url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
+      type: "GET",
+      dataType: "json",
+      success: function(data) {
+          $("#items_container").empty();
+          $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+          $.each(data, function(key, value) {
+            $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
           });
-        }
-      });
+      },
+    });
+  }
+}
+  $(document).ready(function() {   
         
       $('select[name="stock_id"]').on('change', function() {
         var stock_id = $(this).val();
@@ -248,8 +266,8 @@ The period of validity of the offer is a week from the date
           $("#ticketDev").css('display','none');
           $('select[name="products"]').empty();
           $('#item_picker2').empty();
-
-          if (stock_id) {
+          var ticket_id = $("#ticket_id").val();
+          if (stock_id && ticket_id === '') {
               $.ajax({
                   url: "{{ URL::to('sections') }}/" + stock_id,
                   type: "GET",

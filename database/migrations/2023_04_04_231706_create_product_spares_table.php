@@ -15,8 +15,8 @@ class CreateProductSparesTable extends Migration
     {
         Schema::create('product_spares', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('product_id');
-            $table->unsignedInteger('spare_id');
+            $table->Integer('product_id')->unsigned();
+            $table->Integer('spare_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('spare_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

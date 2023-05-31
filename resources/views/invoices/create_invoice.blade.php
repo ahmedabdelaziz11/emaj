@@ -59,6 +59,8 @@
               <div class="card-body">
                     <form  action="{!! route('invoices.store') !!}" method="post" enctype="multipart/form-data" autocomplete="off">
                         @csrf
+                        <input type="hidden" id="address_id" name="adress_id">
+                        <input type="hidden" id="ticket_id" name="ticket_id">
                         <div class="d-flex justify-content-center">
                           <h1> </h1>
                         </div><br>
@@ -128,17 +130,6 @@
                               @endforeach
                             </select>
                           </div>
-
-                          <div class="form-group col" id="ticketDev" style="display: none;">
-                            <label class="control-label">رقم الشكوى</label>
-                            <select class="form-control select2 " name="ticket_id" id="ticket_id">
-                              <option value="">اختر رقم الشكوى</option>
-                              @foreach($tickets as $ticket)
-                                <option value="{{$ticket->id}}">{{$ticket->id}}</option>
-                              @endforeach
-                            </select>
-                          </div>
-
                           <div class="form-group col">
                             <label>رقم العرض</label>
                             <select class="form-control select2" name="offer_id" required="required">
@@ -263,24 +254,24 @@
     };
   });
 </script>
-    <script>
-      function updateTotal1() {
-        var sub_total = parseFloat( document.getElementById("total").value); 
-        var t_service = parseFloat( document.getElementById("t_service").value); 
-        var discount  =  parseFloat(document.getElementById("discount").value);
-        var value_add = parseFloat(document.getElementById("value_add").value);
-        var total = 0;
-        total = sub_total ;
-        total = total - (total * (discount/100));
-        if(value_add == 1)
-        {
-          total = total + (total * 0.14 );
-        }
-        total = total + t_service;
-        total = new Intl.NumberFormat().format(total);
-        document.getElementById("f_total").value = total ;    
-      }      
-    </script>
+<script>
+  function updateTotal1() {
+    var sub_total = parseFloat( document.getElementById("total").value); 
+    var t_service = parseFloat( document.getElementById("t_service").value); 
+    var discount  =  parseFloat(document.getElementById("discount").value);
+    var value_add = parseFloat(document.getElementById("value_add").value);
+    var total = 0;
+    total = sub_total ;
+    total = total - (total * (discount/100));
+    if(value_add == 1)
+    {
+      total = total + (total * 0.14 );
+    }
+    total = total + t_service;
+    total = new Intl.NumberFormat().format(total);
+    document.getElementById("f_total").value = total ;    
+  }      
+</script>
 
 <script>
   $(document).ready(function() {
@@ -298,6 +289,8 @@
                     document.getElementById("total").value  = data['total'];
                     document.getElementById("profit").value = data['profit'];
                     document.getElementById("c_sales").value = data['c_sales'];
+                    document.getElementById("address_id").value = data['address_id'];
+                    document.getElementById("ticket_id").value = data['ticket_id'];
                     updateTotal1();
                   },
               });
@@ -307,10 +300,6 @@
       });
 
       $('select[name="stock_id"]').on('change', function() {
-        console.log($("#stock_id option:selected").text());
-        if($("#stock_id option:selected").text() == "قطع الغيار"){
-          $("#ticketDev").css('display','block');
-        }else{
           $("#ticketDev").css('display','none');
           var stock_id = $(this).val();
           $.ajax({
@@ -326,24 +315,6 @@
               },
           });
           updateTotal1();
-        }
-      });
-
-      $('select[name="ticket_id"]').on('change', function() {
-        var ticket_id = $(this).val();
-        $.ajax({
-          url: "{{ URL::to('get-ticket-offers') }}/"+ticket_id,
-          type: "GET",
-          dataType: "json",
-          success: function(data) {
-            $('select[name="offer_id"]').empty();
-            $('select[name="offer_id"]').append('<option disabled selected>'+ "اختر العرض" + '</option>');
-            $.each(data, function(key, value) {
-              $('select[name="offer_id"]').append('<option value="' +value + '">' + value + '</option>');
-            });
-          },
-        });
-        
       });
   });
 </script>

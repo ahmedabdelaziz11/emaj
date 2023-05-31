@@ -18,7 +18,7 @@ class CreateTicketLogsTable extends Migration
             $table->foreignId('ticket_id')->constrained('tickets');
             $table->string('state');
             $table->string('actor_type');
-            $table->unsignedBigInteger('actor_id');
+            $table->BigInteger('actor_id')->unsigned();
             $table->timestamps();
         });
     }
