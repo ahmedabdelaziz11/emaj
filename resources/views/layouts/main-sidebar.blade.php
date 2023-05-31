@@ -141,7 +141,7 @@
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='attendances') }}">الحضور</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='product-spare') }}">قطع غيار المنتجات</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='insurances') }}">الضمانات</a></li>
-							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='tickets') }}">الشكاوى</a></li>
+							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='tickets') }}">طلبات الإصلاح</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='compensation-types') }}">انواع التعويضات</a></li>
 						</ul>
 					</li>

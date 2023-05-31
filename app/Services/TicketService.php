@@ -22,7 +22,7 @@ class TicketService
             // 'received_money' => $formData['received_money'],
             'recommended_path' => $formData['recommended_path'],
             // 'closing_note' => $formData['closing_note'],
-            // 'invoice_product_id' => $formData['invoice_product_id'],
+            'invoice_product_id' => $formData['invoice_product_id'],
         ]);
         return $ticket;
     }
