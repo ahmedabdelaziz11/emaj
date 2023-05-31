@@ -379,6 +379,8 @@
                                                 <form action="{{ route('invoices.update',$invoice->id) }}" method="post" enctype="multipart/form-data" autocomplete="off">
                                                     @csrf
                                                     {{ method_field('patch') }}
+                                                    <input type="hidden" id="address_id" name="adress_id" value="{{$invoice->adress_id}}">
+                                                    <input type="hidden" id="ticket_id" name="ticket_id" value="{{$invoice->ticket_id}}">
                                                     <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
                                                     <div class="row">
                                                         <div class="col">
@@ -439,16 +441,6 @@
                                                                 <option value="0" selected disabled>اختر المخزن</option>
                                                                 @foreach ($stocks as $stock)
                                                                 <option value="{{ $stock->id }}">{{ $stock->name }}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="form-group col" id="ticketDev" style="display: none;">
-                                                            <label class="control-label">رقم الشكوى</label>
-                                                            <select class="form-control select2 " name="ticket_id" id="ticket_id">
-                                                                <option value="">اختر رقم الشكوى</option>
-                                                                @foreach($tickets as $ticket)
-                                                                    <option value="{{$ticket->id}}">{{$ticket->id}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -750,6 +742,8 @@
                         document.getElementById("total").value  = data['total'];
                         document.getElementById("profit").value = data['profit'];
                         document.getElementById("c_sales").value = data['c_sales'];
+                        document.getElementById("address_id").value = data['address_id'];
+                        document.getElementById("ticket_id").value = data['ticket_id'];
                         updateTotal1();
                     },
                 });
@@ -760,41 +754,20 @@
 
         $('select[name="stock_id"]').on('change', function() {
             var stock_id = $(this).val();
-            if($("#stock_id option:selected").text() == "قطع الغيار"){
-                $("#ticketDev").css('display','block');
-            }else{
-                $("#ticketDev").css('display','none');
-                $.ajax({
-                    url: "{{ URL::to('get-offer') }}/" + stock_id,
-                    type: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $('select[name="offer_id"]').empty();
-                        $('select[name="offer_id"]').append('<option disabled selected>' + "اختر العرض" + '</option>');
-                        $.each(data, function(key, value) {
-                            $('select[name="offer_id"]').append('<option value="' + value + '">' + value + '</option>');
-                        });
-                    },
-                });
-                updateTotal1();
-            }
-        });
-
-        $('select[name="ticket_id"]').on('change', function() {
-            var ticket_id = $(this).val();
             $.ajax({
-            url: "{{ URL::to('get-ticket-offers') }}/"+ticket_id,
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                $('select[name="offer_id"]').empty();
-                $('select[name="offer_id"]').append('<option disabled selected>'+ "اختر العرض" + '</option>');
-                $.each(data, function(key, value) {
-                $('select[name="offer_id"]').append('<option value="' +value + '">' + value + '</option>');
-                });
-            },
+                url: "{{ URL::to('get-offer') }}/" + stock_id,
+                type: "GET",
+                dataType: "json",
+                success: function(data) {
+                    $('select[name="offer_id"]').empty();
+                    $('select[name="offer_id"]').append('<option disabled selected>' + "اختر العرض" + '</option>');
+                    $.each(data, function(key, value) {
+                        $('select[name="offer_id"]').append('<option value="' + value + '">' + value + '</option>');
+                    });
+                },
             });
-            
+            updateTotal1();
+        
         });
     });
 </script>
