@@ -87,7 +87,8 @@ class InsuranceController extends Controller
 
     public function retrieveClientInvoiceProducts(InvoiceService $invoiceService, $client_id)
     {
-        return $invoiceService->getInvoicesProducts($client_id);
+        $invoiceProducts = $invoiceService->getInvoicesProducts($client_id);
+        return view('insurance.client-products-table', compact('invoiceProducts'));
     }
 
     public function insurancesExcel(Request $request)
@@ -122,5 +123,20 @@ class InsuranceController extends Controller
     public function getClientSerial($client_id)
     {
         return $this->service->getClientSerials($client_id);
+    }
+
+    public function getInsuranceSerial($insurance_id)
+    {
+        return $this->service->getInsuranceSerial($insurance_id);
+    }
+
+    public function getInvoiceProductAddress(InvoiceService $invoiceService, $invoice_product_id)
+    {
+        return $invoiceService->getInvoiceProductAddress($invoice_product_id);
+    }
+
+    public function getSerialAddress(InvoiceService $invoiceService, $serial_id)
+    {
+        return $invoiceService->getSerialAddress($serial_id);
     }
 }

@@ -27,8 +27,11 @@ class TicketController extends Controller
      */
     public function index()
     {
+        $employees = Employee::select('id', 'name')
+        ->pluck('name', 'id')
+            ->toArray();
         $compensationTypes = $this->ticketService->getCompensationTypes();
-        return view('ticket.index', compact('compensationTypes'));
+        return view('ticket.index', compact('compensationTypes', 'employees'));
     }
 
     /**
@@ -38,14 +41,11 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $employees = Employee::select('id', 'name')
-        ->pluck('name', 'id')
-            ->toArray();
         $clients = AllAccount::select('id', 'name')
             ->clients()
             ->with('accounts')
-        ->get();    
-        return view('ticket.create', compact('employees', 'clients'));
+        ->get();
+        return view('ticket.create', compact('clients'));
     }
 
     /**

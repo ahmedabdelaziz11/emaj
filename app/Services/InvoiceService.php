@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\invoice_products;
 use App\Models\invoices;
+use App\Models\InsuranceSerial;
 
 class InvoiceService 
 {
@@ -26,5 +27,17 @@ class InvoiceService
             $q->where('invoice_id',$invoice_id);
         })
         ->get();
+    }
+
+    public function getInvoiceProductAddress($invoice_product_id)
+    {
+        $invoiceProduct = invoice_products::where('id', $invoice_product_id)->with('invoice.address')->first();
+        return $invoiceProduct->invoice->address;
+    }
+
+    public function getSerialAddress($serial_id)
+    {
+        $serial = InsuranceSerial::where('id', $invoice_product_id)->with('invoice.address')->first();
+        return $serial->insurance->address;
     }
 }

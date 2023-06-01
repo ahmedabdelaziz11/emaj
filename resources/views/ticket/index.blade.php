@@ -6,7 +6,7 @@
 @livewireStyles
 
 @section('title')
-    الشكاوى 
+    طلبات الإصلاح 
 @stop
 
 @section('page-header')
@@ -15,7 +15,7 @@
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">خدمة العملاء</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-            الشكاوى</span>
+            طلبات الإصلاح</span>
         </div>
     </div>
 </div>
@@ -57,38 +57,104 @@
     <livewire:ticket />
 </div>
 
-<div class="modal" tabindex="-1" id="modaldemo9">
+<div class="modal" tabindex="-1" id="modaldemo2">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">إضافة تكاليف للشكوى</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                <h6 class="modal-title">إنهاء شكوى</h6><button aria-label="Close" class="close" data-dismiss="modal"
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
                 <form action="" id="compensationForm" method="post">
                 {{ method_field('post') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <div id="compensationsContainer">
+                    <div class="form-group">
                         <div class="row">
-                            <div  class="col-4">
-                                <label for="compensation_type">نوع التكلفة</label>
-                                <select class="form-control" name="compensation_type[]" id="compensation_type">
-                                    @foreach ($compensationTypes as $compensationType)
-                                        <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
-                                    @endforeach
+                            <div class="col-8">
+                                <label for="spare_products">إضافة قطع الغيار المستخدمة</label>
+                                <select name="spare_products[]" id="spare_products" class="form-control select2" multiple>
+                                    <option value="1">قطع غيار 1</option>
+                                    <option value="21">قطع غيار 21</option>
+                                    <option value="41">قطع غيار41</option>
+                                    <option value="661">قطع غيار 661</option>
                                 </select>
-                            </div>
-                            <div class="col-4">
-                                <label for="value">قيمة التكلفة</label>
-                                <input class="form-control" name="value" id="value" type="number">
-
                             </div>
                         </div>
                     </div>
-                    <div class="row m-2">
-                        <button type="button" class="btn btn-sm btn-primary" id="addNewCompensation">اضافة تكلفة جديدة</button>
+                    <div class="form-group">
+                        <h5>تكاليف الشكوى</h5>
+                        <div id="compensationsContainer">
+                            <div class="row">
+                                <div  class="col-4">
+                                    <label for="compensation_type">نوع التكلفة</label>
+                                    <select class="form-control" name="compensation_type[]" id="compensation_type">
+                                        @foreach ($compensationTypes as $compensationType)
+                                            <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label for="value">قيمة التكلفة</label>
+                                    <input class="form-control" name="value" id="value" type="number">
+    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-2">
+                            <button type="button" class="btn btn-sm btn-primary" id="addNewCompensation">اضافة تكلفة جديدة</button>
+                        </div>
                     </div>
-                    
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="feedback">حالة الشكوى النهائية</label>
+                                <select name="feedback" id="feedback" class="form-control">
+                                    <option value="تم حل الشكوى">تم حل الشكوى</option>
+                                    <option value="لم يتم حل الشكوى">لم يتم حل الشكوى</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="closing_note">ملاحظات انهاء طلب الإصلاح</label>
+                                <textarea name="closing_note" id="closing_note" cols="30" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                    <button type="submit" class="btn btn-primary">تاكيد</button>
+                </div>
+        </div>
+        </form> 
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="modaldemo3">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+                <h6 class="modal-title">إصدار أمر شغل</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                    type="button"><span aria-hidden="true">&times;</span></button>
+            </div>
+                <form action="" id="ticket_employees_form" method="post">
+                {{ method_field('post') }}
+                {{ csrf_field() }}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                          <div class="form-group col-12">
+                            <label for="employees">القائمين على الشكوي</label>
+                            <select class="form-control select2" multiple="multiple" name="employees[]" id="employees">
+                              @foreach($employees as $id => $employee)
+                                <option value="{{$id}}">{{$employee}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
@@ -111,7 +177,7 @@
 <script src="{{ URL::asset('assets/js/select2.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
 <script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
+    $('#modaldemo2').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var id = button.data('id')
         var name = button.data('name')

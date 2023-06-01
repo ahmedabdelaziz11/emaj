@@ -64,7 +64,7 @@
                                 <td>{{ $x->state }}</td>             
                                 <td>
                                     <a class="modal-effect btn btn-sm btn-warning" 
-                                        href="{{route('tickets.show', $x)}}" title="مشاهدة"> <i class="las la-eye"></i> 
+                                        href="{{route('tickets.show', $x)}}" title="عرض الشكوى"> <i class="las la-eye"></i> 
                                     </a>
                                     <a class="modal-effect btn btn-sm btn-primary" data-effect="effect-scale"
                                     data-id="{{ $x->id }}" data-name="{{ $x->id }}"

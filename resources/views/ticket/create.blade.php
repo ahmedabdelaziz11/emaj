@@ -14,7 +14,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='tickets') }}">الشكاوى</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
+                <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='tickets') }}">طلبات الإصلاح</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
                 اضافة شكوى </span>
             </div>
         </div>
@@ -96,29 +96,15 @@
                           </select>
                         </div>
                       </div>
-                      <div class="row" id="products">
-
-                      </div>
                       <div class="row">
-                        {{-- <div class="form-group col-12">
-                          <label for="employees">القائمين على الشكوي</label>
-                          <select class="form-control select2" multiple="multiple" name="employees[]" id="employees">
-                            @foreach($employees as $id => $employee)
-                              <option value="{{$id}}">{{$employee}}</option>
-                            @endforeach
-                          </select>
-                        </div> --}}
+                        <div class="form-group col-6" id="products">
+
+                        </div>
                       </div>
                       <div class="row">
                         <div class="form-group col-12">
                           <label>العنوان</label>
                           <textarea name="address" class="form-control"></textarea>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="form-group col-12">
-                          <label>ارشادات المواصلات ينصح اتباعها</label>
-                          <textarea name="recommended_path" class="form-control"></textarea>
                         </div>
                       </div>
                       <div class="row">
@@ -190,8 +176,6 @@
               type: 'get'
             }).done(function(data) {
               $("#products").append(data)
-              data.each(function ())
-              console.log(data);
             }).fail(function() {
               console.log('fail');
             });
