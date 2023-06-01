@@ -237,7 +237,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('compensation-types', 'App\Http\Controllers\CompensationTypeController');
     Route::resource('tickets', 'App\Http\Controllers\TicketController');
     Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
-    Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@storeCompensation')->name('tickets.compensation.store');
+    Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@closeTicket')->name('tickets.compensation.store');
     Route::get('check-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@checkClientInsuranceState')->name('client-insurance-check');
     Route::get('get-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@getClientInsurance')->name('client-insurance');
     Route::get('get-client-invoice-products/{client_id}', 'App\Http\Controllers\InsuranceController@retrieveClientInvoiceProducts')->name('client-invoice-products');
@@ -252,7 +252,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('maintenance-contracts', 'App\Http\Controllers\MaintenanceContractController');
     Route::post('maintenance-excel', 'App\Http\Controllers\MaintenanceContractController@maintenanceExcel');
     Route::post('print-maintenance-table', 'App\Http\Controllers\MaintenanceContractController@printMaintenanceTable');
-
+    Route::post('tickets/employees/{ticket}', 'App\Http\Controllers\TicketController@assignTicketEmployees');
 });
 // get all attendance for specific employee
 

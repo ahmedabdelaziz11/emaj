@@ -20,10 +20,14 @@ class TicketService
             'date' => $formData['date'],
             'ticket_type' => $formData['ticket_type'],
             'address' => $formData['address'],
-            // 'received_money' => $formData['received_money'],
-            // 'closing_note' => $formData['closing_note'],
             'invoice_product_id' => $formData['invoice_product_id'],
         ]);
+        if (array_key_exists('parent_id', $formData) && !empty($formData['parent_id'])) {
+            $ticket->parent_id = $formData['parent_id'];
+            $ticket->save();
+        } else {
+            $ticket->saveAsRoot();
+        }
         return $ticket;
     }
 
@@ -33,11 +37,13 @@ class TicketService
         return $ticket;
     }
 
-    public function createTicketLog(Ticket $ticket, $action = 'created')
+    public function createTicketLog(Ticket $ticket, $state = 'created', $action = null)
     {
-        return $ticket->logs()->create(['state' => $action,
+        return $ticket->logs()->create([
+            'state' => $state,
             'actor_type' => 'user',
             'actor_id' => auth()->id(),
+            'action' => $action,
         ]);
     }
 
@@ -52,12 +58,76 @@ class TicketService
 
     public function createTicketCompensation(Ticket $ticket, $formData)
     {
-        $ticket->compensationType()->attach($formData['compensation_type_id'], ['amount' => $formData['amount']]);
+        if (!array_key_exists('compensation_type', $formData) || empty($formData['compensation_type'])) {
+            return;
+        }
+        $compensations = [];
+        foreach ($formData['compensation_type'] as $key => $value) {
+            $compensations[] = [
+                'ticket_id' => $ticket->id,
+                'compensation_type_id' => $value,
+                'amount' => $formData['value'][$key]
+            ];
+        }
+        $this->createTicketLog($ticket, 'updated', 'تم إضافة تكاليف للطلب');
+        $ticket->compensationPivot()->createMany($compensations);
+    }
+    public function closeTicket(Ticket $ticket, $formData)
+    {
+        $this->createTicketCompensation($ticket, $formData);
+        if ($formData['feedback'] && $formData['feedback'] != '') {
+            switch ($formData['feedback']) {
+                case '1':
+                    $this->finishTicket($ticket, 'تم خل المشكلة');
+                    break;
+                case '2':
+                    $this->finishTicket($ticket, 'لم يتم حل المشكلة');
+                    break;
+            }
+        }
+        if ($formData['closing_note'] && $formData['closing_note'] != '') {
+            $ticket->update([
+                'closing_note' => $formData['closing_note'],
+            ]);
+        }
+    }
+    public function finishTicket(Ticket $ticket, $feedback)
+    {
+        $ticket->update([
+            'state' => 'closed',
+            'feedback' => $feedback,
+        ]);
+        $this->createTicketLog($ticket, 'updated', 'تم إغلاق الطلب');
     }
 
+    public function assignTicketEmployees(Ticket $ticket, $formData)
+    {
+        $this->createTicketEmployee($ticket, $formData);
+    }
     public function createTicketEmployee(Ticket $ticket, $formData)
     {
-        $ticket->employees()->createMany($formData['employees'], ['date' => now()]);
+        if (!array_key_exists('employees', $formData) || empty($formData['employees'])) {
+            return;
+        }
+        $employees = [];
+        foreach ($formData['employees'] as $value) {
+            $employees[] = [
+                'ticket_id' => $ticket->id,
+                'employee_id' => $value,
+                'date' => now()
+            ];
+        }
+        $ticket->employeePivot()->createMany($employees);
+        if ($ticket->getRawOriginal('state') == 'pending') {
+            $this->createTicketLog($ticket, 'updated', 'تم تعديل موظفين الطلب');
+            $ticket->update([
+                'state' => 'in_progress',
+            ]);
+            return;
+        }
+        dd($ticket->getRawOriginal('state'));
+        $this->createTicketLog($ticket, 'updated', 'تم تعيين موظفين للطلب');
+        
     }
 
     public function getAllTickets($client_id = null, $from_date = null,$to_date = null)

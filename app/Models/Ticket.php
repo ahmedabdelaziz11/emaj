@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, NodeTrait;
 
     protected $fillable = [
         'client_id',
@@ -21,6 +22,7 @@ class Ticket extends Model
         'recommended_path',
         'closing_note',
         'invoice_product_id',
+        'feedback',
     ];
     
     public function details()
@@ -43,6 +45,16 @@ class Ticket extends Model
         return $this->belongsToMany(Employee::class, 'employee_ticket', 'ticket_id', 'employee_id')->withPivot('date');
     }
 
+    public function employeePivot()
+    {
+        return $this->hasMany(EmployeeTicket::class);
+    }
+
+    public function compensationPivot()
+    {
+        return $this->hasMany(TicketCompensation::class);
+    }
+
     public function reporter()
     {
         return $this->belongsTo(User::class, 'reporter_id');
@@ -53,9 +65,21 @@ class Ticket extends Model
     }
     public function invoiceProduct()
     {
+        if ($this->ticket_type == 'invoice') {
+            return $this->belongsTo(invoice_products::class, 'invoice_product_id');
+        } else if ($this->ticket_type == 'warranty') {
+            return $this->belongsTo(InsuranceSerial::class, 'invoice_product_id');
+        }
         return $this->belongsTo(invoice_products::class, 'invoice_product_id');
     }
-
+    public function getProductAttribute()
+    {
+        if ($this->ticket_type == 'invoice') {
+            return $this->invoiceProduct->product;
+        } else if ($this->ticket_type == 'warranty') {
+            return $this->invoiceProduct->insurance->product;
+        }
+    }
     public function getStateAttribute($value)
     {
         switch ($value) {

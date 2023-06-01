@@ -69,25 +69,13 @@
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-8">
-                                <label for="spare_products">إضافة قطع الغيار المستخدمة</label>
-                                <select name="spare_products[]" id="spare_products" class="form-control select2" multiple>
-                                    <option value="1">قطع غيار 1</option>
-                                    <option value="21">قطع غيار 21</option>
-                                    <option value="41">قطع غيار41</option>
-                                    <option value="661">قطع غيار 661</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <h5>تكاليف الشكوى</h5>
                         <div id="compensationsContainer">
                             <div class="row">
                                 <div  class="col-4">
                                     <label for="compensation_type">نوع التكلفة</label>
                                     <select class="form-control" name="compensation_type[]" id="compensation_type">
+                                        <option disabled selected>اختر نوع</option>
                                         @foreach ($compensationTypes as $compensationType)
                                             <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
                                         @endforeach
@@ -95,7 +83,7 @@
                                 </div>
                                 <div class="col-4">
                                     <label for="value">قيمة التكلفة</label>
-                                    <input class="form-control" name="value" id="value" type="number">
+                                    <input class="form-control" name="value[]" id="value" type="number">
     
                                 </div>
                             </div>
@@ -109,8 +97,8 @@
                             <div class="col-8">
                                 <label for="feedback">حالة الشكوى النهائية</label>
                                 <select name="feedback" id="feedback" class="form-control">
-                                    <option value="تم حل الشكوى">تم حل الشكوى</option>
-                                    <option value="لم يتم حل الشكوى">لم يتم حل الشكوى</option>
+                                    <option value="1">تم حل الشكوى</option>
+                                    <option value="2">لم يتم حل الشكوى</option>
                                 </select>
                             </div>
                         </div>
@@ -147,9 +135,12 @@
                         <div class="row">
                           <div class="form-group col-12">
                             <label for="employees">القائمين على الشكوي</label>
-                            <select class="form-control select2" multiple="multiple" name="employees[]" id="employees">
+                            <select required class="form-control select2" multiple="multiple" name="employees[]" id="employees">
                               @foreach($employees as $id => $employee)
-                                <option value="{{$id}}">{{$employee}}</option>
+                                <option {{-- @if (in_array($id, $ticket->employees->pluck('id')->toArray()))
+                                    selected 
+                                    
+                                @endif --}}value="{{$id}}">{{$employee}}</option>
                               @endforeach
                             </select>
                           </div>
@@ -187,6 +178,13 @@
         $('#compensationForm').attr('action', '/tickets/compensation/' + id);
     })
 
+    $('#modaldemo3').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var modal = $(this)
+        $('#ticket_employees_form').attr('action', '/tickets/employees/' + id);
+    })
+
     $('#printTable').click(function(){
         document.insuranceForm.action = "/print-insurance-table"  
         document.insuranceForm.submit()
@@ -198,6 +196,7 @@
             <div  class="col-4">
                 <label for="compensation_type">نوع التكلفة</label>
                 <select class="form-control" name="compensation_type[]" id="compensation_type">
+                    <option disabled selected>اختر نوع</option>
                     @foreach ($compensationTypes as $compensationType)
                         <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
                     @endforeach
@@ -205,7 +204,7 @@
             </div>
             <div class="col-4">
                 <label for="value">قيمة التكلفة</label>
-                <input class="form-control" name="value[" id="value" type="number">
+                <input class="form-control" name="value[]" id="value" type="number">
 
             </div>
         

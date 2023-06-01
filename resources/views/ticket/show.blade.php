@@ -61,25 +61,29 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered col-8">
+                    <table class="table table-striped table-bordered col-12">
                         <thead>
                             <tr>
                                 <th>العميل</th>
                                 <th>المنتج</th>
                                 <th>متلقي الطلب</th>
                                 <th>تاريخ الطلب</th>
+                                <th>نوع الطلب</th>
                                 <th>حالة الطلب</th>
                                 <th>العنوان</th>
+                                <th>التفاصيل</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>{{ $ticket->client->name }}</td>
-                                <td>{{ $ticket->invoiceProduct->product->name }}</td>
+                                <td>{{ $ticket->product->name }}</td>
                                 <td>{{ $ticket->client->name }}</td>
                                 <td>{{ $ticket->date }}</td>
+                                <td>{{ ($ticket->ticket_type == 'invoice')? 'إصلاح بفاتورة' : 'داخل الضمان' }}</td>
                                 <td>{{ $ticket->state }}</td>
                                 <td>{{ $ticket->address }}</td>
+                                <td>{{ ($ticket->feedback)? : "لم يتم توثيق حالة الطلب بعد" }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -91,17 +95,38 @@
 
 <div class="card">
     <div class="card-header">
-        تاريخ طلب الإصلاح
+        متابعة تاريخ طلب الإصلاح
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <div class="table table-striped table-bordered col-8">
+            <table class="table table-striped table-bordered col-12 text-center">
+                <thead>
+                    <tr>
+                        <th>تاريخ الحدث</th>
+                        <th>نوع الحدث</th>
+                        <th>التفاصيل</th>
+                    </tr>
                 <tbody>
                     @foreach ($ticketCollection as $item)
-                        tr
+                    <tr>
+                        <td>{{ $item->created_at }}</td>
+                        @if ($item->getTable() == 'ticket_details')
+                            <td>إضافة تفاصيل</td>
+                            <td>{{ $item->details }}</td>
+                        @elseif ($item->getTable() == 'ticket_logs')
+                            <td>{{ $item->state }}</td>
+                            <td>{{ $item->action }} | صاحب التحديث: {{ $item->user->name }}</td>
+                        @elseif ($item->getTable() == 'ticket_compensation')
+                            <td>إضافة تكاليف إلى الطلب</td>
+                            <td>{{ $item->compensationType->name }} | قيمتها: {{ $item->amount }}</td>
+                        @elseif ($item->getTable() == 'employee_ticket')
+                            <td>إضافة فني إلى الطلب</td>
+                            <td>{{ $item->employee->name }}</td>
+                        @endif
+                    </tr>
                     @endforeach
                 </tbody>
-            </div>
+            </table>
         </div>
     </div>
 </div>

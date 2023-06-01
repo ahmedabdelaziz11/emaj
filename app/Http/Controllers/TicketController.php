@@ -70,9 +70,10 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $ticketCollection = collect();
-        $ticket->load('details', 'logs', 'compensationType', 'employees', 'reporter', 'client', 'invoiceProduct');
-        $ticketCollection->push($ticket->details, $ticket->logs, $ticket->compensationType, $ticket->employees)->sortByDesc('created_at')->flatten();
-        return $ticketCollection;
+        $ticket->load('details', 'logs', 'compensationPivot', 'employeePivot', 'reporter', 'client', 'invoiceProduct');
+        $ticketCollection->push($ticket->details, $ticket->logs, $ticket->compensationPivot, $ticket->employeePivot);
+        $ticketCollection = $ticketCollection->flatten()->sortBy('created_at', SORT_REGULAR, false);
+        // return $ticketCollection;
         return view('ticket.show', compact('ticket', 'ticketCollection'));
     }
 
@@ -117,9 +118,15 @@ class TicketController extends Controller
         return view('ticket.compensation', compact('ticket'));
     }
 
-    public function storeCompensation(Ticket $ticket, Request $request)
+    public function closeTicket(Ticket $ticket, Request $request)
     {
-        $this->ticketService->createTicketCompensation($ticket, $request->all());
+        $this->ticketService->closeTicket($ticket, $request->all());
+        return redirect()->route('tickets.index');
+    }
+
+    public function assignTicketEmployees(Ticket $ticket, Request $request)
+    {
+        $this->ticketService->assignTicketEmployees($ticket, $request->all());
         return redirect()->route('tickets.index');
     }
 
