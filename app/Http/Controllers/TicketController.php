@@ -58,7 +58,7 @@ class TicketController extends Controller
     {
         $ticket = $this->ticketService->store($request->all());
         event(new TicketCreated($ticket, $request->all()));
-        return redirect()->route('ticket.show', $ticket->id)->with('success', 'Ticket created successfully');
+        return redirect()->route('tickets.show', $ticket->id)->with('success', 'Ticket created successfully');
     }
 
     /**
@@ -69,7 +69,11 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        return view('ticket.show', compact('ticket'));
+        $ticketCollection = collect();
+        $ticket->load('details', 'logs', 'compensationType', 'employees', 'reporter', 'client', 'invoiceProduct');
+        $ticketCollection->push($ticket->details, $ticket->logs, $ticket->compensationType, $ticket->employees)->sortByDesc('created_at')->flatten();
+        return $ticketCollection;
+        return view('ticket.show', compact('ticket', 'ticketCollection'));
     }
 
     /**

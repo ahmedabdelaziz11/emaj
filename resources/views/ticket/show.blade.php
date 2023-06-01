@@ -56,6 +56,9 @@
     <div class="col-xl-12">
         <!-- div -->
         <div class="card mg-b-20" id="tabs-style2">
+            <div class="card-header">
+                بيانات طاب الإصلاح الأساسية
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered col-8">
@@ -81,6 +84,23 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        تاريخ طلب الإصلاح
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="table table-striped table-bordered col-8">
+                <tbody>
+                    @foreach ($ticketCollection as $item)
+                        tr
+                    @endforeach
+                </tbody>
             </div>
         </div>
     </div>

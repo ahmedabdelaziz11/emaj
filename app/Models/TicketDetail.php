@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class TicketDetail extends Model
 {
     use HasFactory;
+    protected $fillable = ['details', 'ticket_id'];
 }

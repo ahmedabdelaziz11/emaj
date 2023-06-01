@@ -37,7 +37,7 @@ class InvoiceService
 
     public function getSerialAddress($serial_id)
     {
-        $serial = InsuranceSerial::where('id', $invoice_product_id)->with('invoice.address')->first();
+        $serial = InsuranceSerial::where('id', $serial_id)->with('insurance.address')->first();
         return $serial->insurance->address;
     }
 }

@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group col-3">
                           <label>التاريخ</label>
-                          <input type="date" name="date" class="form-control">
+                          <input required type="date" name="date" class="form-control">
                         </div>
                         <div class="form-group col-3">
                           <label>العميل</label>
@@ -104,7 +104,7 @@
                       <div class="row">
                         <div class="form-group col-12">
                           <label>العنوان</label>
-                          <textarea name="address" class="form-control"></textarea>
+                          <textarea id="address-textfield" name="address" class="form-control"></textarea>
                         </div>
                       </div>
                       <div class="row">
@@ -175,12 +175,21 @@
               url: '/get-client-invoice-products/'+client_id,
               type: 'get'
             }).done(function(data) {
+              $("#products").empty();
               $("#products").append(data)
             }).fail(function() {
               console.log('fail');
             });
-          } else {
-            console.log('testing');
+          } else if(type === 'warranty') {
+            $.ajax({
+              url: '/get-client-serials/'+client_id,
+              type: 'get'
+            }).done(function(data) {
+              $("#products").empty();
+              $("#products").append(data)
+            }).fail(function() {
+              console.log('fail');
+            });
           }
         });
 

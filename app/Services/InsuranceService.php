@@ -12,7 +12,7 @@ class InsuranceService
 {
     public function getClientSerials($client_id)
     {
-        InsuranceSerial::whereHas('insurance',function($q)use($client_id){
+        return InsuranceSerial::whereHas('insurance', function ($q) use ($client_id) {
             $q->where('client_id',$client_id);
         })->get();
     }

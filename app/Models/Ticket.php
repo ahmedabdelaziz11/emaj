@@ -35,12 +35,12 @@ class Ticket extends Model
 
     public function compensationType()
     {
-        return $this->belongsToMany(CompensationType::class, 'ticket_compensation', 'ticket_id', 'compensation_type_id');
+        return $this->belongsToMany(CompensationType::class, 'ticket_compensation', 'ticket_id', 'compensation_type_id')->withPivot('amount');
     }
 
     public function employees()
     {
-        return $this->belongsToMany(Employee::class, 'employee_ticket', 'ticket_id', 'employee_id')->withPivot('quantity', 'price_per_unit', 'estimated_time', 'approved');
+        return $this->belongsToMany(Employee::class, 'employee_ticket', 'ticket_id', 'employee_id')->withPivot('date');
     }
 
     public function reporter()
@@ -54,5 +54,26 @@ class Ticket extends Model
     public function invoiceProduct()
     {
         return $this->belongsTo(invoice_products::class, 'invoice_product_id');
+    }
+
+    public function getStateAttribute($value)
+    {
+        switch ($value) {
+            case 'pending':
+                return 'قيد التنفيذ';
+                break;
+            case 'in_progress':
+                return 'تحت التنفيذ';
+                break;
+            case 'halted':
+                return 'مغلق';
+                break;
+            case 'cancelled':
+                return 'ملغي';
+                break;
+            default:
+                return 'تمت';
+                break;
+        }
     }
 }

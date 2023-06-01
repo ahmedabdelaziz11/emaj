@@ -244,6 +244,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('get-spare-products-by-ticket/{ticket}/{stock}','App\Http\Controllers\TicketController@ticketSpareProducts');
     Route::get('get-ticket-offers/{ticket_id}', 'App\Http\Controllers\OffersController@getTicketOffers');
     Route::post('get-client-serials', 'App\Http\Controllers\InsuranceController@getClientSerial');
+    Route::get('get-client-serials/{client_id}', 'App\Http\Controllers\InsuranceController@retrieveClientSerials');
     Route::get('get-invoice-products-address/{invoice_product_id}', 'App\Http\Controllers\InsuranceController@getInvoiceProductAddress');
     Route::get('get-insurance-address/{serial_id}', 'App\Http\Controllers\InsuranceController@getSerialAddress');
 

@@ -124,6 +124,11 @@ class InsuranceController extends Controller
     {
         return $this->service->getClientSerials($client_id);
     }
+    public function retrieveClientSerials($client_id)
+    {
+        $serials = $this->service->getClientSerials($client_id);
+        return view('insurance.client-serials-table', compact('serials'));
+    }
 
     public function getInsuranceSerial($insurance_id)
     {
@@ -132,6 +137,7 @@ class InsuranceController extends Controller
 
     public function getInvoiceProductAddress(InvoiceService $invoiceService, $invoice_product_id)
     {
+
         return $invoiceService->getInvoiceProductAddress($invoice_product_id);
     }
 

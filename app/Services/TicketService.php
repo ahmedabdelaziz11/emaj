@@ -21,7 +21,6 @@ class TicketService
             'ticket_type' => $formData['ticket_type'],
             'address' => $formData['address'],
             // 'received_money' => $formData['received_money'],
-            'recommended_path' => $formData['recommended_path'],
             // 'closing_note' => $formData['closing_note'],
             'invoice_product_id' => $formData['invoice_product_id'],
         ]);
@@ -44,7 +43,11 @@ class TicketService
 
     public function createTicketDetails(Ticket $ticket, $formData)
     {
-        $ticket->details()->createMany($formData['details']);
+        if ($formData['details'] && !empty($formData['details'])) {
+            $ticket->details()->create([
+                'details' => $formData['details']
+            ]);
+        }
     }
 
     public function createTicketCompensation(Ticket $ticket, $formData)

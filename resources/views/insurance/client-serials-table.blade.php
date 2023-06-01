@@ -1,8 +1,8 @@
 <label for="">منتجات الفاتورة</label>
 <select name="invoice_product_id" class="select2 form-control" id="invoice_product_id">
     <option disabled selected>اختر منتج</option>
-    @foreach ($invoiceProducts as $invoiceProduct)
-        <option value="{{ $invoiceProduct->id }}">{{ $invoiceProduct->product->name }}</option>
+    @foreach ($serials as $serial)
+        <option value="{{ $serial->id }}">{{ $serial->insurance->invoiceProduct->product->name }}, {{ $serial->serial }}</option>
     @endforeach
 </select>
 
@@ -11,10 +11,10 @@
         $('.select2').select2();
     });
     $("#invoice_product_id").change(function(){
-        let invoice_product_id = $(this).val();
-        console.log(invoice_product_id);
+        let serial_id = $(this).val();
+        console.log(serial_id);
         $.ajax({
-            url: "/get-invoice-products-address/"+invoice_product_id,
+            url: "/get-insurance-address/"+serial_id,
             type: "GET",
         }).done(function(data){
             $("#address-textfield").val(data);
