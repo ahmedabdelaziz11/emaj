@@ -245,6 +245,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('get-ticket-offers/{ticket_id}', 'App\Http\Controllers\OffersController@getTicketOffers');
     Route::post('get-client-serials', 'App\Http\Controllers\InsuranceController@getClientSerial');
     Route::get('create-offer-for-ticket/{ticket}','App\Http\Controllers\OffersController@createOfferForTicket');
+    Route::resource('maintenance-contracts', 'App\Http\Controllers\MaintenanceContractController');
+    Route::post('maintenance-excel', 'App\Http\Controllers\MaintenanceContractController@maintenanceExcel');
+    Route::post('print-maintenance-table', 'App\Http\Controllers\MaintenanceContractController@printMaintenanceTable');
+
 });
 // get all attendance for specific employee
 
