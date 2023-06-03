@@ -20,7 +20,7 @@ class CreateTicketsTable extends Migration
             $table->BigInteger('reporter_id')->unsigned();
             $table->string('state');
             $table->date('date');
-            // $table->nestedSet();
+            $table->nestedSet();
             $table->enum('ticket_type', ['invoice', 'warranty', 'other']);
             $table->string('address');
             $table->integer('received_money');
