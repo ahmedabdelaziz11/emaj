@@ -51,6 +51,7 @@ class OffersController extends Controller
         }
         $stocks = Stock::where('name','قطع الغيار')->get();
         $clients  = clients::all();
+        $ticket->load('client');
         return view('offers.create',compact('clients','stocks','ticket')); 
     }
 

@@ -30,6 +30,7 @@ class TicketController extends Controller
         $employees = Employee::select('id', 'name')
         ->pluck('name', 'id')
             ->toArray();
+        
         $compensationTypes = $this->ticketService->getCompensationTypes();
         return view('ticket.index', compact('compensationTypes', 'employees'));
     }
@@ -37,7 +38,7 @@ class TicketController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\ResponsegetAllTickets
      */
     public function create()
     {
@@ -70,10 +71,9 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $ticketCollection = collect();
-        $ticket->load('details', 'logs', 'compensationPivot', 'employeePivot', 'reporter', 'client', 'invoiceProduct');
+        $ticket->load('details', 'logs', 'compensationPivot', 'employeePivot', 'reporter', 'client', 'invoiceProduct', 'compensationType', 'invoice.prodcuts');
         $ticketCollection->push($ticket->details, $ticket->logs, $ticket->compensationPivot, $ticket->employeePivot);
         $ticketCollection = $ticketCollection->flatten()->sortBy('created_at', SORT_REGULAR, false);
-        // return $ticketCollection;
         return view('ticket.show', compact('ticket', 'ticketCollection'));
     }
 

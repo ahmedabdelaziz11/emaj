@@ -17,6 +17,7 @@ class Ticket extends Component
     public $client_id = '';
     public $from_date = '';
     public $to_date = '';
+    public $state = '';
     private $service;
     
 
@@ -28,6 +29,7 @@ class Ticket extends Component
                 $this->client_id,
                 $this->from_date,
                 $this->to_date,
+                $this->state,
             ),
             'clients' => AllAccount::clients()->get(),
         ]);

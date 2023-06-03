@@ -131,6 +131,53 @@
     </div>
 </div>
 
+<div class="card">
+    <div class="card-header">
+        تفاصيل تكلفة طلب الإصلاح
+    </div>
+    <div class="card-body">
+        <dev class="table-reponsive">
+            <table class="table table-striped table-bordered col-12">
+                <thead class="text-center">
+                    <tr>
+                        <th>نوع التكلفة</th>
+                        <th>القيمة</th>
+                        <th>تفاصيل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($ticket->compensationType as $compensation)
+                        <tr>
+                            <td>{{ $compensation->name }}</td>
+                            <td class="text-center">{{ $compensation->pivot['amount'] }}</td>
+                            <td>{{ $compensation->details }}</td>
+                        </tr>
+                    @endforeach
+                    @if ($ticket->invoice)
+                    @foreach ($ticket->invoice->prodcuts as $item)
+                        <tr>
+                            <td>{{ $item->name }}</td>
+                            <td class="text-center">{{ $item->pivot['product_Purchasing_price'] }}</td>
+                            <td>{{ $item->details }}</td>
+                        </tr>
+                    @endforeach
+                    @foreach ($ticket->ticket_employee_daily_payment as $pivot)
+                        <tr>
+                            <td>يومية عامل</td>
+                            <td class="text-center">{{ $pivot->employee->Salary/30 }}</td>
+                            <td>{{ $pivot->employee->name }} / {{ $pivot->date }}</td>
+                        </tr>
+                    @endforeach
+                    @endif
+                </tbody>
+            </table>
+        </dev>
+        <div class="card-footer">
+            <h5>تكلفة طلب الصيانة: {{ $ticket->total_compensation }}</h5>
+        </div>
+    </div>
+</div>
+
           
 						
     <!-- row closed -->

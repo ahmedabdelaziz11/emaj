@@ -17,10 +17,10 @@
             url: "/get-insurance-address/"+serial_id,
             type: "GET",
         }).done(function(data){
-            $("#address-textfield").val(data);
+            $("#address-textfield").val(data.name);
             console.log(data);
         }).fail(function(){
             console.log("Failed");
         });
-    })
+    });
 </script>

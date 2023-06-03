@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Kalnoy\Nestedset\NodeTrait;
 
 class Ticket extends Model
@@ -80,6 +81,18 @@ class Ticket extends Model
             return $this->invoiceProduct->insurance->product;
         }
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(products::class, 'ticket_products', 'ticket_id', 'product_id')->withPivot('price');
+    }
+
+    public function ticketProductsPivot()
+    {
+        return DB::table('ticket_products')
+        ->where('ticket_id', $this->id)
+            ->get();
+    }
     public function getStateAttribute($value)
     {
         switch ($value) {
@@ -99,5 +112,38 @@ class Ticket extends Model
                 return 'تمت';
                 break;
         }
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne(invoices::class);
+    }
+    public function getTicketEmployeeDailyPaymentAttribute()
+    {
+        $sameDayDateChecker = [];
+        $pivotCollection = collect();
+        foreach ($this->employeePivot as $pivot) {
+            $date = $pivot->date;
+            if (array_key_exists($date, $sameDayDateChecker)) continue;
+            $pivotCollection->push($pivot);
+            $sameDayDateChecker[$date] = true;
+        }
+        return $pivotCollection;
+    }
+    public function getTotalCompensationAttribute()
+    {
+        $ticketTotalCompensations = 0;
+        foreach ($this->compensationPivot as $compensation) {
+            $ticketTotalCompensations += $compensation->amount;
+        }
+        foreach ($this->ticket_employee_daily_payment as $pivot) {
+            $employee = $pivot->employee;
+            $ticketTotalCompensations += $employee->Salary / 30;
+        }
+        if (!$this->invoice) return $ticketTotalCompensations;
+        foreach ($this->invoice->prodcuts as $spareProduct) {
+            $ticketTotalCompensations += $spareProduct->pivot->product_Purchasing_price;
+        }
+        return $ticketTotalCompensations;
     }
 }

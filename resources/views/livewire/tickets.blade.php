@@ -3,7 +3,7 @@
         <div class="card-header pb-0">
             <div class="d-flex justify-content-between">
                     <a  class="modal-effect btn btn-outline-primary btn-block"
-                        href="tickets/create" style="font-size: 17px;font-weight: bold;">اضافة شكوى</a>
+                        href="tickets/create" style="font-size: 17px;font-weight: bold;">اضافة طلب إصلاح</a>
             </div>
         </div>
         <div class="card-body">
@@ -34,11 +34,20 @@
                     <input  class="form-control" name="to_date" type="date" wire:model="to_date"/>
                 </div>
                 <div class="col-md-3">
+                    <label for="recipient-name" class="col-form-label">حالة طلب الإصلاح</label>
+                    <select  class="form-control" name="state" wire:model="state" >
+                        <option value="" selected>اختر الحالة</option>
+                        <option value="pending">قيد التنفيذ</option>
+                        <option value="in_progress">تحت التنفيذ</option>
+                        <option value="closed">تمت</option>
+                    </select>
+                </div>
+                {{-- <div class="col-md-3">
                     <div style="position: absolute;bottom: 0px;">
                         <button type="submit" class="btn btn-success">اصدار شيت اكسيل</button>
                         <button type="button" id="printTable" class="btn btn-danger">طباعة الجدول</button>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </form>
             <br>
@@ -46,7 +55,7 @@
                 <table class="table table-bordered mg-b-0 text-md-nowrap">
                     <thead>
                         <tr class="text-center">
-                            <th>رقم الشكوى</th>
+                            <th>رقم طلب الإصلاح</th>
                             <th>التاريخ</th>
                             <th>العميل</th>
                             <th>المنشئ</th>
@@ -64,12 +73,10 @@
                                 <td>{{ $x->state }}</td>             
                                 <td>
                                     <a class="modal-effect btn btn-sm btn-warning" 
-                                        href="{{route('tickets.show', $x)}}" title="عرض الشكوى"> <i class="las la-eye"></i> 
+                                        href="{{route('tickets.show', $x)}}" title="عرض طلب الإصلاح"> <i class="las la-eye"></i> 
                                     </a>
                                     @if ($x->state != 'تمت')
-                                <a class="modal-effect btn btn-sm btn-primary" data-effect="effect-scale"
-                                data-id="{{ $x->id }}" data-name="{{ $x->id }}"
-                                    data-toggle="modal" href="#modaldemo1" title="عرض أسعار"><i class="las la-dollar-sign"></i>
+                                <a class="modal-effect btn btn-sm btn-primary" href="{{ route('create-offer-for-ticket', $x->id) }} title="عرض أسعار"><i class="las la-dollar-sign"></i>
                                 </a>
                                 <a class="modal-effect btn btn-sm btn-secondary" data-effect="effect-scale"
                                 data-id="{{ $x->id }}" data-name="{{ $x->id }}"
@@ -77,7 +84,7 @@
                                 </a>
                                     <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                         data-id="{{ $x->id }}" data-name="{{ $x->id }}"
-                                        data-toggle="modal" href="#modaldemo2" title="إنهاء الشكوى"><i class="las la-check"></i>
+                                        data-toggle="modal" href="#modaldemo2" title="إنهاء طلب الإصلاح"><i class="las la-check"></i>
                                     </a>
                                 @endif
                                 </td>        
