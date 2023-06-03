@@ -77,7 +77,7 @@
                         <tbody>
                             <tr>
                                 <td>{{ $ticket->client->name }}</td>
-                                <td>{{ $ticket->product->name }}</td>
+                                <td>{{ $ticket->product->name ?? '' }}</td>
                                 <td>{{ $ticket->client->name }}</td>
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ ($ticket->ticket_type == 'invoice')? 'إصلاح بفاتورة' : 'داخل الضمان' }}</td>
