@@ -130,7 +130,7 @@ class TicketService
         
     }
 
-    public function getAllTickets($client_id = null, $from_date = null,$to_date = null)
+    public function getAllTickets($client_id = null, $from_date = null, $to_date = null, $state = null)
     {
         return Ticket::when($client_id,function($q,$client_id){
             $q->where('client_id',$client_id);
@@ -141,6 +141,9 @@ class TicketService
         ->when($to_date,function($q,$to_date){
             $q->where('date','>=',$to_date);
         })
+            ->when($state, function ($q, $state) {
+                $q->where('state', $state);
+            })
         ->paginate(15);
     }
 

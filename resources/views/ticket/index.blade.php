@@ -61,7 +61,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title">إنهاء شكوى</h6><button aria-label="Close" class="close" data-dismiss="modal"
+                <h6 class="modal-title">إنهاء طلب إصلاح</h6><button aria-label="Close" class="close" data-dismiss="modal"
                     type="button"><span aria-hidden="true">&times;</span></button>
             </div>
                 <form action="" id="compensationForm" method="post">
@@ -69,7 +69,7 @@
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div class="form-group">
-                        <h5>تكاليف الشكوى</h5>
+                        <h5>تكاليف طلب الإصلاح</h5>
                         <div id="compensationsContainer">
                             <div class="row">
                                 <div  class="col-4">
@@ -95,10 +95,10 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-8">
-                                <label for="feedback">حالة الشكوى النهائية</label>
+                                <label for="feedback">حالة طلب الإصلاح النهائية</label>
                                 <select name="feedback" id="feedback" class="form-control">
-                                    <option value="1">تم حل الشكوى</option>
-                                    <option value="2">لم يتم حل الشكوى</option>
+                                    <option value="1">تم حل طلب الإصلاح</option>
+                                    <option value="2">لم يتم حل طلب الإصلاح</option>
                                 </select>
                             </div>
                         </div>

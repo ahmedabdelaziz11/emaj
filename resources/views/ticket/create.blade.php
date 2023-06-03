@@ -6,7 +6,7 @@
 @endsection
 
 @section('title')
-    اضافة شكوى
+    اضافة طلب إصلاح
 @stop
 
 @section('page-header')
@@ -15,7 +15,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='tickets') }}">طلبات الإصلاح</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                اضافة شكوى </span>
+                اضافة طلب إصلاح </span>
             </div>
         </div>
     </div>
@@ -65,12 +65,12 @@
                   <form  action="{{ route('tickets.store') }}" method="post" autocomplete="off">
                       @csrf
                       <div class="d-flex justify-content-center my-2">
-                        <h1>اضافة شكوى</h1>
+                        <h1>اضافة طلب إصلاح</h1>
                       </div>
 
                       <div class="row">
                         <div class="form-group col-3">
-                          <label>رقم شكوى مسبق ان وجد</label>
+                          <label>رقم طلب إصلاح مسبق ان وجد</label>
                           <input type="number" name="parent_id" class="form-control">
                         </div>
                         <div class="form-group col-3">
@@ -115,7 +115,7 @@
                       </div>
 
                       <div class="row">
-                        <button type="submit" class="btn btn-primary w-100 mt-2">اضافة الشكوى</button>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">اضافة طلب الإصلاح</button>
                       </div>
                     </form>
               </div>
@@ -192,30 +192,6 @@
             });
           }
         });
-
-        // $('#invoice_id').change(function(){
-        //   let invoice_id = this.value;
-        //   var client_id  = $("#client_id").val();
-        //   $.ajax({ 
-        //     url: '/get-client-invoicesProducts/'+client_id+'/'+invoice_id,
-        //     type: 'get'
-        //   }).done(function(data) {
-        //     $('#productsTable').html(data);
-        //   }).fail(function() {
-        //     console.log('Failed');
-        //   });
-        // });
-
-        // $('#in_isurance').click(function(){
-        //   console.log('dsds');
-
-        //   $('.is_in_isurance').prop( "checked", true );
-        // });
-
-        // $('#out_isurance').click(function(){
-        //   console.log('dsds');
-        //   $('.is_in_isurance').prop( "checked", false );
-        // });
     });
 
   </script>

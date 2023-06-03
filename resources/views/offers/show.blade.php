@@ -434,9 +434,9 @@
                                                     </select>
                                                     </div>
                                                     <div class="form-group col-4" id="ticketDev" style="display: none;">
-                                                    <label class="control-label">رقم الشكوى</label>
+                                                    <label class="control-label">رقم طلب الإصلاح</label>
                                                     <select class="form-control select2 " name="ticket_id" id="ticket_id">
-                                                        <option value="">اختر رقم الشكوى</option>
+                                                        <option value="">اختر رقم طلب الإصلاح</option>
                                                         @foreach($tickets as $ticket)
                                                         <option value="{{$ticket->id}}" @if ($ticket->id == $offer->ticket_id) selected @endif>{{$ticket->id}}</option>
                                                         @endforeach

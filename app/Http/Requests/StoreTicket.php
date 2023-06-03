@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTicket extends FormRequest
 {
@@ -30,7 +31,7 @@ class StoreTicket extends FormRequest
             'parent_id' => 'bail|nullable|exists:tickets,id',
             'address' => 'bail|required|string',
             'received_money' => 'bail|nullable|integer',
-            'invoice_product_id' => 'bail|nullable|exists:invoice_products,id',
+            'invoice_product_id' => 'bail|required',
             'details' => 'bail|nullable',
         ];
     }

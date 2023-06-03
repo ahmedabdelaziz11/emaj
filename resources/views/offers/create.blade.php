@@ -61,12 +61,17 @@
 
                           <div class="col">
                             <label for="inputName" class="control-label"> اختر العميل</label>
+                            @if (isset($ticket))
+                            <input type="text"class="form-control" value="{{ $ticket->client->name }}" readonly>
+                            <input name="client_id" type="hidden" value="{{ $ticket->client->id }}" class="form-control">
+                            @else
                             <select class="form-control select2 " name="client_id" required="required">
                               <option value="">اختر العميل </option>
                               @foreach ($clients as $client)
-                                <option value="{{ $client->id }}">{{ $client->client_name }}</option>
+                                <option    value="{{ $client->id }}">{{ $client->client_name }}</option>
                               @endforeach
                             </select>
+                            @endif
                           </div>
                       </div> 
                       <br>
@@ -81,7 +86,7 @@
                           </select>
                         </div>
                         <div class="form-group col-4" id="ticketDev" @if(!isset($ticket)) style="display: none;" @endif>
-                          <label class="control-label">رقم الشكوى</label>
+                          <label class="control-label">رقم طلب الإصلاح</label>
                           <input type="number" id="ticket_id" name="ticket_id" value="{{$ticket->id ?? ''}}" class="form-control" readonly>
                         </div>
                         <div class="form-group col-4">

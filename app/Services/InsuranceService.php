@@ -14,7 +14,9 @@ class InsuranceService
     {
         return InsuranceSerial::whereHas('insurance', function ($q) use ($client_id) {
             $q->where('client_id',$client_id);
-        })->get();
+        })
+        ->where('serial', '!=', '')
+        ->get();
     }
 
 
