@@ -17,14 +17,10 @@ class ProductSpare extends Component
     public $selectedStock = null;
     public $currentPage = 1;
     private $service;
-    
-    public function mount(ProductService $service)
+
+    public function render(ProductService $service)
     {
         $this->service = $service;
-    }
-
-    public function render()
-    {
         return view('livewire.product-spare', [
             'products' => $this->service->getAllProductSpare($this->search,$this->selectedStock),
             'stocks' => Stock::all(),
