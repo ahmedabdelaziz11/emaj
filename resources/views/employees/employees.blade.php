@@ -163,7 +163,7 @@
 
                         <div class="form-group">
                             <label for="exampleInputEmail1">الهاتف</label>
-                            <input class="form-control" type="number" id="phone" name="phone"  >
+                            <input class="form-control" type="text" id="phone" name="phone"  >
                         </div>
 
 
@@ -247,7 +247,7 @@
     
                             <div class="form-group">
                                 <label for="exampleInputEmail1">الهاتف</label>
-                                <input class="form-control" type="number" id="phone" name="phone"  >
+                                <input class="form-control" type="text" id="phone" name="phone"  >
                             </div>
     
     
