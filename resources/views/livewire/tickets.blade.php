@@ -37,7 +37,7 @@
                     <label for="recipient-name" class="col-form-label">حالة طلب الإصلاح</label>
                     <select  class="form-control" name="state" wire:model="state" >
                         <option value="" selected>اختر الحالة</option>
-                        <option value="pending">قيد التنفيذ</option>
+                        <option value="pending">معطل</option>
                         <option value="in_progress">تحت التنفيذ</option>
                         <option value="closed">تمت</option>
                     </select>

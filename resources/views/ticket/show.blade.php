@@ -78,8 +78,8 @@
                             <tr>
                                 <td>{{ $ticket->client->name }}</td>
                                 <td>{{ $ticket->product->name ?? '' }}</td>
-                                <td>{{ $ticket->client->name }}</td>
-                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->reporter->name }}</td>
+                                <td>{{ $ticket->created_at }}</td>
                                 <td>{{ ($ticket->ticket_type == 'invoice')? 'إصلاح بفاتورة' : 'داخل الضمان' }}</td>
                                 <td>{{ $ticket->state }}</td>
                                 <td>{{ $ticket->address }}</td>
@@ -161,6 +161,7 @@
                             <td>{{ $item->details }}</td>
                         </tr>
                     @endforeach
+                    @endif
                     @foreach ($ticket->ticket_employee_daily_payment as $pivot)
                         <tr>
                             <td>يومية عامل</td>
@@ -168,7 +169,6 @@
                             <td>{{ $pivot->employee->name }} / {{ $pivot->date }}</td>
                         </tr>
                     @endforeach
-                    @endif
                 </tbody>
             </table>
         </dev>
