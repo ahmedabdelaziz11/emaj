@@ -217,8 +217,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
     Route::get('get-all-products/{search?}', 'App\Http\Controllers\ProductSpareController@getAllProducts');
 
-    Route::resource('addresses', 'App\Http\Controllers\AddresseController');
-    Route::get('get-addresses-select2/{search?}', 'App\Http\Controllers\AddresseController@getAddressesSelect2');
+    Route::resource('addresses', 'App\Http\Controllers\AddressController');
+    Route::get('get-addresses-select2/{search?}', 'App\Http\Controllers\AddressController@getAddressesSelect2');
 
 
     Route::resource('insurances', 'App\Http\Controllers\InsuranceController');

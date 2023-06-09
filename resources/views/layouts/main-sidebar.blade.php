@@ -139,6 +139,7 @@
 						<ul class="slide-menu">
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='employees') }}">الموظفيين</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='attendances') }}">الحضور</a></li>
+							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='addresses') }}">العناوين</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='product-spare') }}">قطع غيار المنتجات</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='insurances') }}">الضمانات</a></li>
 							<li><a class="slide-item" style="font-size: 15px;font-weight: bold;" href="{{ url('/' . $page='maintenance-contracts') }}">عقود الصيانة</a></li>
