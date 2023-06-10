@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -145,5 +146,22 @@ class Ticket extends Model
             $ticketTotalCompensations += $spareProduct->pivot->product_Purchasing_price;
         }
         return $ticketTotalCompensations;
+    }
+    
+    public static function pendingTicketCount()
+    {
+        return static::where('state','pending')->count();
+    }
+    
+    public static function inProgressTicketCount()
+    {
+        return static::where('state','in_progress')->count();
+    }
+
+    public static function closedTicketCount()
+    {
+        return static::where('state','closed')
+        ->whereMonth('date', Carbon::now()->month)
+        ->count();
     }
 }

@@ -253,6 +253,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('maintenance-excel', 'App\Http\Controllers\MaintenanceContractController@maintenanceExcel');
     Route::post('print-maintenance-table', 'App\Http\Controllers\MaintenanceContractController@printMaintenanceTable');
     Route::post('tickets/employees/{ticket}', 'App\Http\Controllers\TicketController@assignTicketEmployees');
+
+    Route::get('crm-dashboard','App\Http\Controllers\CrmController@index');
 });
 // get all attendance for specific employee
 
