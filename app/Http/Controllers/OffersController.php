@@ -37,7 +37,7 @@ class OffersController extends Controller
      */
     public function create()
     {
-        $stocks = Stock::where('name','!=','قطع الغيار')->get();
+        $stocks = Stock::all();
         $clients  = clients::all();
         return view('offers.create',compact('clients','stocks'));
     }
