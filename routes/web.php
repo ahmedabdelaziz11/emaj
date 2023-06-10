@@ -255,6 +255,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('tickets/employees/{ticket}', 'App\Http\Controllers\TicketController@assignTicketEmployees');
 
     Route::get('crm-dashboard','App\Http\Controllers\CrmController@index');
+    Route::get('tickets-reports', 'App\Http\Controllers\TicketController@reports')->name('tickets.reports');
+
 });
 // get all attendance for specific employee
 

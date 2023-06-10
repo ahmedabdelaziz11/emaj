@@ -136,4 +136,15 @@ class TicketController extends Controller
         return json_encode($products);
     }
 
+    function reports(Request $request)
+    {
+        $clients = AllAccount::select('id', 'name')
+            ->clients()
+            ->get();
+        $employees = Employee::select('id', 'name')
+            ->get();
+        $tickets = $this->ticketService->getTicketReports($request->all());
+        return view('ticket.report', compact('tickets', 'clients', 'employees'));
+    }
+
 }

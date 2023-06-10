@@ -98,7 +98,7 @@ class Ticket extends Model
     {
         switch ($value) {
             case 'pending':
-                return 'قيد التنفيذ';
+                return 'معطل';
                 break;
             case 'in_progress':
                 return 'تحت التنفيذ';

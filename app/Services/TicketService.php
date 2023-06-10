@@ -147,6 +147,43 @@ class TicketService
         ->paginate(15);
     }
 
+    function getTicketReports($formData)
+    {
+        $tickets = Ticket::query();
+        // dd($formData);
+        if (array_key_exists('client_id', $formData) && !empty($formData['client_id'])) {
+            $tickets->where('client_id', $formData['client_id']);
+        }
+        if (array_key_exists('from_date', $formData) && !empty($formData['from_date'])) {
+            $tickets->where('date', '>=', $formData['from_date']);
+        }
+        if (array_key_exists('to_date', $formData) && !empty($formData['to_date'])) {
+            $tickets->where('date', '<=', $formData['to_date']);
+        }
+        if (array_key_exists('state', $formData) && !empty($formData['state'])) {
+            $tickets->where('state', $formData['state']);
+        }
+        if (array_key_exists('ticket_type', $formData) && !empty($formData['ticket_type'])) {
+            $tickets->where('ticket_type', $formData['ticket_type']);
+        }
+        if (array_key_exists('product', $formData) && !empty($formData['product'])) {
+            $tickets->where('invoice_product_id', $formData['product']);
+        }
+        if (array_key_exists('employees', $formData) && !empty($formData['employees'][0])) {
+            // dd($formData['employees']);
+            $joins = Ticket::query()
+                ->join('employee_ticket', 'tickets.id', '=', 'employee_ticket.ticket_id')
+                ->whereIn('employee_ticket.employee_id', $formData['employees'])
+                ->select('tickets.id')
+                ->get()
+                ->toArray();
+            $tickets->whereIn('id', $joins);
+            // dd($tickets->toSql());
+        }
+
+        return $tickets->get();
+    }
+
     public function getCompensationTypes()
     {
         return CompensationType::all();
