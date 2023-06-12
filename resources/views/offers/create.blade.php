@@ -264,10 +264,7 @@ window.onload = function (){
   $(document).ready(function() {   
         
       $('select[name="stock_id"]').on('change', function() {
-        var stock_id = $(this).val();
-        if($("#stock_id option:selected").text() =="قطع الغيار"){
-          $("#ticketDev").css('display','block');
-        }else{
+          var stock_id = $(this).val();
           $("#ticketDev").css('display','none');
           $('select[name="products"]').empty();
           $('#item_picker2').empty();
@@ -301,8 +298,6 @@ window.onload = function (){
           } else {
               console.log('AJAX load did not work');
           }
-        }
-
       });
   });
 </script>
