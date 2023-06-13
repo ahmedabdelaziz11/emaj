@@ -82,7 +82,7 @@ class InsuranceService
         ->paginate(15);
     }
 
-    public function createManyInsurance($invoice_product_id,$is_in_isurance,$client_id,$address_id,$start_date,$end_date,$compensation)
+    public function createManyInsurance($invoice_product_id,$is_in_isurance,$client_id,$address,$start_date,$end_date,$compensation)
     {
         foreach($invoice_product_id as $key => $value)
         {
@@ -91,7 +91,7 @@ class InsuranceService
                 $insurance = Insurance::create([
                     'invoice_product_id' => $value,
                     'client_id' => $client_id,
-                    'address_id' => $address_id[$key] ?? null,
+                    'address' => $address[$key] ?? null,
                     'start_date' => $start_date[$key],
                     'end_date' => $end_date[$key],
                     'compensation' => $compensation[$key],
@@ -109,7 +109,7 @@ class InsuranceService
         }
     }
 
-    public function updateInsurance($start_date,$end_date,$compensation,$address_id,$serial,$model_number,InsuranceSerial $insurance)
+    public function updateInsurance($start_date,$end_date,$compensation,$address,$serial,$model_number,InsuranceSerial $insurance)
     {
         $insurance->update([
             'serial' => $serial,
@@ -119,7 +119,7 @@ class InsuranceService
             'start_date' => $start_date,
             'end_date' => $end_date,
             'compensation' => $compensation,
-            'address_id' => $address_id,
+            'address' => $address,
         ]);
     }
 

@@ -38,6 +38,23 @@
 		.zxc td { border-left: 1px solid #000; }
 		.zxc td:first-child { border-left: none; }
 	}
+    @media print3 {
+		#excel{
+			display: none;
+		}
+        #print_Button{ 
+			display: none;
+		}
+        #sub_print{
+            display: none;
+        }
+		.zxc{
+			border: none; border-collapse: collapse; 
+			
+		}
+		.zxc td { border-left: 1px solid #000; }
+		.zxc td:first-child { border-left: none; }
+	}
 </style>
 @endsection
 @section('title')
@@ -105,6 +122,7 @@
                                         <ul class="nav panel-tabs main-nav-line">
                                             <li><a href="#tab6" class="nav-link active" data-toggle="tab">العرض</a></li>
                                             <li><a href="#tab7" class="nav-link" data-toggle="tab">offer</a></li>
+                                            <li><a href="#tab8" class="nav-link" data-toggle="tab">العرض بالصور</a></li>
                                             @can('تعديل عرض')
                                                 <li><a href="#tab5" class="nav-link" data-toggle="tab">تعديل</a></li>
                                             @endcan
@@ -382,7 +400,174 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="tab-pane" id="tab8">
+                                            <div class="row row-sm">
+                                                <div class="col-md-12 col-xl-12">
+                                                    <div class=" main-content-body-invoice" id="print3">
+                                                        <div class="card card-invoice">
+                                                            <div class="card-body">
+                                                                <div class="invoice-header">
+                                                                    <img src="{{URL::asset('assets/img/brand/logo.png')}}" style="height:150px;width: 150px;" class="logo-1" alt="logo">
+                                                                    <div class="billed-from">
+                                                                        <h6></h6>
+                                                                        <p style="font-weight: bold">شركة ايماج للهندسة و التجارة     <br>
+                                                                        ٣ محمد سليمان غنام , من محمد رفعت ,النزهة الجديدة      <br>
+                                                                            الهاتف :  01000241938 / 01208524340   <br>
+                                                                            الايميل :  info@emajegypt.com <br>
+                                                                            س-ت : 110422 / ب-ض : 560-137-548
+                                                                        </p>
+                                                                    </div><!-- billed-from -->
+                                                                </div><!-- invoice-header -->
+                                                                <h1 style="text-align: center ; font-weight: bold">عرض اسعار</h1>
+                                                                <div class="row mg-t-20">
+                                                                    <div class="col-md">
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span> اسم العرض</span> <span>{{$offer->name}}</span></p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span> اسم العميل</span> <span>{{$offer->client->client_name}}</span></p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span> اسم الشركه</span> <span>{{$offer->client->Commercial_Register}}</span></p>
+                                                                    </div>
+                                                                    <div class="col-md" style="margin-right: 80px">
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>العنوان</span> <span>{{$offer->client->address}}</span></p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span>التليفون</span> <span>{{$offer->client->phone}}</span></p>
+                                                                        <p class="invoice-info-row"style="font-size: 17px;font-weight: bold"><span> تاريخ اصدار العرض</span> <span>{{$offer->date}}</span></p>
+                                                                        <a href="#" class="btn btn-danger float-left mt-3 mr-2" id="print_Button" onclick="printDiv3()">
+                                                                                                <i class="mdi mdi-printer ml-1"></i>Print
+                                                                                            </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive mg-t-40">
+                                                                    <table class="table table-invoice border text-md-nowrap mb-0">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">م</th>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">اسم / ماركه </th>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">التوصيف</th>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">الكمية</th>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">سعر الوحدة</th>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">الاجمالى</th>
+                                                                                <th style="font-size: 17px;font-weight: bold;  border: 1px solid rgb(177, 170, 170);color: black;" class="tx-center">الصورة</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <?php $i = 0; $totalall = 0; ?>
+                                                                            @foreach ($offer->products as $product)
+                                                                                <?php
+                                                                                    $i++;
+                                                                                    $total = $product->pivot->product_quantity * $product->pivot->product_price;
+                                                                                    $totalall = $totalall + $total ;
+                                                                                ?>
+                                                                                <tr>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $i }}</td>
+                                                                                    <td style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $product->name }}</td>
+                                                                                    <td style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);"><pre style="border:none;font-size: 14px;font-weight: bold;">{!! $product->description !!}</pre></td>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $product->pivot->product_quantity }}</td>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ number_format($product->pivot->product_price,2) }}</td>													                              
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ number_format($product->pivot->product_quantity * $product->pivot->product_price,2) }}</td>			
+                                                                                    <td style="border: 1px solid rgb(177, 170, 170);vertical-align: middle;"><img src="{{ asset('Attachments/products/'.$product->id.'/'.$product->image) }}" width="100" height="120"></td>
+                                                                                </tr>
+                                                                                @php
+                                                                                    $discount = (  $offer->discount / 100 ) * $totalall;
+                                                                                    $after_discount = $totalall - $discount ;
+                                                                                @endphp
+                                                                            @endforeach
+                                                                            @foreach ($offer->composite_products as $product)
+                                                                                <?php
+                                                                                    $i++;
+                                                                                    $total = $product->pivot->quantity * $product->pivot->selling_price;
+                                                                                    $totalall = $totalall + $total ;
+                                                                                ?>
+                                                                                <tr>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $i }}</td>
+                                                                                    <td style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $product->name }}</td>
+                                                                                    <td style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);"><pre style="border:none;font-size: 16px;font-weight: bold;">{!! $product->description !!}</pre></td>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $product->pivot->quantity }}</td>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ number_format($product->pivot->selling_price,2) }}</td>													                              
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ number_format($product->pivot->quantity * $product->pivot->selling_price,2) }}</td>													                              
+                                                                                </tr>
+                                                                                @php
+                                                                                    $discount = (  $offer->discount / 100 ) * $totalall;
+                                                                                    $after_discount = $totalall - $discount ;
+                                                                                @endphp
+                                                                            @endforeach
+                                                                            <?php $totalser = 0; ?>
+                                                                            @forelse($offer->offer_services as $s)
+                                                                                <?php
+                                                                                    $i++;
+                                                                                    $totalser += $s->price ;
+                                                                                ?>
+                                                                                <tr>
+                                                                                    <td class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $i }}</td>
+                                                                                    <td colspan="2" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ $s->details }}</td>
+                                                                                    <td colspan="3" class="text-center" style="font-size: 17px;font-weight: bold;border: 1px solid rgb(177, 170, 170);">{{ number_format($s->price,2) }}</td>													                              
+                                                                                </tr>
+                                                                            @empty
+                                                                            @endforelse
 
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div class="table-responsive mg-t-40" style="width: 50%; float: left;margin-bottom: 10px;">
+                                                                        <table class="table table-invoice  text-md-nowrap mb-0">
+                                                                            <tbody class="tx-right">
+                                                                                <tr class="border border-light tx-right">
+                                                                                    <th class="text-center" style="font-size: 17px;font-weight: bold;">الاجمالى</th>
+                                                                                    <th class="text-center" style="font-size: 17px;font-weight: bold;" colspan="2">{{ number_format($totalall,2) }}</th>
+                                                                                </tr>
+                                                                                @if($totalser != 0)
+                                                                                    <tr class="border border-light tx-right">
+                                                                                        <th class="text-center" style="font-size: 17px;font-weight: bold;">الخدمات</th>
+                                                                                        <th class="text-center" style="font-size: 17px;font-weight: bold;" colspan="2">{{ number_format($totalser,2) }}</th>
+                                                                                    </tr>
+                                                                                @endif
+                                                                                @if($offer->value_added != 0)
+                                                                                    <tr class="border border-light tx-right">
+                                                                                        <th class="text-center" style="font-size: 17px;font-weight: bold;">القيمة المضافة</th>
+                                                                                        <th class="text-center" style="font-size: 17px;font-weight: bold;" colspan="2">{{ number_format(($totalall * .14 ),2) }}</th>
+                                                                                    </tr>
+                                                                                @endif
+                                                                                @if($offer->discount != 0)
+                                                                                <tr class="border border-light tx-right">
+                                                                                    <th class="text-center" style="font-size: 17px;font-weight: bold;"> نسبة الخصم</th>
+                                                                                    <th class="text-center" style="font-size: 17px;font-weight: bold;" colspan="2">{{ number_format($offer->discount,2) }}%</th>
+                                                                                </tr>
+                                                                                @endif
+                                                                                <tr class="border border-light tx-right">
+                                                                                    <th class="text-center" style="font-size: 23px;font-weight: bold;">الصافى</th>
+                                                                                    <?php 
+                                                                                        if($offer->discount != 0)
+                                                                                        {
+                                                                                            $totalall -= ($totalall * ($offer->discount / 100));
+                                                                                        }
+                                                                                        
+                                                                                        if($offer->value_added != 0)
+                                                                                        {
+                                                                                            $totalall += ($totalall * .14) ;
+                                                                                        }
+                                                                                        
+
+                                                                                    ?>
+
+                                                                                    <th class="text-center" style="font-size: 23px;font-weight: bold;" colspan="2">{{ number_format($totalall + $totalser  ,2)}}</th>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <br>
+                                                                    <table>
+                                                                        <tr>										
+                                                                            <td class="tx-right" colspan="6">
+                                                                                <div class="invoice-notes">
+                                                                                    <p style="color: black"><pre style="color: black;font-size: 16px; border:none">{{$offer->constraints}}</pre></p>
+                                                                                </div><!-- invoice-notes -->
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="tab-pane" id="tab5">
                                             <div class="card-body">
                                                 <form  action="{{ route('offers.update',$offer->id) }}" method="post" autocomplete="off">
@@ -512,10 +697,7 @@
                                                 </div><br>
                                                 <div class="row">
                                                     <div class="form-group col-12">
-                                                        <select class="form-control select2 address" name="address_id">
-                                                            <option value=" ">اختر العنوان</option>
-                    
-                                                        </select>
+                                                        <input type="text" name="address" value="{{$offer->address}}" class="form-control">
                                                     </div>
                                                 </div><br>
                                                 <div class="row">
@@ -597,22 +779,6 @@ function deleteRow(btn) {
 }
 </script>
 <script>
-        $(document).ready(function(){
-            $('.address').select2({
-                placeholder: 'Enter a parent address',
-                ajax: {
-                    dataType: 'json',
-                    url: function(params) {
-                        return '/get-addresses-select2/' + params.term;
-                    },
-                    processResults: function (data, page) {
-                        return {
-                        results: data || ' '
-                        };
-                    },
-                }
-            });
-        });
         window.onload = function (){
             stock_id  = document.getElementById('tem_stock_id').value;
             ticket_id = document.getElementById('tem_ticket_id').value;
@@ -766,6 +932,14 @@ function deleteRow(btn) {
 
     function printDiv2() {
         var printContents = document.getElementById('print2').innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+        location.reload();
+    }
+    function printDiv3() {
+        var printContents = document.getElementById('print3').innerHTML;
         var originalContents = document.body.innerHTML;
         document.body.innerHTML = printContents;
         window.print();

@@ -82,10 +82,8 @@
                         </div>
                         <div class="form-group col-6">
                           <label>العنوان</label>
-                          <select class="form-control select2 address" name="address_id">
-                            <option value=" ">اختر العنوان</option>
-    
-                          </select>
+                          <input type="text" class="form-control" name="address">
+
                         </div>
                       </div>
                       <br>
@@ -166,20 +164,6 @@
   <script>
 
     $(document).ready(function(){
-        $('.address').select2({
-            placeholder: 'Enter a parent address',
-            ajax: {
-                dataType: 'json',
-                url: function(params) {
-                    return '/get-addresses-select2/' + params.term;
-                },
-                processResults: function (data, page) {
-                    return {
-                    results: data || ' '
-                    };
-                },
-            }
-        });
         $('.allProducts').select2({
           placeholder: 'Enter a tag',
           ajax: {

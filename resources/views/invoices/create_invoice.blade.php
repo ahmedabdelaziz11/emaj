@@ -59,7 +59,7 @@
               <div class="card-body">
                     <form  action="{!! route('invoices.store') !!}" method="post" enctype="multipart/form-data" autocomplete="off">
                         @csrf
-                        <input type="hidden" id="address_id" name="adress_id">
+                        <input type="hidden" id="address" name="adress">
                         <input type="hidden" id="ticket_id" name="ticket_id">
                         <div class="d-flex justify-content-center">
                           <h1> </h1>
@@ -289,7 +289,7 @@
                     document.getElementById("total").value  = data['total'];
                     document.getElementById("profit").value = data['profit'];
                     document.getElementById("c_sales").value = data['c_sales'];
-                    document.getElementById("address_id").value = data['address_id'];
+                    document.getElementById("address").value = data['address'];
                     document.getElementById("ticket_id").value = data['ticket_id'];
                     updateTotal1();
                   },

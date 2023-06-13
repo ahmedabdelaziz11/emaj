@@ -164,7 +164,7 @@
                                                         </div>
 
                                                         <div class="col-4">
-                                                            <label>الحد الاقصى</label>
+                                                            <label>القيمة المسموح بها بالجنية</label>
                                                             <input class="form-control" name="compensation" type="number" step=".01" value="{{$insurance->insurance->compensation ?? ''}}" required>
                                                         </div>
                                                     </div>
@@ -172,9 +172,7 @@
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <label>العنوان</label>
-                                                            <select class="form-control select2 addresss" name="address_id">
-                                                                <option value="{{$insurance->insurance->address_id ?? ''}}">{{$insurance->insurance->address->name ?? ''}}</option>
-                                                            </select>
+                                                            <input type="text" class="form-control" name="address" value="{{$insurance->insurance->address ?? ''}}">
                                                         </div>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary w-100 mt-4">تعديل الطلب</button>

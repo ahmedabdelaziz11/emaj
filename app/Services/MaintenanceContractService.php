@@ -60,7 +60,7 @@ class MaintenanceContractService
         $maintenance_contract = MaintenanceContract::create([
             'start_date' => $formData['start_date'],
             'end_date' => $formData['end_date'],
-            'address_id' => $formData['address_id'],
+            'address' => $formData['address'],
             'client_id' => $formData['client_id'],
             'contract_amount' => $formData['contract_amount'],
             'periodic_visits_count' => $formData['periodic_visits_count'],
@@ -75,7 +75,7 @@ class MaintenanceContractService
         $maintenanceContract->update([
             'start_date' => $formData['start_date'],
             'end_date' => $formData['end_date'],
-            'address_id' => $formData['address_id'],
+            'address' => $formData['address'],
             'client_id' => $formData['client_id'],
             'contract_amount' => $formData['contract_amount'],
             'periodic_visits_count' => $formData['periodic_visits_count'],

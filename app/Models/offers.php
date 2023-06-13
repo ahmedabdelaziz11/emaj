@@ -44,11 +44,6 @@ class offers extends Model
     {
         return $this->belongsTo('App\Models\Ticket','ticket_id','id');
     }
-
-    public function address()
-    {
-        return $this->belongsTo('App\Models\Address','address_id','id');
-    }
 }
 
 

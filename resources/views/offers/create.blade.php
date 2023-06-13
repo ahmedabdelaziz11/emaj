@@ -68,7 +68,7 @@
                             <select class="form-control select2 " name="client_id" required="required">
                               <option value="">اختر العميل </option>
                               @foreach ($clients as $client)
-                                <option    value="{{ $client->id }}">{{ $client->client_name }}</option>
+                                <option value="{{ $client->id }}">{{ $client->client_name }}</option>
                               @endforeach
                             </select>
                             @endif
@@ -134,10 +134,7 @@
                       </div><br>
                       <div class="row">
                         <div class="form-group col-12">
-                          <select class="form-control select2 address" name="address_id">
-                            <option value=" ">اختر العنوان</option>
-    
-                          </select>
+                          <input type="text" name="address" class="form-control">
                         </div>
                       </div><br>
                       <div class="row">
@@ -224,22 +221,6 @@ The period of validity of the offer is a week from the date
 </script>
 
 <script>
-    $(document).ready(function(){
-        $('.address').select2({
-            placeholder: 'Enter a parent address',
-            ajax: {
-                dataType: 'json',
-                url: function(params) {
-                    return '/get-addresses-select2/' + params.term;
-                },
-                processResults: function (data, page) {
-                    return {
-                    results: data || ' '
-                    };
-                },
-            }
-        });
-    });
 window.onload = function (){
   var ticket_id = $("#ticket_id").val();
   var stock_id  = $("#stock_id").val();

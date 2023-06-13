@@ -7,7 +7,7 @@
 <link href="{{URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{URL::asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link href="{{URL::asset('assets/plugins/summernote.min.css')}}" rel="stylesheet">
 <!--Internal   Notify -->
 
 
@@ -102,7 +102,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="create_form" action="{{ route('products.store') }}" method="post">
+                    <form id="create_form" action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -159,6 +159,11 @@
 
                             </select>
                         </div> 
+
+                        <div class="form-group">
+                            <input type="file" name="pic" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
+                                data-height="70" />
+                        </div>
                         
                         <div class="modal-footer">
                             <button type="submit" id="create" class="btn btn-success">تاكيد</button>
@@ -187,7 +192,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="products/update" method="post" autocomplete="off">
+                <form action="products/update" method="post" autocomplete="off" enctype="multipart/form-data">
                     {{ method_field('patch') }}
                     {{ csrf_field() }}
                     <div class="form-group">
@@ -245,6 +250,10 @@
 
                             </select>
                         </div> 
+                        <div class="form-group">
+                            <input type="file" name="pic" class="dropify" accept=".jpg, .png, image/jpeg, image/png"
+                                data-height="70" />
+                        </div>
 
             </div>
             <div class="modal-footer">
@@ -313,7 +322,7 @@
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
 <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
 <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="{{URL::asset('assets/plugins/summernote.min.js')}}"></script>
 <script src="{{ URL::asset('assets/js/advanced-form-elements.js') }}"></script>
 <script src="{{ URL::asset('assets/js/select2.js') }}"></script>
     <!-- Internal Select2 js-->

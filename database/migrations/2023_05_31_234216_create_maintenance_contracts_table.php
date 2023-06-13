@@ -15,14 +15,13 @@ class CreateMaintenanceContractsTable extends Migration
     {
         Schema::create('maintenance_contracts', function (Blueprint $table) {
             $table->id();
-            $table->BigInteger('address_id')->nullable()->unsigned();
+            $table->text('address')->nullable();
             $table->BigInteger('client_id')->unsigned();
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('contract_amount',10,2);
             $table->integer('periodic_visits_count');
             $table->integer('emergency_visits_count');
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -67,7 +67,13 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $request->validate(['name' => 'required|unique:products|max:255'],['name.unique' =>'اسم المنتج مسجل مسبقا',]);
-        products::create([
+        $file_name = '';
+        if ($request->hasFile('pic')) 
+        {
+            $image = $request->file('pic');
+            $file_name = $image->getClientOriginalName();
+        }
+        $product = products::create([
             'name' => $request->name,
             'name_en' => $request->name_en,
             'description' => $request->description,
@@ -77,7 +83,13 @@ class ProductsController extends Controller
             'quantity' => $request->start_quantity,
             'start_quantity' => $request->start_quantity,
             'section_id' => $request->section_id,
+            'image' => $file_name,
         ]);
+
+        if ($request->hasFile('pic')) 
+        {
+            $request->pic->move(public_path('Attachments/products/' . $product->id), $file_name);
+        }
         session()->flash('Add', 'تم اضافة المنتج بنجاح ');
         return back();
     }
@@ -97,6 +109,13 @@ class ProductsController extends Controller
 
         $quantity = $product->quantity - $product->start_quantity;
         $quantity += $request->start_quantity;
+
+        $file_name = '';
+        if ($request->hasFile('pic')) 
+        {
+            $image = $request->file('pic');
+            $file_name = $image->getClientOriginalName();
+        }
         $product->update([
             'name' => $request->name,
             'name_en' => $request->name_en,
@@ -107,7 +126,12 @@ class ProductsController extends Controller
             'selling_price' => $request->selling_price,
             'start_quantity' => $request->start_quantity,
             'quantity' => $quantity,
+            'image' => $file_name,
         ]);
+        if ($request->hasFile('pic')) 
+        {
+            $request->pic->move(public_path('Attachments/products/' . $product->id), $file_name);
+        }
         session()->flash('edit','تم تعديل المنتج بنجاج');
         return back();
     }
