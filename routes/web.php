@@ -235,7 +235,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('attendances/checkout/{employee?}/{date?}', 'App\Http\Controllers\AttendanceController@checkout');
 
     Route::resource('compensation-types', 'App\Http\Controllers\CompensationTypeController');
-    Route::resource('tickets', 'App\Http\Controllers\TicketController');
+    Route::resource('tickets', 'App\Http\Controllers\TicketController')->except(['update', 'destroy']);
+    Route::post('tickets/{ticket}/update', 'App\Http\Controllers\TicketController@update')->name('tickets.update');
     Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
     Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@closeTicket')->name('tickets.compensation.store');
     Route::get('check-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@checkClientInsuranceState')->name('client-insurance-check');

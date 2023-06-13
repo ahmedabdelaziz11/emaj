@@ -68,7 +68,7 @@
                 {{ method_field('post') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <h5>تكاليف طلب الإصلاح</h5>
                         <div id="compensationsContainer">
                             <div class="row">
@@ -91,7 +91,7 @@
                         <div class="row m-2">
                             <button type="button" class="btn btn-sm btn-primary" id="addNewCompensation">اضافة تكلفة جديدة</button>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <div class="row">
                             <div class="col-8">

@@ -33,7 +33,17 @@ class TicketService
 
     public function update(Ticket $ticket, $formData)
     {
-        $ticket->update($formData);
+        // dd($formData);
+        $ticket->update([
+            'date' => $formData['date'],
+            'address' => $formData['address'],
+        ]);
+        if (array_key_exists('compensation_type', $formData) && !empty($formData['compensation_type'])) {
+            $this->createTicketCompensation($ticket, $formData);
+        }
+        if (array_key_exists('details', $formData) && !empty($formData['details'])) {
+            $this->createTicketDetails($ticket, $formData);
+        }
         return $ticket;
     }
 
@@ -74,7 +84,9 @@ class TicketService
     }
     public function closeTicket(Ticket $ticket, $formData)
     {
-        $this->createTicketCompensation($ticket, $formData);
+        if (array_key_exists('compensation_type', $formData) && !empty($formData['compensation_type'])) {
+            $this->createTicketCompensation($ticket, $formData);
+        }
         if ($formData['feedback'] && $formData['feedback'] != '') {
             switch ($formData['feedback']) {
                 case '1':

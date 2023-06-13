@@ -29,7 +29,7 @@ class UpdatingTicketListener
     public function handle(TicketUpdated $event)
     {
         $ticket = $event->ticket;
-        $this->createTicketLog($ticket)
+        $this->createTicketLog($ticket);
     }
 
     public function createTicketLog($ticket)

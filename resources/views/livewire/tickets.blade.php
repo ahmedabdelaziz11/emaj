@@ -64,26 +64,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($tickets as $x)
+                        @foreach ($tickets as $ticket)
                             <tr class="text-center">
-                                <td><a href="{{ url('tickets') }}/{{ $x->id }}">{{ $x->id }}</a></td>
-                                <td>{{ $x->date }}</td>                     
-                                <td>{{ $x->client->name}}</td>                     
-                                <td>{{ $x->reporter->name }}</td>        
-                                <td>{{ $x->state }}</td>             
+                                <td><a href="{{ url('tickets') }}/{{ $ticket->id }}">{{ $ticket->id }}</a></td>
+                                <td>{{ $ticket->date }}</td>                     
+                                <td>{{ $ticket->client->name}}</td>                     
+                                <td>{{ $ticket->reporter->name }}</td>        
+                                <td>{{ $ticket->state }}</td>             
                                 <td>
                                     <a class="modal-effect btn btn-sm btn-warning" 
-                                        href="{{route('tickets.show', $x)}}" title="عرض طلب الإصلاح"> <i class="las la-eye"></i> 
+                                        href="{{route('tickets.show', $ticket)}}" title="عرض طلب الإصلاح"> <i class="las la-eye"></i> 
                                     </a>
-                                    @if ($x->state != 'تمت')
-                                <a class="modal-effect btn btn-sm btn-primary" href="{{ route('create-offer-for-ticket', $x->id) }} title="عرض أسعار"><i class="las la-dollar-sign"></i>
+                                    @if ($ticket->state != 'تمت')
+                                <a class="modal-effect btn btn-sm btn-primary" href="{{ route('create-offer-for-ticket', $ticket->id) }}" title="عرض أسعار"><i class="las la-dollar-sign"></i>
                                 </a>
                                 <a class="modal-effect btn btn-sm btn-secondary" data-effect="effect-scale"
-                                data-id="{{ $x->id }}" data-name="{{ $x->id }}"
+                                data-id="{{ $ticket->id }}" data-name="{{ $ticket->id }}"
                                 data-toggle="modal" href="#modaldemo3" title="أمر شغل"><i class="las la-briefcase"></i>
-                                </a>
+                            </a>
+                            <a class="modal-effect btn btn-sm btn-primary" href="{{ route('tickets.edit', $ticket) }}" title="تحديث حالة طلب الإصلاح"><i class="las la-pen"></i>
+                            </a>
                                     <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                        data-id="{{ $x->id }}" data-name="{{ $x->id }}"
+                                        data-id="{{ $ticket->id }}" data-name="{{ $ticket->id }}"
                                         data-toggle="modal" href="#modaldemo2" title="إنهاء طلب الإصلاح"><i class="las la-check"></i>
                                     </a>
                                 @endif

@@ -85,7 +85,8 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        return view('ticket.edit', compact('ticket'));
+        $compensationTypes = $this->ticketService->getCompensationTypes();
+        return view('ticket.edit', compact('ticket', 'compensationTypes'));
     }
 
     /**
@@ -99,7 +100,7 @@ class TicketController extends Controller
     {
         $this->ticketService->update($ticket, $request->all());
         event(new TicketUpdated($ticket, $request->all()));
-        return redirect()->route('tickets.index');
+        return redirect()->route('tickets.show', $ticket)->with('success', 'Ticket updated successfully');
     }
 
     /**
