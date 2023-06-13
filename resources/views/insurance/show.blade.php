@@ -164,7 +164,7 @@
                                                         </div>
 
                                                         <div class="col-4">
-                                                            <label>الحد الاقصى</label>
+                                                            <label>القيمة المسموح بها بالجنية</label>
                                                             <input class="form-control" name="compensation" type="number" step=".01" value="{{$insurance->insurance->compensation ?? ''}}" required>
                                                         </div>
                                                     </div>
