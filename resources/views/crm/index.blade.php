@@ -85,7 +85,7 @@
 						<table class="table table-bordered mg-b-0 text-md-nowrap" style="font-size:18px;">
 							<tbody>
 								<tr class="text-center" >
-									<td class="text-center" colspan="2">المنتجات الاكثر استخداما</td>
+									<td class="text-center" colspan="2">قطع الغيار الاكثر استخداما</td>
 								</tr>
 								<tr>
 									<td>اسم المنتج</td>
