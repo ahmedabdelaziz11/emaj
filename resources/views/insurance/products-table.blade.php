@@ -16,7 +16,7 @@
                 <td>
                     {{ $x->invoice->id }} 
                     <input type="hidden" name="invoice_product_id[]" value="{{$x->id}}"> 
-                    <input type="hidden" name="address_id[]" value="{{$x->invoice->address_id}}">
+                    <input type="hidden" name="address[]" value="{{$x->invoice->address}}">
                 </td>                     
                 <td>
                     <input type="checkbox" class="form-control form-control-sm is_in_isurance">

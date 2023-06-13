@@ -159,10 +159,8 @@
                                                             </div>
                                                             <div class="form-group col-6">
                                                                 <label>العنوان</label>
-                                                                <select class="form-control select2 address" name="address_id">
-                                                                    <option value="{{$maintenanceContract->address_id}}">{{$maintenanceContract->address->name ?? ''}}</option>
-                                            
-                                                                </select>
+                                                                <input type="text" class="form-control" name="address" value="{{$maintenanceContract->address}}">
+
                                                             </div>
                                                         </div>
                                                         <br>

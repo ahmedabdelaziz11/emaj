@@ -379,7 +379,7 @@
                                                 <form action="{{ route('invoices.update',$invoice->id) }}" method="post" enctype="multipart/form-data" autocomplete="off">
                                                     @csrf
                                                     {{ method_field('patch') }}
-                                                    <input type="hidden" id="address_id" name="adress_id" value="{{$invoice->adress_id}}">
+                                                    <input type="hidden" id="address" name="adress_id" value="{{$invoice->adress}}">
                                                     <input type="hidden" id="ticket_id" name="ticket_id" value="{{$invoice->ticket_id}}">
                                                     <input type="hidden" name="invoice_id" value="{{$invoice->id}}">
                                                     <div class="row">
@@ -742,7 +742,7 @@
                         document.getElementById("total").value  = data['total'];
                         document.getElementById("profit").value = data['profit'];
                         document.getElementById("c_sales").value = data['c_sales'];
-                        document.getElementById("address_id").value = data['address_id'];
+                        document.getElementById("address").value = data['address'];
                         document.getElementById("ticket_id").value = data['ticket_id'];
                         updateTotal1();
                     },

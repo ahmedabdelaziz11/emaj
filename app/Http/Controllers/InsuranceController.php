@@ -36,7 +36,7 @@ class InsuranceController extends Controller
             $request->invoice_product_id,
             $request->is_in_isurance,
             $request->client_id,
-            $request->address_id,
+            $request->address,
             $request->start_date,
             $request->end_date,
             $request->compensation
@@ -57,7 +57,7 @@ class InsuranceController extends Controller
             $request->start_date,
             $request->end_date,
             $request->compensation,
-            $request->address_id,
+            $request->address,
             $request->serial,
             $request->model_number,
             $insurance
@@ -130,9 +130,9 @@ class InsuranceController extends Controller
         return view('insurance.client-serials-table', compact('serials'));
     }
 
-    public function getInsuranceSerial($insurance_id)
+    public function getInsuranceSerial(InsuranceSerial $insurance)
     {
-        return $this->service->getInsuranceSerial($insurance_id);
+        return $insurance;
     }
 
     public function getInvoiceProductAddress(InvoiceService $invoiceService, $invoice_product_id)
