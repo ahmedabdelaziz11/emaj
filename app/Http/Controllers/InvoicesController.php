@@ -101,7 +101,7 @@ class InvoicesController extends Controller
                 'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
                 'stock_id'      => $request->stock_id,     
                 'ticket_id'      => $request->ticket_id,     
-                'address_id'      => $request->address_id,     
+                'address'      => $request->address,     
                 'value_added'  => $value_added,
                 "Created_by"   => Auth::user()->name,
             ]);
@@ -464,7 +464,7 @@ class InvoicesController extends Controller
                     'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
                     'stock_id'      => $request->stock_id,   
                     'ticket_id'      => $request->ticket_id,  
-                    'address_id'      => $request->address_id,     
+                    'address'      => $request->address,     
                     'value_added'  => $value_added,
                 ]);
 
@@ -791,7 +791,7 @@ class InvoicesController extends Controller
     {
         $offer = offers::find($id);
         $discount = $offer->discount;
-        $address_id = $offer->address_id;
+        $address = $offer->address;
         $ticket_id = $offer->ticket_id;
         $discount = $offer->discount;
         $products = offer_products::where('offer_id',$id)->get();
@@ -827,7 +827,7 @@ class InvoicesController extends Controller
         $offer_data['profit']   = $profit - ($profit * ($discount / 100));
         $offer_data['discount'] = $discount;
         $offer_data['c_sales']  = $c_sales;
-        $offer_data['address_id']  = $address_id;
+        $offer_data['address']  = $address;
         $offer_data['ticket_id']  = $ticket_id;
         return json_encode($offer_data);
     }

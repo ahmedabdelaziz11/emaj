@@ -14,8 +14,7 @@ class AddAddressIdToOffersTable extends Migration
     public function up()
     {
         Schema::table('offers', function (Blueprint $table) {
-            $table->BigInteger('address_id')->nullable()->after('ticket_id')->unsigned();
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('cascade');
+            $table->text('address')->nullable()->after('ticket_id');
         });
     }
 
