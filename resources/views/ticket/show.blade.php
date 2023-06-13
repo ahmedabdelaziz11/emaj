@@ -79,7 +79,7 @@
                                 <td>{{ $ticket->client->name }}</td>
                                 <td>{{ $ticket->product->name ?? '' }}</td>
                                 <td>{{ $ticket->reporter->name }}</td>
-                                <td>{{ $ticket->created_at }}</td>
+                                <td>{{ $ticket->created_at->format('Y-m-d h:i A') }}</td>
                                 <td>{{ ($ticket->ticket_type == 'invoice')? 'إصلاح بفاتورة' : 'داخل الضمان' }}</td>
                                 <td>{{ $ticket->state }}</td>
                                 <td>{{ $ticket->address }}</td>
@@ -109,7 +109,7 @@
                 <tbody>
                     @foreach ($ticketCollection as $item)
                     <tr>
-                        <td>{{ $item->created_at }}</td>
+                        <td>{{ $item->created_at->format('Y-m-d h:i A') }}</td>
                         @if ($item->getTable() == 'ticket_details')
                             <td>إضافة تفاصيل</td>
                             <td>{{ $item->details }}</td>
