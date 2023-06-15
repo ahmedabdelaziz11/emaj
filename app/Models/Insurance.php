@@ -21,11 +21,6 @@ class Insurance extends Model
         return $this->belongsTo(AllAccount::class,'client_id');
     }
 
-    public function address()
-    {
-        return $this->belongsTo(Address::class);
-    }
-
     public function insuranceSerials()
     {
         return $this->hasMany(InsuranceSerial::class, 'insurance_id');

@@ -13,7 +13,7 @@ class MaintenanceContractService
 {
     public function getAllMaintenanceContract($product_name = null,$client_name = null,$start_date = null,$end_date = null)
     {
-        return MaintenanceContract::with('client','address','products')
+        return MaintenanceContract::with('client','products')
         ->when($product_name,function($q,$product_name){
             $q->whereHas('products',function($q)use($product_name){
                 $q->where('name','like','%'.$product_name.'%');
@@ -35,7 +35,7 @@ class MaintenanceContractService
 
     public function getAllMaintenanceContractOutPaginate($product_name = null,$client_name = null,$start_date = null,$end_date = null)
     {
-        return MaintenanceContract::with('client','address','products')
+        return MaintenanceContract::with('client','products')
         ->when($product_name,function($q,$product_name){
             $q->whereHas('products',function($q)use($product_name){
                 $q->where('name','like','%'.$product_name.'%');
