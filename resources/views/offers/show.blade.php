@@ -629,7 +629,7 @@
                                                     </div>
                                                     <div class="form-group col-4">
                                                     <label for="inputName" class="control-label"> اختر المنتجات</label>
-                                                    <select class="form-control select2 " name="products" id="item_picker" required="required">
+                                                    <select class="form-control select2" name="products" id="item_picker" required="required">
                                                         <option value="">اختر المنتجات</option>
                                                     </select>
                                                     </div>
@@ -811,7 +811,7 @@ function deleteRow(btn) {
                         $('select[name="products"]').empty();
                         $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
                         $.each(data, function(key, value) {
-                            $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '</option>');
+                            $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + " - " + value.id + '</option>');
                         });
                     },
                 });
