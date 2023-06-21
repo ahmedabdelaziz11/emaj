@@ -2,7 +2,7 @@
 <select name="invoice_product_id" class="select2 form-control" id="invoice_product_id">
     <option disabled selected>اختر منتج</option>
     @foreach ($serials as $serial)
-        <option value="{{ $serial->id }}">{{ $serial->insurance->invoiceProduct->product->name }}, {{ $serial->serial }}</option>
+        <option value="{{ $serial->id }}"> name ( {{ $serial->insurance->invoiceProduct->product->name }} ) serial ( {{ $serial->serial}} ) model ( {{$serial->model_number}} )</option>
     @endforeach
 </select>
 
@@ -17,7 +17,7 @@
             url: "/get-insurance-address/"+serial_id,
             type: "GET",
         }).done(function(data){
-            $("#address-textfield").val(data.name);
+            $("#address-textfield").val(data);
             console.log(data);
         }).fail(function(){
             console.log("Failed");
