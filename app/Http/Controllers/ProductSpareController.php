@@ -46,4 +46,9 @@ class ProductSpareController extends Controller
     {
         return $this->service->getAllProductForSelect2($search);
     }
+
+    public function getAllSpares($search = null)
+    {
+        return $this->service->getAllSparesForSelect2($search);
+    }
 }
