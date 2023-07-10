@@ -112,4 +112,15 @@ class MaintenanceContractController extends Controller
 
         return view('maintenance-contract.maintenance-table',compact('maintenances'));
     }
+
+    public function checkClientMaintenance($client_id)
+    {
+        return $this->service->checkClientMaintenance($client_id);
+    }
+
+    public function retrieveClientMaintenance($client_id)
+    {
+        $maintenanceProducts = $this->service->retrieveClientMaintenance($client_id);
+        return view('insurance.client-maintenance-select', compact('maintenanceProducts'));
+    }
 }

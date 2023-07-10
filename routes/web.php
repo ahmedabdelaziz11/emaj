@@ -241,7 +241,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@createCompensation');
     Route::post('tickets/compensation/{ticket}', 'App\Http\Controllers\TicketController@closeTicket')->name('tickets.compensation.store');
     Route::get('check-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@checkClientInsuranceState')->name('client-insurance-check');
+    Route::get('check-client-maintenance/{client_id}', 'App\Http\Controllers\MaintenanceContractController@checkClientMaintenance')->name('client-insurance-check');
     Route::get('get-client-insurance/{client}', 'App\Http\Controllers\InsuranceController@getClientInsurance')->name('client-insurance');
+    Route::get('get-client-maintenance/{client_id}', 'App\Http\Controllers\MaintenanceContractController@retrieveClientMaintenance')->name('client-maintenance');
     Route::get('get-client-invoice-products/{client_id}', 'App\Http\Controllers\InsuranceController@retrieveClientInvoiceProducts')->name('client-invoice-products');
     Route::get('get-spare-products-by-ticket/{ticket}/{stock}','App\Http\Controllers\TicketController@ticketSpareProducts');
     Route::get('get-ticket-offers/{ticket_id}', 'App\Http\Controllers\OffersController@getTicketOffers');

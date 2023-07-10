@@ -166,6 +166,20 @@
           }).fail(function() {
             console.log('Failed');
           });
+
+          $.ajax({ 
+            url: '/check-client-maintenance/'+client_id,
+            type: 'get'
+          }).done(function(data) {
+            if (data) {
+              console.log(true);
+              $("#ticket_type").append(`
+                <option value="other">عقد صيانة</option>
+              `)
+            }
+          }).fail(function() {
+            console.log('Failed');
+          });
         });
  
         $("#ticket_type").change(function(){
@@ -183,6 +197,16 @@
           } else if(type === 'warranty') {
             $.ajax({
               url: '/get-client-serials/'+client_id,
+              type: 'get'
+            }).done(function(data) {
+              $("#products").empty();
+              $("#products").append(data)
+            }).fail(function() {
+              console.log('fail');
+            });
+          } else if(type === 'other') {
+            $.ajax({
+              url: '/get-client-maintenance/'+client_id,
               type: 'get'
             }).done(function(data) {
               $("#products").empty();

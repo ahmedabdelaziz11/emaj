@@ -130,4 +130,14 @@ class MaintenanceContractService
         
         return Excel::download(new DataExport($data),'maintenance.xlsx');
     }
+
+    public function checkClientMaintenance($client_id)
+    {
+        return MaintenanceContract::where('client_id', $client_id)->where('end_date', '>', now())->exists();
+    }
+
+    public function retrieveClientMaintenance($client_id)
+    {
+        return MaintenanceContract::where('client_id', $client_id)->where('end_date', '>', now())->with('products')->get();
+    }
 }
