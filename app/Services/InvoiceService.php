@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\invoice_products;
 use App\Models\invoices;
 use App\Models\InsuranceSerial;
+use App\Models\products;
 
 class InvoiceService 
 {
@@ -20,13 +21,14 @@ class InvoiceService
 
     public function getInvoicesProducts($client_id,$invoice_id = null)
     {
-        return invoice_products::WhereDoesntHave('insurance')->wherehas('invoice',function($q)use($client_id){
-            $q->where('client_id',$client_id);
-        })
-        ->when($invoice_id,function($q,$invoice_id){
-            $q->where('invoice_id',$invoice_id);
-        })
-        ->get();
+        return products::query()->select('id', 'name')->get();
+        // return invoice_products::WhereDoesntHave('insurance')->wherehas('invoice',function($q)use($client_id){
+        //     $q->where('client_id',$client_id);
+        // })
+        // ->when($invoice_id,function($q,$invoice_id){
+        //     $q->where('invoice_id',$invoice_id);
+        // })
+        // ->get();
     }
 
     public function getInvoiceProductAddress($invoice_product_id)

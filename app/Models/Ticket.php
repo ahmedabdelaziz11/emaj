@@ -67,12 +67,10 @@ class Ticket extends Model
     }
     public function invoiceProduct()
     {
-        if ($this->ticket_type == 'invoice') {
-            return $this->belongsTo(invoice_products::class, 'invoice_product_id');
-        } else if ($this->ticket_type == 'warranty') {
+        if ($this->ticket_type == 'warranty') {
             return $this->belongsTo(InsuranceSerial::class, 'invoice_product_id');
         }
-        return $this->belongsTo(invoice_products::class, 'invoice_product_id');
+        return $this->belongsTo(products::class, 'invoice_product_id');
     }
     public function getProductAttribute()
     {
