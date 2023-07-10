@@ -216,6 +216,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', 'App\Http\Controllers\UserController');
     Route::resource('product-spare', 'App\Http\Controllers\ProductSpareController');
     Route::get('get-all-products/{search?}', 'App\Http\Controllers\ProductSpareController@getAllProducts');
+    Route::get('get-all-spares/{search?}', 'App\Http\Controllers\ProductSpareController@getAllSpares');
 
     Route::resource('addresses', 'App\Http\Controllers\AddressController');
     Route::get('get-addresses-select2/{search?}', 'App\Http\Controllers\AddressController@getAddressesSelect2');

@@ -97,7 +97,7 @@
                         </div>
                       </div>
                       <div class="row">
-                        <div class="form-group col-6" id="products">
+                        <div class="form-group col-12" id="products">
 
                         </div>
                       </div>

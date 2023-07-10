@@ -165,14 +165,14 @@
         });
 
         $('#in_isurance').click(function(){
-          console.log('dsds');
-
           $('.is_in_isurance').prop( "checked", true );
+          $('input[name="is_in_isurance[]"]').val('1');
         });
 
         $('#out_isurance').click(function(){
-          console.log('dsds');
           $('.is_in_isurance').prop( "checked", false );
+          $('input[name="is_in_isurance[]"]').val('0');
+
         });
     });
 

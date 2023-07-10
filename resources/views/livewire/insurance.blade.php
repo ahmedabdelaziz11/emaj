@@ -78,7 +78,8 @@
                         @endforeach
                     </tbody>
                 </table>    
-                <div class="row d-felx justify-content-center">
+
+                <div class="row d-felx justify-content-center m-2">
                     {{ $insurances->links('pagination-links') }} 
                 </div>                       
             </div>

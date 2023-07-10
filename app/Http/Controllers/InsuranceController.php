@@ -87,7 +87,7 @@ class InsuranceController extends Controller
 
     public function retrieveClientInvoiceProducts(InvoiceService $invoiceService, $client_id)
     {
-        $products = $invoiceService->getInvoicesProducts($client_id);
+        $products = $invoiceService->retrieveClientInvoiceProducts($client_id);
         return view('insurance.client-products-table', compact('products'));
     }
 

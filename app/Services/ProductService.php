@@ -40,7 +40,27 @@ class ProductService
 
         $products = products::when($search,function($q,$search){
             $q->where('name', 'like', '%'.$search.'%');
-        })->paginate(15);
+        })->paginate(100);
+
+        foreach ($products as $key => $value) {
+            $list[$key]['id'] = $value->id;
+            $list[$key]['text'] = $value->name; 
+        }
+
+        return json_encode($list); 
+    }
+
+    public function getAllSparesForSelect2($search = null)
+    {
+        if($search == 'undefined') $search = ' ';
+
+        $products = products::when($search,function($q,$search){
+            $q->where('name', 'like', '%'.$search.'%');
+        })
+        ->whereHas('stock' , function($q){
+            $q->where('stock_id', '=', 2);
+        })
+        ->paginate(100);
 
         foreach ($products as $key => $value) {
             $list[$key]['id'] = $value->id;

@@ -125,7 +125,7 @@
                                                                 </div>
                                                                 <div class="row mt-3 p-4">
                                                                     <h4>العنوان</h4>
-                                                                    <p style="font-size: 18px;margin-top: 40px;">{{$insurance->insurance->address->name ?? ''}}</p>
+                                                                    <p style="font-size: 18px;margin-top: 40px;">{{$insurance->insurance->address ?? ''}}</p>
                                                                 </div>
                                                             </div>
                                                         </div>

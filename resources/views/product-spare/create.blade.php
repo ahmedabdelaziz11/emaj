@@ -75,7 +75,7 @@
                       <div class="row">
                         <div class="form-group col-3">
                           <label>المنتج</label>
-                          <select class="form-control select2 " id="product_id" name="product_id">
+                          <select class="form-control select2 products" id="product_id" name="product_id">
                             <option value=" ">اختر المنتج</option>
 
                           </select>
@@ -83,7 +83,7 @@
                         
                         <div class="form-group col-9">
                           <label class="control-label"> اختر قطع الغيار</label>
-                          <select class="form-control select2" id="item_picker">
+                          <select class="form-control select2 spares" id="item_picker">
                             <option value=" ">اختر قطع الغيار</option>
 
                           </select>
@@ -155,7 +155,7 @@
   </script>
   <script>
     $(document).ready(function(){
-        $('.select2').select2({
+        $('.products').select2({
           placeholder: 'Enter a tag',
           ajax: {
               dataType: 'json',
@@ -170,7 +170,24 @@
           }
         });
     });
+    $(document).ready(function(){
+        $('.spares').select2({
+          placeholder: 'Enter a tag',
+          ajax: {
+              dataType: 'json',
+              url: function(params) {
+                  return '/get-all-spares/' + params.term;
+              },
+              processResults: function (data, page) {
+                return {
+                  results: data || ' '
+                };
+              },
+          }
+        });
+    });
   </script>
+
     
   <script>$(".select2").select2({placeholder:"Choose product",theme: "classic"});</script>
   <script src="{{ URL::asset('assets/plugins/notify/js/notifIt.js') }}"></script>
