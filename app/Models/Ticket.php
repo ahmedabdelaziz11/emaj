@@ -77,7 +77,7 @@ class Ticket extends Model
         if ($this->ticket_type == 'invoice') {
             return $this->invoiceProduct->product;
         } else if ($this->ticket_type == 'warranty') {
-            return $this->invoiceProduct->insurance->product;
+            return $this->invoiceProduct->insurance->invoiceProduct->product;
         }
     }
 
