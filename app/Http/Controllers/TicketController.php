@@ -71,7 +71,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $ticketCollection = collect();
-        $ticket->load('details', 'logs', 'compensationPivot', 'employeePivot', 'reporter', 'client', 'invoiceProduct', 'compensationType', 'invoice.prodcuts');
+        $ticket->load('details', 'logs', 'compensationPivot', 'employeePivot', 'reporter', 'client', 'compensationType', 'invoice.prodcuts');
         $ticketCollection->push($ticket->details, $ticket->logs, $ticket->compensationPivot, $ticket->employeePivot);
         $ticketCollection = $ticketCollection->flatten()->sortBy('created_at', SORT_REGULAR, false);
         return view('ticket.show', compact('ticket', 'ticketCollection'));
