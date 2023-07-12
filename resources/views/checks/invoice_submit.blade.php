@@ -384,9 +384,9 @@
 																		href="{{ url('InvoiceDetails_s') }}/{{ $x->id }}">{{ $x->id }}</a>
 																	</td>
 																	@if ($x->Value_Status == 2)
-																	<td><span style="font-weight: bold"  class="text-warning">بالضمان</span></td>
+																	<td><span style="font-weight: bold"  class="text-warning">خارج التكلفة</span></td>
 																	@else
-																	<td><span style="font-weight: bold"  class="text-success">خارج الضمان</span></td>
+																	<td><span style="font-weight: bold"  class="text-success">داخل التكلفة</span></td>
 																	@endif																	
 																	<td><a
 																		href="{{ url('ClientDetails') }}/{{ $x->client->id }}">{{ $x->client->client_name }}</a>

@@ -481,8 +481,8 @@
                                                         <div class="col">
                                                                 <label>نوع الفاتورة</label>
                                                                 <select style="font-size:17px;font-weight:bold" class="form-control" name="dman" id="dman" onchange='updateTotal();' required="required">
-                                                                <option value="0">خارج الضمان</option>
-                                                                <option value="1">داخل الضمان</option>
+                                                                <option value="0">داخل التكلفة</option>
+                                                                <option value="1">خارج التكلفة</option>
                                                                 </select>
                                                         </div>
                                                     </div>

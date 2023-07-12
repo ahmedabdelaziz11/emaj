@@ -37,7 +37,7 @@ class InvoicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         $invoices = invoices::orderBy('id', 'desc')->get();   
         return view('invoices.invoices',compact('invoices'));
     }
@@ -95,7 +95,7 @@ class InvoicesController extends Controller
                 'client_id'    => $request->client_id,
                 'account_id'   => $request->account_id ? $request->account_id : null,  
                 'offer_id'     => $request->offer_id,
-                'Status'       =>  $request->dman ? 'داخل الضمان' : 'خارج الضمان',
+                'Status'       =>  $request->dman ? 'خارج التكلفة' : 'داخل التكلفة',
                 'Value_Status' => $request->dman,
                 'type'         => "0",
                 'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
@@ -236,7 +236,7 @@ class InvoicesController extends Controller
                     'account_id' => $invoice->stock->account_id,
                     'debit' => 0,
                     'credit' => $sales_cost,
-                    'note' => "فاتورة مبيعات داخل الضمان رقم " . " " . $request->invoice_id,
+                    'note' => "فاتورة مبيعات خارج التكلفة رقم " . " " . $request->invoice_id,
                     'cost_id' => $invoice->cost_id ? $invoice->cost_id : null ,
                 ]);
 
@@ -248,7 +248,7 @@ class InvoicesController extends Controller
                         'account_id' => 48,
                         'debit' => 0,
                         'credit' => $invoice->value_added,
-                        'note' => " ضريبة القيمة المضافة لفاتورة مبيعات داخل الضمان رقم" . " " . $request->invoice_id,
+                        'note' => " ضريبة القيمة المضافة لفاتورة مبيعات خارج التكلفة رقم" . " " . $request->invoice_id,
                         'cost_id' => $invoice->cost_id ? $invoice->cost_id : null ,
                     ]);
                 }
@@ -259,7 +259,7 @@ class InvoicesController extends Controller
                     'account_id' => 288,
                     'debit' => $invoice->value_added + $sales_cost ,
                     'credit' =>0,
-                    'note' => "  فاتورة مبيعات داخل الضمان رقم " . " " . $invoice->id,
+                    'note' => "  فاتورة مبيعات خارج التكلفة رقم " . " " . $invoice->id,
                     'cost_id' => $invoice->cost_id ? $invoice->cost_id : null ,
                 ]);
             }else
@@ -459,7 +459,7 @@ class InvoicesController extends Controller
                     'client_id'    => $request->client_id,
                     'account_id'   => $request->account_id ? $request->account_id : null,  
                     'offer_id'     => $request->offer_id,
-                    'Status'       =>  $request->dman ? 'داخل الضمان' : 'خارج الضمان',
+                    'Status'       =>  $request->dman ? 'خارج التكلفة' : 'داخل التكلفة',
                     'Value_Status' => $request->dman,
                     'cost_id'      => $request->cost_id ? $request->cost_id : null ,     
                     'stock_id'      => $request->stock_id,   
@@ -582,7 +582,7 @@ class InvoicesController extends Controller
                             'account_id' => $invoice->stock->account_id,
                             'debit' => 0,
                             'credit' => $sales_cost,
-                            'note' => "فاتورة مبيعات داخل الضمان رقم " . " " . $request->invoice_id,
+                            'note' => "فاتورة مبيعات خارج التكلفة رقم " . " " . $request->invoice_id,
                             'cost_id' => $invoice->cost_id ? $invoice->cost_id : null ,
                         ]);
         
@@ -594,7 +594,7 @@ class InvoicesController extends Controller
                                 'account_id' => 48,
                                 'debit' => 0,
                                 'credit' => $invoice->value_added,
-                                'note' => " ضريبة القيمة المضافة لفاتورة مبيعات داخل الضمان رقم" . " " . $request->invoice_id,
+                                'note' => " ضريبة القيمة المضافة لفاتورة مبيعات خارج التكلفة رقم" . " " . $request->invoice_id,
                                 'cost_id' => $invoice->cost_id ? $invoice->cost_id : null ,
                             ]);
                         }
@@ -605,7 +605,7 @@ class InvoicesController extends Controller
                             'account_id' => 288,
                             'debit' => $invoice->value_added + $sales_cost ,
                             'credit' =>0,
-                            'note' => "  فاتورة مبيعات داخل الضمان رقم " . " " . $invoice->id,
+                            'note' => "  فاتورة مبيعات خارج التكلفة رقم " . " " . $invoice->id,
                             'cost_id' => $invoice->cost_id ? $invoice->cost_id : null ,
                         ]);
                     }else

@@ -82,7 +82,7 @@ class SpareInvoicesController extends Controller
                 'discount'     => $discount,
                 'client_id'    => $request->client_id,
                 'account_id'   => $request->account_id ? $request->account_id : null,  
-                'Status'       =>  $request->dman ? 'داخل الضمان' : 'خارج الضمان',
+                'Status'       =>  $request->dman ? 'خارج التكلفة' : 'داخل التكلفة',
                 'Value_Status' => $request->dman,
                 'type'         => "0",
                 'cost_id'      => $request->cost_id ? $request->cost_id : null ,     

@@ -105,8 +105,8 @@
                                 <select class="form-control select2" name="type" required="required">
                                     <option value="">اختر النوع </option>
                                     <option value="1">الكل</option>
-                                    <option value="0">خارج الضمان</option>
-                                    <option value="2">بالضمان</option>
+                                    <option value="0">داخل التكلفة</option>
+                                    <option value="2">خارج التكلفة</option>
                                 </select>
                             </div>
                         </div>
