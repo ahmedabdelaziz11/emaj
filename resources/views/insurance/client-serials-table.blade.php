@@ -1,5 +1,5 @@
 <label for="">منتجات الفاتورة</label>
-<select name="invoice_product_id" class="select2 form-control" id="invoice_product_id">
+<select name="invoice_product_id" class="select2 form-control ticket-product" id="invoice_product_id">
     <option disabled selected>اختر منتج</option>
     @foreach ($serials as $serial)
         <option value="{{ $serial->id }}"> name ( {{ $serial->insurance->invoiceProduct->product->name }} ) serial ( {{ $serial->serial}} ) model ( {{$serial->model_number}} )</option>
@@ -24,3 +24,4 @@
         });
     });
 </script>
+<script src="{{ URL::asset('assets/js/ticket.js') }}"></script>

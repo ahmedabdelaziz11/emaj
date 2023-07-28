@@ -102,6 +102,17 @@
                         </div>
                       </div>
                       <div class="row">
+                        <table class="table table-bordered mg-b-0 text-md-nowrap m-2">
+                          <thead id="products-table" style="display: hidden">
+                            <th style=" font-size: 15px;">اسم المعده</th>
+                            <th style=" font-size: 15px;" class="text-center">تفاصيل الطلب</th>
+                            <th style=" font-size: 15px;padding-right: 55px;">حذف</th>
+                          </thead>
+                          <tbody id="items_container">
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="row">
                         <div class="form-group col-12">
                           <label>العنوان</label>
                           <textarea id="address-textfield" name="address" class="form-control"></textarea>
