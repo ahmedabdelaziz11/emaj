@@ -5,29 +5,64 @@ namespace App\Services;
 use App\Models\Ticket;
 use App\Models\CompensationType;
 use App\Models\InsuranceSerial;
+use App\Models\MaintenanceContract;
 use App\Models\products;
 use App\Models\Stock;
+use Illuminate\Support\Facades\DB;
 
 class TicketService
 {
     public function store($formData)
     {
-        $ticket = Ticket::create([
-            'client_id' => $formData['client_id'],
-            'reporter_id' => auth()->id(),
-            'reporter_type' => 'user',
-            'state' => 'pending',
-            'date' => $formData['date'],
-            'ticket_type' => $formData['ticket_type'],
-            'address' => $formData['address'],
-            'invoice_product_id' => $formData['invoice_product_id'],
-        ]);
-        if (array_key_exists('parent_id', $formData) && !empty($formData['parent_id'])) {
-            $ticket->parent_id = $formData['parent_id'];
-            $ticket->save();
-        } else {
-            $ticket->saveAsRoot();
-        }
+        dd($formData);
+        $ticket = DB::transaction(function () use ($formData) {
+
+            $ticket = Ticket::query()->create([
+                'client_id' => $formData['client_id'],
+                'reporter_id' => auth()->id(),
+                'reporter_type' => 'user',
+                'state' => 'pending',
+                'date' => $formData['date'],
+                'ticket_type' => $formData['ticket_type'],
+                'address' => $formData['address'],
+            ]);
+            switch ($formData['ticket_type']) {
+                case 'warranty':
+                    foreach ($formData['invoice_product_ids'] as $key => $value) {
+                        $product = InsuranceSerial::find($value)->insurance->invoiceProduct->product;
+                        $ticket->products()->sync($value, [
+                            'details' => (isset($formData['descriptions'][$key])) ? $formData['descriptions'][$key] : null,
+                        ]);
+                    }
+                    break;
+                case 'other':
+                    foreach ($formData['invoice_product_ids'] as $key => $value) {
+                        $product = MaintenanceContract::find($value)->product;
+                        $ticket->products()->sync($value, [
+                            'details' => (isset($formData['descriptions'][$key])) ? $formData['descriptions'][$key] : null,
+                        ]);
+                    }
+                    break;
+                default:
+                    foreach ($formData['invoice_product_ids'] as $key => $value) {
+                        $product = products::find($value);
+                        $ticket->products()->sync($value, [
+                            'details' => (isset($formData['descriptions'][$key])) ? $formData['descriptions'][$key] : null,
+                        ]);
+                    }
+                    break;
+            }
+
+
+            $ticket->products()->sync([$product->id]);
+            if (array_key_exists('parent_id', $formData) && !empty($formData['parent_id'])) {
+                $ticket->parent_id = $formData['parent_id'];
+                $ticket->save();
+            } else {
+                $ticket->saveAsRoot();
+            }
+            return $ticket;
+        });
         return $ticket;
     }
 

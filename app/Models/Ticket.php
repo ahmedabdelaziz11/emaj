@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 use Kalnoy\Nestedset\NodeTrait;
 
@@ -81,9 +82,9 @@ class Ticket extends Model
         }
     }
 
-    public function products()
+    public function products(): BelongsToMany
     {
-        return $this->belongsToMany(products::class, 'ticket_products', 'ticket_id', 'product_id')->withPivot('price');
+        return $this->belongsToMany(products::class, 'ticket_products', 'ticket_id', 'product_id')->withPivot('price', 'quantity', 'estimated_time', 'status', 'details');
     }
 
     public function ticketProductsPivot()

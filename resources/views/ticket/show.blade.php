@@ -65,7 +65,7 @@
                         <thead>
                             <tr>
                                 <th>العميل</th>
-                                <th>المنتج</th>
+                                {{-- <th>المنتج</th> --}}
                                 <th>متلقي الطلب</th>
                                 <th>تاريخ الطلب</th>
                                 <th>نوع الطلب</th>
@@ -77,7 +77,7 @@
                         <tbody>
                             <tr>
                                 <td>{{ $ticket->client->name }}</td>
-                                <td>{{ $ticket->product->name ?? '' }}</td>
+                                {{-- <td>{{ $ticket->product->name ?? '' }}</td> --}}
                                 <td>{{ $ticket->reporter->name }}</td>
                                 <td>{{ $ticket->created_at->format('Y-m-d h:i A') }}</td>
                                 <td>{{ ($ticket->ticket_type == 'invoice')? 'إصلاح بفاتورة' : 'داخل الضمان' }}</td>
@@ -92,7 +92,32 @@
         </div>
     </div>
 </div>
-
+<div class="card">
+    {{-- card for ticket products --}}
+    <div class="card-header">
+        المنتجات المرتبطة بالطلب
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered col-12">
+                <thead>
+                    <tr>
+                        <th>المنتج</th>
+                        <th>التفاصيل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($ticket->products as $item)
+                        <tr>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->pivot['details'] }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <div class="card">
     <div class="card-header">
         متابعة تاريخ طلب الإصلاح
