@@ -14,7 +14,7 @@ class TicketService
 {
     public function store($formData)
     {
-        dd($formData);
+        // dd($formData);
         $ticket = DB::transaction(function () use ($formData) {
 
             $ticket = Ticket::query()->create([
@@ -26,35 +26,38 @@ class TicketService
                 'ticket_type' => $formData['ticket_type'],
                 'address' => $formData['address'],
             ]);
+            $ticketProductPivot = [];
             switch ($formData['ticket_type']) {
                 case 'warranty':
                     foreach ($formData['invoice_product_ids'] as $key => $value) {
                         $product = InsuranceSerial::find($value)->insurance->invoiceProduct->product;
-                        $ticket->products()->sync($value, [
+                        $ticketProductPivot[] = [
+                            'product_id' => $product->id,
                             'details' => (isset($formData['descriptions'][$key])) ? $formData['descriptions'][$key] : null,
-                        ]);
+                        ];
                     }
                     break;
                 case 'other':
                     foreach ($formData['invoice_product_ids'] as $key => $value) {
                         $product = MaintenanceContract::find($value)->product;
-                        $ticket->products()->sync($value, [
+                        $ticketProductPivot[] = [
+                            'product_id' => $product->id,
                             'details' => (isset($formData['descriptions'][$key])) ? $formData['descriptions'][$key] : null,
-                        ]);
+                        ];
                     }
                     break;
                 default:
                     foreach ($formData['invoice_product_ids'] as $key => $value) {
                         $product = products::find($value);
-                        $ticket->products()->sync($value, [
+                        $ticketProductPivot[] = [
+                            'product_id' => $product->id,
                             'details' => (isset($formData['descriptions'][$key])) ? $formData['descriptions'][$key] : null,
-                        ]);
+                        ];
                     }
                     break;
             }
 
-
-            $ticket->products()->sync([$product->id]);
+            $ticket->ticketProduct()->createMany($ticketProductPivot);
             if (array_key_exists('parent_id', $formData) && !empty($formData['parent_id'])) {
                 $ticket->parent_id = $formData['parent_id'];
                 $ticket->save();
