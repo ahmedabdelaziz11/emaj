@@ -6,7 +6,7 @@ $(document).ready(function(){
       var name = $(this).find(":selected").text();
       var id = $(this).val();
       if(!$("#row"+id).length){
-        $("#products-table").append(`
+        $("#items_container").append(`
             <tr id="row`+id+`" style="background-color:white">
             <td style="padding-top:20px;font-size:17px;font-weight:bold" >`+name+`</td>
             <td> <input type="hidden" name="invoice_product_ids[]" value="`+id+`" min="1"><input type="text" style="font-size:17px;font-weight:bold" name="descriptions[]"  class="form-control"></td>
