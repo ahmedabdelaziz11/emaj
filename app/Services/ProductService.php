@@ -13,7 +13,9 @@ class ProductService
         ->when($search,function($q,$search){
             $q->where('name', 'like', '%'.$search.'%');
         })->when($stock_id,function($q,$stock_id){
-            $q->where('stock_id',$stock_id);
+            $q->whereHas('stock',function($q) use ($stock_id){
+                $q->where('stock_id',$stock_id);
+            });
         })->orderBy('id','desc')->paginate(15);
     }
 
