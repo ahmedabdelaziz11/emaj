@@ -51,7 +51,8 @@ class OffersController extends Controller
         }
         $stocks = Stock::where('name','قطع الغيار')->get();
         $clients  = clients::all();
-        $ticket->load('client');
+        $ticket->load('client', 'products');
+        // dd($ticket->products);
         return view('offers.create',compact('clients','stocks','ticket')); 
     }
 
@@ -74,7 +75,7 @@ class OffersController extends Controller
             'client_id'  => $request->client_id,
             'stock_id'   => $request->stock_id,
             'ticket_id'   => $request->ticket_id,
-            'address'   => $request->address,
+            'address_id'   => $request->address,
             "Created_by" => Auth::user()->name,
         ]);
 

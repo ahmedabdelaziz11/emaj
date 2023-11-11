@@ -251,4 +251,9 @@ class TicketService
                 $q->where('stock_id',$stock->id);
         })->get();
     }
+
+    function getProductSpareProducts($productId)
+    {
+        return products::find($productId)->spares;
+    }
 }

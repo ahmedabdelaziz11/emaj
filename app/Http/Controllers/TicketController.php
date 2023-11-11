@@ -148,4 +148,11 @@ class TicketController extends Controller
         return view('ticket.report', compact('tickets', 'clients', 'employees'));
     }
 
+    function productSpareProducts($productId)
+    {
+        $products = $this->ticketService->getProductSpareProducts($productId);
+        // dd($productId);
+        return json_encode($products);
+    }
+
 }
