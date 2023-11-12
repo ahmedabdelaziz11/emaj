@@ -89,6 +89,7 @@
                           <label class="control-label">رقم طلب الإصلاح</label>
                           <input type="number" id="ticket_id" name="ticket_id" value="{{$ticket->id ?? ''}}" class="form-control" readonly>
                         </div>
+                        @if(isset($ticket))
                         <div class="form-group col-4">
                           <label for="inputName" class="control-label">اختر المنتج قيد الإصلاح</label>
                           <select class="form-control select2 " name="product" id="ticket_product" required="required">
@@ -98,6 +99,7 @@
                             @endforeach
                           </select>
                         </div>
+                        @endif
                         <div class="form-group col-6">
                           <label for="inputName" class="control-label">اختر المنتجات</label>
                           <select class="form-control select2 " name="products" id="item_picker" required="required">
@@ -143,6 +145,7 @@
                       </div><br>
                       <div class="row">
                         <div class="form-group col-12">
+                          <label for="">العنوان</label>
                           <input type="text" name="address" class="form-control">
                         </div>
                       </div><br>

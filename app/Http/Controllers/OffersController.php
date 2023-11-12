@@ -75,7 +75,7 @@ class OffersController extends Controller
             'client_id'  => $request->client_id,
             'stock_id'   => $request->stock_id,
             'ticket_id'   => $request->ticket_id,
-            'address_id'   => $request->address,
+            'address'   => $request->address,
             "Created_by" => Auth::user()->name,
         ]);
 
