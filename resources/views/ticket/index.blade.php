@@ -140,7 +140,7 @@
                                 <option {{-- @if (in_array($id, $ticket->employees->pluck('id')->toArray()))
                                     selected 
                                     
-                                @endif --}}value="{{$id}}">{{$employee}}</option>
+                                @endif --}} value="{{$id}}">{{$employee}}</option>
                               @endforeach
                             </select>
                           </div>
