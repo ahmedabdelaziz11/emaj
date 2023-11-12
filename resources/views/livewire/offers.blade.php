@@ -9,22 +9,24 @@
         @endcan
 
         <div class="card-body">
+        <form action="offers-excel" method="post">
+            @csrf
             <div class="row">
                 <div class="col-md-3">
                     <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث بالرقم او الاسم او العميل</label>            
-                    <input  class="form-control" type="text" wire:model="search"/>
+                    <input  class="form-control" name="search" type="text" wire:model="search"/>
                 </div>
                 <div class="col-md-3">
                     <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث بالتاريخ من</label>            
-                    <input  class="form-control" type="date" wire:model="from_date"/>
+                    <input  class="form-control" name="from_date" type="date" wire:model="from_date"/>
                 </div>
                 <div class="col-md-3">
                     <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث بالتاريخ الى</label>            
-                    <input  class="form-control" type="date" wire:model="to_date"/>
+                    <input  class="form-control" name="to_date" type="date" wire:model="to_date"/>
                 </div>
                 <div class="col-md-3">
                     <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;">البحث بالمخزن</label>            
-                    <select wire:model="selectedStock" class="form-control">
+                    <select wire:model="selectedStock"  name="stock_id" class="form-control">
                         <option value="" selected>اختر المخزن</option>
                         @foreach($stocks as $stock)
                             <option value="{{ $stock->id }}">{{ $stock->name }}</option>
@@ -32,7 +34,14 @@
                     </select>
                 </div>
 
+                <div class="col-md-4">
+                    <div>
+                        <button type="submit" class="btn btn-sm btn-success">اصدار شيت اكسيل</button>
+                    </div>
+                </div>
+
             </div>
+        </form>
         <br>
         <br>
             <div class="table-responsive">
