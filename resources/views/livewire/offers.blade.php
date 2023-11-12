@@ -34,10 +34,8 @@
                     </select>
                 </div>
 
-                <div class="col-md-4">
-                    <div>
+                <div class="col-md-4 mt-2">
                         <button type="submit" class="btn btn-sm btn-success">اصدار شيت اكسيل</button>
-                    </div>
                 </div>
 
             </div>

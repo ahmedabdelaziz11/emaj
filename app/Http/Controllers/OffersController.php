@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DataExport;
 use App\Models\offer_products;
 use Illuminate\Support\Facades\DB;
 use App\Models\clients;
@@ -13,6 +14,7 @@ use App\Models\Stock;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OffersController extends Controller
 {
@@ -228,5 +230,51 @@ class OffersController extends Controller
     public function getTicketOffers($ticket_id)
     {
         return offers::where('ticket_id',$ticket_id)->pluck('id');
+    }
+
+
+    public function offersExcel(Request $request)
+    {
+        // return $request;
+        $offers = offers::where(function($query)use($request){
+            $query->where('name', 'like', '%'. $request->search .'%')
+            ->orWhere('id', $request->search)
+            ->orWhereHas('client',function($q)use($request){
+                $q->where('client_name','like','%'.$request->search.'%');
+            });
+        })->when($request->stock_id,function($q)use($request){
+            $q->whereHas('stock' , function($q)use($request){
+                $q->where('stock_id', '=', $request->stock_id);
+            });
+        })->when($request->from_date,function($q)use($request){
+            $q->where('date','>=',$request->from_date);
+        })->when($request->to_date,function($q)use($request){
+            $q->where('date','<=',$request->to_date);
+        })->orderBy('id', 'desc')->get();
+
+        $i = 0;
+        $data = [];
+
+        $data[] = [
+            'م' => 'م',
+            'رقم العرض' => 'رقم العرض',
+            'اسم العرض' => 'اسم العرض',
+            'التاريخ' => 'التاريخ',
+            'العميل' => 'العميل',
+        ];
+        
+        foreach($offers as $offer)
+        {
+            $i++;
+            $data[] = [
+                'م' => $i,
+                'رقم العرض' => $offer->id ?? '',
+                'اسم العرض' => $offer->name ?? '',
+                'التاريخ' => $offer->date ?? '',
+                'العميل' => $offer->client->client_name ?? '',
+            ];
+        }
+        
+        return Excel::download(new DataExport($data),'insurances.xlsx');
     }
 }
