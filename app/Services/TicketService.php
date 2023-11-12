@@ -175,7 +175,7 @@ class TicketService
             ]);
             return;
         }
-        dd($ticket->getRawOriginal('state'));
+        // dd($ticket->getRawOriginal('state'));
         $this->createTicketLog($ticket, 'updated', 'تم تعيين موظفين للطلب');
         
     }
