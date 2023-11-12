@@ -89,10 +89,21 @@
                           <label class="control-label">رقم طلب الإصلاح</label>
                           <input type="number" id="ticket_id" name="ticket_id" value="{{$ticket->id ?? ''}}" class="form-control" readonly>
                         </div>
+                        @if(isset($ticket))
                         <div class="form-group col-4">
+                          <label for="inputName" class="control-label">اختر المنتج قيد الإصلاح</label>
+                          <select class="form-control select2 " name="product" id="ticket_product" required="required">
+                            <option value=""></option>
+                            @foreach ($ticket->products as $product)
+                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        @endif
+                        <div class="form-group col-6">
                           <label for="inputName" class="control-label">اختر المنتجات</label>
                           <select class="form-control select2 " name="products" id="item_picker" required="required">
-                            <option value="">اختر المنتجات</option>
+                            <option value="">اختر قطع غيار المنتج</option>
                           </select>
                         </div>
                         <div class="form-group col-6">
@@ -101,10 +112,10 @@
                             <option value="">اختر المنتجات</option>
                           </select>
                         </div>
-                        <div class="form-group col-6">
-                          <label for="inputName" class="control-label">اضافة خدمة</label>
-                          <button type="button" id="add_service" class="btn btn-primary w-100 ">اضافة خدمة</button>
-                        </div>
+                      </div>
+                      <div class="d-flex justify-content-center align-items-center">
+                        {{-- <label for="inputName" class="control-label">اضافة خدمة</label> --}}
+                        <button type="button" id="add_service" class="btn btn-primary w-100 ">اضافة خدمة</button>
                       </div>
 
 
@@ -134,6 +145,7 @@
                       </div><br>
                       <div class="row">
                         <div class="form-group col-12">
+                          <label for="">العنوان</label>
                           <input type="text" name="address" class="form-control">
                         </div>
                       </div><br>
@@ -221,27 +233,44 @@ The period of validity of the offer is a week from the date
 </script>
 
 <script>
-window.onload = function (){
-  var ticket_id = $("#ticket_id").val();
-  var stock_id  = $("#stock_id").val();
-  $('select[name="products"]').empty();
-  $('#item_picker2').empty();
-  if(ticket_id && stock_id)
-  {
+// window.onload = function (){
+//   var ticket_id = $("#ticket_id").val();
+//   var stock_id  = $("#stock_id").val();
+//   $('select[name="products"]').empty();
+//   $('#item_picker2').empty();
+//   if(ticket_id && stock_id)
+//   {
+//     $.ajax({
+//       url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
+//       type: "GET",
+//       dataType: "json",
+//       success: function(data) {
+//           $("#items_container").empty();
+//           $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
+//           $.each(data, function(key, value) {
+//             $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
+//           });
+//       },
+//     });
+//   }
+// }
+  $("#ticket_product").on('change', function() {
+    $('select[name="products"]').empty();
+    $('#item_picker2').empty();
+    var productId = $(this).val();
     $.ajax({
-      url: "{{ URL::to('get-spare-products-by-ticket') }}/"+ticket_id+"/"+stock_id,
+      url: "{{ URL::to('get-spare-products-by-product') }}/"+productId,
       type: "GET",
       dataType: "json",
       success: function(data) {
-          $("#items_container").empty();
+          // $("#items_container").empty();
           $('select[name="products"]').append('<option disabled selected>'+ "اختر الصنف" + '</option>');
           $.each(data, function(key, value) {
             $('select[name="products"]').append('<option value="' +value.id + '" selling_price="' +value.selling_price + '">' + value.name + '-' + value.id + '</option>');
           });
       },
     });
-  }
-}
+  });
   $(document).ready(function() {   
         
       $('select[name="stock_id"]').on('change', function() {

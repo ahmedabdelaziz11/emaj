@@ -175,7 +175,7 @@ class TicketService
             ]);
             return;
         }
-        dd($ticket->getRawOriginal('state'));
+        // dd($ticket->getRawOriginal('state'));
         $this->createTicketLog($ticket, 'updated', 'تم تعيين موظفين للطلب');
         
     }
@@ -250,5 +250,10 @@ class TicketService
             ->whereHas('stock',function($q)use($stock){
                 $q->where('stock_id',$stock->id);
         })->get();
+    }
+
+    function getProductSpareProducts($productId)
+    {
+        return products::find($productId)->spares;
     }
 }
