@@ -123,9 +123,9 @@
                                             <li><a href="#tab6" class="nav-link active" data-toggle="tab">العرض</a></li>
                                             <li><a href="#tab7" class="nav-link" data-toggle="tab">offer</a></li>
                                             <li><a href="#tab8" class="nav-link" data-toggle="tab">العرض بالصور</a></li>
-                                            {{-- @can('تعديل عرض')
+                                            @can('تعديل عرض')
                                                 <li><a href="#tab5" class="nav-link" data-toggle="tab">تعديل</a></li>
-                                            @endcan --}}
+                                            @endcan
                                         </ul>
                                     </div>
                                 </div>
