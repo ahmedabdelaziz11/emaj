@@ -24,6 +24,8 @@ use App\Models\OfferCompositeProducts;
 use App\Models\offers;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Collection;
+use App\Exports\DataExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoicesController extends Controller
 {
@@ -830,5 +832,55 @@ class InvoicesController extends Controller
         $offer_data['address']  = $address;
         $offer_data['ticket_id']  = $ticket_id;
         return json_encode($offer_data);
+    }
+
+    public function invoicesExcel(Request $request)
+    {
+        $invoices = invoices::where(function($query)use($request){
+                $query->where('id', $request->search)
+                ->orWhere('id', $request->search)
+                ->orWhereHas('client',function($q)use($request){
+                    $q->where('name','like','%'.$request->search.'%');
+                });
+            })->when($request->selectedStock,function($q)use($request){
+                $q->whereHas('stock' , function($q)use($request){
+                    $q->where('stock_id', '=', $request->stock_id);
+                });
+            })->when($request->offer_id,function($q)use($request){
+                $q->where('offer_id',$request->offer_id);
+            })->orderBy('id', 'desc')->get();
+
+        $i = 0;
+        $data = [];
+
+        $data[] = [
+            'م' => 'م',
+            'رقم الفاتورة' => 'رقم الفاتورة',
+            'رقم اذن الصرف' => 'رقم اذن الصرف',
+            'التاريخ' => 'التاريخ',
+            'الحالة' => 'الحالة',
+            'النوع' => 'النوع',
+            'العميل' => 'العميل',
+            'الاجمالى' => 'الاجمالى',
+            'المخزن' => 'المخزن',
+        ];
+        
+        foreach($invoices as $invoice)
+        {
+            $i++;
+            $data[] = [
+                'م' => $i,
+                'رقم الفاتورة' => $invoice->id,
+                'رقم اذن الصرف' => $invoice->p_num ?? '',
+                'التاريخ' => $invoice->date ?? '', 
+                'النوع' => $invoice->type ? 'مؤكدة':'غير مؤكدة',
+                'الحالة' => $invoice->Status ?? '',
+                'العميل' => $invoice->client->name ?? '',
+                'الاجمالى' => $invoice->total ?? '',
+                'المخزن' => $invoice->stock->name ?? '',
+            ];
+        }
+        
+        return Excel::download(new DataExport($data),'invoices.xlsx');
     }
 }

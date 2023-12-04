@@ -275,6 +275,6 @@ class OffersController extends Controller
             ];
         }
         
-        return Excel::download(new DataExport($data),'insurances.xlsx');
+        return Excel::download(new DataExport($data),'offers.xlsx');
     }
 }

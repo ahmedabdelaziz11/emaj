@@ -15,28 +15,34 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث</label>
-                        <input class="form-control" type="text" wire:model="search" />
-                    </div>
+                <form action="invoices-excel" method="post">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث</label>
+                            <input class="form-control" type="text" name="search" wire:model="search" />
+                        </div>
 
-                    <div class="col-md-4">
-                        <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث برقم العرض</label>
-                        <input class="form-control" type="text" wire:model="offer_id" />
-                    </div>
+                        <div class="col-md-4">
+                            <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;"> البحث برقم العرض</label>
+                            <input class="form-control" type="text" name="offer_id" wire:model="offer_id" />
+                        </div>
 
-                    <div class="col-md-4">
-                        <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;">البحث بالمخزن</label>
-                        <select wire:model="selectedStock" class="form-control">
-                            <option value="" selected>اختر المخزن</option>
-                            @foreach($stocks as $stock)
-                            <option value="{{ $stock->id }}">{{ $stock->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="col-md-4">
+                            <label for="recipient-name" class="col-form-label" style="font-size: 16px;font-weight: bold;">البحث بالمخزن</label>
+                            <select wire:model="selectedStock" name="stock_id" class="form-control">
+                                <option value="" selected>اختر المخزن</option>
+                                @foreach($stocks as $stock)
+                                <option value="{{ $stock->id }}">{{ $stock->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <button type="submit" class="btn btn-sm btn-success">اصدار شيت اكسيل</button>
+                        </div>
                     </div>
-
-                </div>
+                </form>
+                <br>
                 <br>
                 <div class="table-responsive">
                     <table class="table table-bordered mg-b-0 text-md-nowrap" style="text-align: center">
