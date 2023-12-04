@@ -118,6 +118,20 @@ class OffersController extends Controller
                 ]);
             }
         }
+
+        if ($request->ticket_id) {
+            $ticketProductData = [];
+            foreach ($request->id as $key => $value) {
+                $ticketProductData[] = [
+                    'product_id' => $value,
+                    'ticket_id' => $request->ticket_id,
+                    'quantity' => $request->quantity[$key],
+                    'price' => $request->selling_price[$key],
+                ];
+            }
+            $ticket = Ticket::find($request->ticket_id);
+            $ticket->ticketProducts($ticketProductData);
+        }
         return redirect('/offers/'.$offer->id)->with('mss',"تم اضافه العرض");
     }
 
