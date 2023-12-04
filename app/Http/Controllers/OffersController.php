@@ -275,6 +275,7 @@ class OffersController extends Controller
             'اسم العرض' => 'اسم العرض',
             'التاريخ' => 'التاريخ',
             'العميل' => 'العميل',
+            'المنشئ' => 'المنشئ',
         ];
         
         foreach($offers as $offer)
@@ -286,6 +287,7 @@ class OffersController extends Controller
                 'اسم العرض' => $offer->name ?? '',
                 'التاريخ' => $offer->date ?? '',
                 'العميل' => $offer->client->client_name ?? '',
+                'المنشئ' => $offer->Created_by ?? '',
             ];
         }
         

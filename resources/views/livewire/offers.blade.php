@@ -51,6 +51,7 @@
                             <th style="font-size: 16px;">التاريخ</th>
                             <th style="font-size: 16px;">اسم العميل</th>
                             <th style="font-size: 16px;">المخزن</th>
+                            <th style="font-size: 16px;">المنشئ</th>
                             <th style="font-size: 16px;">حذف</th>
                         </tr>
                     </thead>
@@ -62,6 +63,7 @@
                                 <td class="text-center">{{ $x->date }}</td>
                                 <td>{{ $x->client->client_name }}</td>           
                                 <td class="text-center">{{ $x->stock->name }}</td>           
+                                <td class="text-center">{{ $x->Created_by }}</td>           
                                 <td class="text-center">
                                 @can('حذف عرض')
                                 <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
