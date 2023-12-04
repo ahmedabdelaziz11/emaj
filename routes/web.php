@@ -227,6 +227,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('get-client-invoicesProducts/{client_id}/{invoice_id?}', 'App\Http\Controllers\InsuranceController@getClientInvoicesProducts');
     Route::post('insurances-excel', 'App\Http\Controllers\InsuranceController@insurancesExcel');
     Route::post('offers-excel', 'App\Http\Controllers\offersController@offersExcel');
+    Route::post('purchases-excel', 'App\Http\Controllers\ReceiptsController@purchasesExcel');
     Route::post('invoices-excel', 'App\Http\Controllers\invoicesController@invoicesExcel');
 
     Route::post('print-insurance-table', 'App\Http\Controllers\InsuranceController@printInsuranceTable');

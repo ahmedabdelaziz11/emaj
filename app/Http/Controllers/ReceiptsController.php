@@ -14,7 +14,8 @@ use App\Models\receipt_products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Exports\DataExport;
+use Maatwebsite\Excel\Facades\Excel;
 class ReceiptsController extends Controller
 {
 
@@ -461,5 +462,41 @@ class ReceiptsController extends Controller
         DB::commit();
         session()->flash('delete','تم حذف الفاتورة بنجاح');
         return back();
+    }
+
+    public function purchasesExcel(Request $request)
+    {
+        $receipts = receipts::when($request->invoSearch,function($q)use($request){
+            $q->where('id',$request->invoSearch);
+        })->when($request->order_id,function($q)use($request){
+            $q->where('purchase_order_id',$request->order_id);
+        })->orderBy('id','desc')->get();
+
+        $i = 0;
+        $data = [];
+
+        $data[] = [
+            'م' => 'م',
+            'رقم الفاتورة' => 'رقم الفاتورة',
+            'رقم اذن الاضافة' => 'رقم اذن الاضافة',
+            'التاريخ' => 'التاريخ',
+            'الحالة' => 'الحالة',
+            'الاجمالى' => 'الاجمالى',
+        ];
+        
+        foreach($receipts as $receipt)
+        {
+            $i++;
+            $data[] = [
+                'م' => $i,
+                'رقم الفاتورة' => $receipt->id ?? '',
+                'رقم اذن الاضافة' => $receipt->p_num ?? '',
+                'التاريخ' => $receipt->date ?? '',
+                'الحالة' => $receipt->type ? 'مؤكدة' : 'غير مؤكدة',
+                'الاجمالى' => $receipt->total ?? '',
+            ];
+        }
+        
+        return Excel::download(new DataExport($data),'purchases.xlsx');
     }
 }

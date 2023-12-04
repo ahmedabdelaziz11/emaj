@@ -93,20 +93,27 @@
 						</div>
 						<div class="tab-pane @if($page_num == 5) active @endif " id="tab5">
 							<div class="card-body">
-								<div class="row">
-									<div class="col-3">
-										<label for="recipient-name" style="font-size: 20px;font-weight: bold;margin-right: 50px;" class="col-form-label">البحث بالرقم </label>
+								<form action="purchases-excel" method="post">
+									@csrf
+									<div class="row">
+										<div class="col-3">
+											<label for="recipient-name" style="font-size: 20px;font-weight: bold;margin-right: 50px;" class="col-form-label">البحث بالرقم </label>
+										</div>
+										<div class="col-3">
+											<input class="form-control" name="invoSearch" type="text" wire:model="invoSearch" />
+										</div>
+										<div class="col-3">
+											<label for="recipient-name" style="font-size: 20px;font-weight: bold;margin-right: 50px;" class="col-form-label">البحث بطلب الشراء </label>
+										</div>
+										<div class="col-3">
+											<input class="form-control" name="order_id" type="text" wire:model="order_id" />
+										</div>
+										<div class="col-md-4 mt-2">
+											<button type="submit" class="btn btn-sm btn-success">اصدار شيت اكسيل</button>
+										</div>
 									</div>
-									<div class="col-3">
-										<input class="form-control" type="text" wire:model="invoSearch" />
-									</div>
-									<div class="col-3">
-										<label for="recipient-name" style="font-size: 20px;font-weight: bold;margin-right: 50px;" class="col-form-label">البحث بطلب الشراء </label>
-									</div>
-									<div class="col-3">
-										<input class="form-control" type="text" wire:model="order_id" />
-									</div>
-								</div>
+								</form>
+								<br>
 								<br>
 								<div class="table-responsive">
 									<table class="table table-bordered mg-b-0 text-md-nowrap">
