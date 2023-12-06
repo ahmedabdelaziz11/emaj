@@ -135,6 +135,9 @@ class InsuranceService
     public function getAllInsuranesWithOutPaginate($product_name = null,$client_name = null,$invoice_id = null,$start_date = null,$end_date = null)
     {
         return InsuranceSerial::with('insurance','insurance.client','insurance.invoiceProduct.invoice','insurance.InvoiceProduct.product')
+        ->whereHas('insurance.client',function($q){
+            $q->where('end_date','>=',now());
+        })
         ->when($product_name,function($q,$product_name){
             $q->whereHas('insurance.invoiceProduct.product',function($q)use($product_name){
                 $q->where('name','like','%'.$product_name.'%');
