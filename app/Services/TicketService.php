@@ -118,6 +118,7 @@ class TicketService
             ];
         }
         $this->createTicketLog($ticket, 'updated', 'تم إضافة تكاليف للطلب');
+        $ticket->compensationPivot()->delete();
         $ticket->compensationPivot()->createMany($compensations);
     }
     public function closeTicket(Ticket $ticket, $formData)
@@ -194,7 +195,7 @@ class TicketService
             ->when($state, function ($q, $state) {
                 $q->where('state', $state);
             })
-        ->paginate(15);
+        ->orderBy('id','desc')->paginate(15);
     }
 
     function getTicketReports($formData)

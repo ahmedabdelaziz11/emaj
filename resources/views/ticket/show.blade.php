@@ -12,7 +12,8 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='tickets') }}">طلبات الإصلاح</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                عرض تفاصيل طلب الإصلاح </span>
+                عرض تفاصيل طلب الإصلاح </span>  <a  class="mt-1 tx-13 mr-2 mb-0" href="{{ route('tickets.edit', $ticket) }}" title="تحديث حالة طلب الإصلاح"> / تحديث حالة طلب الإصلاح</a>
+
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
 @endsection
 
 @section('title')
-    اضافة طلب إصلاح
+    تحديث طلب إصلاح
 @stop
 
 @section('page-header')
@@ -15,7 +15,7 @@
         <div class="my-auto">
             <div class="d-flex">
                 <h4 class="content-title mb-0 my-auto"><a href="{{ url('/' . $page='tickets') }}">طلبات الإصلاح</a></h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                اضافة طلب إصلاح </span>
+                تحديث طلب إصلاح </span> <a  class="mt-1 tx-13 mr-2 mb-0" href="{{ route('tickets.show', $ticket) }}"> / طلب الإصلاح</a>
             </div>
         </div>
     </div>
@@ -100,20 +100,37 @@
                         <h5>تكاليف طلب الإصلاح</h5>
                         <div id="compensationsContainer">
                             <div class="row">
-                                <div  class="col-4">
-                                    <label for="compensation_type">نوع التكلفة</label>
-                                    <select class="form-control" name="compensation_type[]" id="compensation_type">
-                                        <option disabled selected>اختر نوع</option>
-                                        @foreach ($compensationTypes as $compensationType)
-                                            <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label for="value">قيمة التكلفة</label>
-                                    <input class="form-control" name="value[]" id="value" type="number">
-    
-                                </div>
+                                @if ($ticket->compensationType->count() == 0)
+                                  <div  class="col-6">
+                                      <label for="compensation_type">نوع التكلفة</label>
+                                      <select class="form-control" name="compensation_type[]" id="compensation_type">
+                                          <option disabled selected>اختر نوع</option>
+                                          @foreach ($compensationTypes as $compensationType)
+                                              <option value="{{ $compensationType->id }}">{{ $compensationType->name }}</option>
+                                          @endforeach
+                                      </select>
+                                  </div>
+                                  <div class="col-6">
+                                      <label for="value">قيمة التكلفة</label>
+                                      <input class="form-control" name="value[]" id="value" type="number">
+                                  </div>
+                                @endif
+
+                                @foreach ($ticket->compensationType as $compensation)
+                                    <div  class="col-6">
+                                      <label for="compensation_type">نوع التكلفة</label>
+                                      <select class="form-control" name="compensation_type[]" id="compensation_type">
+                                          <option disabled selected>اختر نوع</option>
+                                          @foreach ($compensationTypes as $compensationType)
+                                              <option value="{{ $compensationType->id }}" @if($compensationType->id == $compensation->id) selected @endif>{{ $compensationType->name }}</option>
+                                          @endforeach
+                                      </select>
+                                  </div>
+                                  <div class="col-6">
+                                      <label for="value">قيمة التكلفة</label>
+                                      <input class="form-control" name="value[]" id="value" value="{{$compensation->pivot['amount']}}" type="number">
+                                  </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="row m-2">

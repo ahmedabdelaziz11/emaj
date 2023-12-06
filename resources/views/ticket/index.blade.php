@@ -133,15 +133,15 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="row">
-                          <div class="form-group col-12">
+                        <div class="form-group col-12">
                             <label for="employees">القائمين على الشكوي</label>
                             <select required class="form-control select2" multiple="multiple" name="employees[]" id="employees">
-                              @foreach($employees as $id => $employee)
+                            @foreach($employees as $id => $employee)
                                 <option {{-- @if (in_array($id, $ticket->employees->pluck('id')->toArray()))
                                     selected 
                                     
                                 @endif --}} value="{{$id}}">{{$employee}}</option>
-                              @endforeach
+                            @endforeach
                             </select>
                           </div>
                         </div>
